@@ -8,14 +8,14 @@ CREATE SCHEMA PokemonApp;
 GO
 
 CREATE TABLE PokemonApp.Utilizadores (
-    ID_Utilizador INT PRIMARY KEY,
+    ID_Utilizador INT PRIMARY KEY NOT NULL CHECK (ID_Utilizador >= 0) auto_increment,
     Nome VARCHAR(100) NOT NULL,
     Senha VARCHAR(100) NOT NULL
 );
 GO
 
-CREATE TABLE PokemonApp.Cartas (
-    ID_Carta INT PRIMARY KEY,
+CREATE TABLE PokemonApp.Carta (
+    ID_Carta INT PRIMARY KEY auto_increment,
     Nome_Carta VARCHAR(100) NOT NULL,
     Descricao TEXT,
     Imagem BLOB
@@ -60,7 +60,6 @@ GO
 CREATE TABLE PokemonApp.BancoCartas(
     ID_Carta INT,
     Quantidade INT,
-    Raridade INT CHECK (Raridade IN (0, 1, 2, 3, 4)), /* 0-Comum 1-Incomum 2-Raro 3-Ultra Raro 4-Lendario */
     PRIMARY KEY (ID_Carta),
     FOREIGN KEY (ID_Carta) REFERENCES PokemonApp.Cartas(ID_Carta)
 
