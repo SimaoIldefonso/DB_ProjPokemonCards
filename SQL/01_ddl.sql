@@ -32,24 +32,37 @@ CREATE TABLE PokemonApp.Colecao (
 );
 GO
 
-CREATE TABLE PokemonApp.Trocas (
-   ID_Troca INT PRIMARY KEY , 
-   ID_Utilizador1 INT NOT NULL , 
-   ID_Utilizador2 INT NOT NULL, 
-   Estado_Troca INT CHECK (Estado_Troca IN (0, 1, 2)) ,/* 0- PENDENTE 1-RECUSADA 2-ACEITE*/
+CREATE TABLE PokemonApp.Troca (
+    ID_Troca INT PRIMARY KEY , 
+    ID_Utilizador1 INT NOT NULL , 
+    ID_Utilizador2 INT NOT NULL, 
+    ID_Carta1 INT NOT NULL,
+    ID_Carta2 INT NOT NULL,
+    Estado_Troca INT CHECK (Estado_Troca IN (0, 1, 2)) ,/* 0- PENDENTE 1-RECUSADA 2-ACEITE*/
+    Tempo TIMESTAMP NOT NULL,
 
    FOREIGN KEY (ID_Utilizador1) REFERENCES PokemonApp.Utilizadores(ID_Utilizador), 
    FOREIGN KEY (ID_Utilizador2) REFERENCES PokemonApp.Utilizadores(ID_Utilizador)
 ); 
 GO
 
-CREATE TABLE PokemonApp.DetalhesTroca (
-  ID_Troca INT, 
-  ID_Carta INT, 
-  
-  FOREIGN KEY (ID_Troca) REFERENCES PokemonApp.Trocas(ID_Troca), 
-  FOREIGN KEY (ID_Carta) REFERENCES PokemonApp.Cartas(ID_Carta),
+CREATE TABLE PokemonApp.CartasColecao (
+    ID_Utilizador INT NOT NULL,
+    ID_Carta INT NOT NULL,
 
-PRIMARY KEY (ID_Troca, ID_Carta)
+    PRIMARY KEY (ID_Carta,ID_Utilizador),
+    FOREIGN KEY (ID_Utilizador) REFERENCES PokemonApp.Utilizadores(ID_Utilizador),
+    FOREIGN KEY (ID_Carta) REFERENCES PokemonApp.Cartas(ID_Carta)	
+
+);
+GO
+
+CREATE TABLE PokemonApp.BancoCartas(
+    ID_Carta INT,
+    Quantidade INT,
+    Raridade INT CHECK (Raridade IN (0, 1, 2, 3, 4)), /* 0-Comum 1-Incomum 2-Raro 3-Ultra Raro 4-Lendario */
+    PRIMARY KEY (ID_Carta),
+    FOREIGN KEY (ID_Carta) REFERENCES PokemonApp.Cartas(ID_Carta)
+
 );
 GO
