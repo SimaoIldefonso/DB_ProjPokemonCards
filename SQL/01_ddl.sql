@@ -17,7 +17,7 @@ GO
 CREATE TABLE PokemonApp.Carta (
     ID_Carta INT PRIMARY KEY auto_increment,
     Nome_Carta VARCHAR(100) NOT NULL,
-    Descricao TEXT,
+    Habilidade TEXT,
     Imagem BLOB
 );
 GO
