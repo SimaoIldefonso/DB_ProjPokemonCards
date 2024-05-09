@@ -2,9 +2,9 @@ D:\UNI3\BD\ProjetoCartasPokemon\AppPokemon\bin\Debug\AppPokemon.exe.config
 D:\UNI3\BD\ProjetoCartasPokemon\AppPokemon\bin\Debug\AppPokemon.exe
 D:\UNI3\BD\ProjetoCartasPokemon\AppPokemon\bin\Debug\AppPokemon.pdb
 D:\UNI3\BD\ProjetoCartasPokemon\AppPokemon\obj\Debug\AppPokemon.csproj.AssemblyReference.cache
-D:\UNI3\BD\ProjetoCartasPokemon\AppPokemon\obj\Debug\AppPokemon.Login.resources
 D:\UNI3\BD\ProjetoCartasPokemon\AppPokemon\obj\Debug\AppPokemon.Properties.Resources.resources
 D:\UNI3\BD\ProjetoCartasPokemon\AppPokemon\obj\Debug\AppPokemon.csproj.GenerateResource.cache
 D:\UNI3\BD\ProjetoCartasPokemon\AppPokemon\obj\Debug\AppPokemon.csproj.CoreCompileInputs.cache
 D:\UNI3\BD\ProjetoCartasPokemon\AppPokemon\obj\Debug\AppPokemon.exe
 D:\UNI3\BD\ProjetoCartasPokemon\AppPokemon\obj\Debug\AppPokemon.pdb
+D:\UNI3\BD\ProjetoCartasPokemon\AppPokemon\obj\Debug\AppPokemon.App.resources
