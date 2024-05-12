@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Configuration;
 using System.Data;
 using System.Drawing;
 using System.IO;
@@ -40,9 +41,12 @@ namespace AppPokemon
 
         }
 
-        private void LoginBtn_Click(object sender, EventArgs e)
+        private void LoginBtn_Click_1(object sender, EventArgs e)
         {
+            
             MessageBox.Show("Login Successful");
+            //display password
+            MessageBox.Show(PasswordInput.Text);
         }
 
         private void RegisterBtn_Click(object sender, EventArgs e)
@@ -68,24 +72,22 @@ namespace AppPokemon
         private void CollectionBtn_Click(object sender, EventArgs e)
         {
             AppTabs.SelectedTab = Collection;
-            int colecao = 3;
             string projectDirectory = Path.GetFullPath(Path.Combine(Application.StartupPath, "..\\..\\"));
-            Boolean loaded = false;
-            if (!loaded)
+            string imagesDirectory = Path.Combine(projectDirectory, "Imagens");
+
+            if (!Collection.Controls.OfType<PictureBox>().Any()) // Verifica se já carregou as imagens anteriormente
             {
-                for (int i = 0; i < colecao; i++)
+                var imageFiles = Directory.GetFiles(imagesDirectory, "*.png"); // Obtém todos os arquivos PNG na pasta
+                for (int i = 0; i < imageFiles.Length; i++)
                 {
                     PictureBox pic = new PictureBox();
-
-                    string imageName = "charmander";
-                    string imagePath = Path.Combine(projectDirectory, $"Imagens\\{imageName}.png");
-
+                    string imagePath = imageFiles[i];
+                    string imageName = Path.GetFileNameWithoutExtension(imagePath); // Obtém o nome do arquivo sem a extensão
 
                     pic.Image = Image.FromFile(imagePath);
                     pic.SizeMode = PictureBoxSizeMode.StretchImage;
                     pic.Size = new Size(100, 100);
-
-                    pic.Location = new Point(100 + i * 120, 100);
+                    pic.Location = new Point(100 + i * 120, 100); // Alterar conforme necessário para evitar sobreposição
 
                     Label label = new Label();
                     label.Text = imageName;
@@ -96,15 +98,53 @@ namespace AppPokemon
                     Collection.Controls.Add(pic);
                     Collection.Controls.Add(label);
                 }
-                loaded = true;
             }
-
-
         }
 
-        private void HomeTabTest_Click(object sender, EventArgs e)
+
+    
+
+    private void HomeTabTest_Click(object sender, EventArgs e)
         {
             AppTabs.SelectedTab = Home;
         }
+
+        private void button3_Click(object sender, EventArgs e)
+        {//change to OpenPacks Tab
+            AppTabs.SelectedTab = OpenPacksTab;
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            AppTabs.SelectedTab = Home;
+        }
+
+        private void homebtnTrade_Click(object sender, EventArgs e)
+        {
+            AppTabs.SelectedTab = Home;
+        }
+
+        private void homebtnOpen_Click(object sender, EventArgs e)
+        {
+            AppTabs.SelectedTab = Home;
+        }
+
+        private void Tradesbtn_Click(object sender, EventArgs e)
+        {
+            AppTabs.SelectedTab = Trade;
+
+        }
+
+        private void Accountbtn_Click(object sender, EventArgs e)
+        {
+            AppTabs.SelectedTab = Account;
+        }
+
+        private void HomebtnAccount_Click(object sender, EventArgs e)
+        {
+            AppTabs.SelectedTab = Home;
+        }
+
+
     }
 }

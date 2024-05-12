@@ -17,6 +17,7 @@ GO
 CREATE TABLE PokemonApp.Carta (
     ID_Carta INT PRIMARY KEY auto_increment,
     Nome_Carta VARCHAR(100) NOT NULL,
+    Tipo VARCHAR(100) NOT NULL, /* eletrico, fogo, água */
     Habilidade TEXT,
     Imagem BLOB
 );
@@ -58,10 +59,10 @@ CREATE TABLE PokemonApp.CartasColecao (
 GO
 
 CREATE TABLE PokemonApp.BancoCartas(
-    ID_Carta INT,
+    Nome_Carta VARCHAR(100) NOT NULL,
     Quantidade INT,
-    PRIMARY KEY (ID_Carta),
-    FOREIGN KEY (ID_Carta) REFERENCES PokemonApp.Cartas(ID_Carta)
+    PRIMARY KEY (Nome_Carta),
+    FOREIGN KEY (Nome_Carta) REFERENCES PokemonApp.Cartas(Nome_Carta)
 
 );
 GO

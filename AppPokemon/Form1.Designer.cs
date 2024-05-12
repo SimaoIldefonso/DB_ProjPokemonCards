@@ -36,6 +36,7 @@
             this.RegisterBtn = new System.Windows.Forms.Button();
             this.AppTabs = new System.Windows.Forms.TabControl();
             this.LoginTab = new System.Windows.Forms.TabPage();
+            this.HomeTabTest = new System.Windows.Forms.Button();
             this.LoginBtn = new System.Windows.Forms.Button();
             this.RegisterTab = new System.Windows.Forms.TabPage();
             this.RegisterBtn1 = new System.Windows.Forms.Button();
@@ -48,28 +49,34 @@
             this.UsernameTxt1 = new System.Windows.Forms.Label();
             this.Home = new System.Windows.Forms.TabPage();
             this.label1 = new System.Windows.Forms.Label();
-            this.button1 = new System.Windows.Forms.Button();
-            this.button5 = new System.Windows.Forms.Button();
-            this.button4 = new System.Windows.Forms.Button();
-            this.button3 = new System.Windows.Forms.Button();
+            this.Tradesbtn = new System.Windows.Forms.Button();
+            this.Accountbtn = new System.Windows.Forms.Button();
+            this.OpenPacksbtn = new System.Windows.Forms.Button();
             this.CollectionBtn = new System.Windows.Forms.Button();
             this.Collection = new System.Windows.Forms.TabPage();
+            this.button2 = new System.Windows.Forms.Button();
             this.Trade = new System.Windows.Forms.TabPage();
-            this.button9 = new System.Windows.Forms.Button();
-            this.button8 = new System.Windows.Forms.Button();
-            this.tabPage4 = new System.Windows.Forms.TabPage();
+            this.homebtnTrade = new System.Windows.Forms.Button();
+            this.NewTradebtn = new System.Windows.Forms.Button();
+            this.CheckTradebtn = new System.Windows.Forms.Button();
+            this.OpenPacksTab = new System.Windows.Forms.TabPage();
+            this.homebtnOpen = new System.Windows.Forms.Button();
             this.button7 = new System.Windows.Forms.Button();
-            this.tabPage5 = new System.Windows.Forms.TabPage();
-            this.AddFriends = new System.Windows.Forms.Button();
-            this.button6 = new System.Windows.Forms.Button();
-            this.HomeTabTest = new System.Windows.Forms.Button();
+            this.Account = new System.Windows.Forms.TabPage();
+            this.IDUsertxt = new System.Windows.Forms.Label();
+            this.deleteAccbtn = new System.Windows.Forms.Button();
+            this.HomebtnAccount = new System.Windows.Forms.Button();
+            this.IDUserLabel = new System.Windows.Forms.Label();
+            this.UsernameLabel = new System.Windows.Forms.Label();
+            this.UsenametxtLabel = new System.Windows.Forms.Label();
             this.AppTabs.SuspendLayout();
             this.LoginTab.SuspendLayout();
             this.RegisterTab.SuspendLayout();
             this.Home.SuspendLayout();
+            this.Collection.SuspendLayout();
             this.Trade.SuspendLayout();
-            this.tabPage4.SuspendLayout();
-            this.tabPage5.SuspendLayout();
+            this.OpenPacksTab.SuspendLayout();
+            this.Account.SuspendLayout();
             this.SuspendLayout();
             // 
             // UserNameInput
@@ -78,7 +85,7 @@
             this.UserNameInput.Location = new System.Drawing.Point(684, 215);
             this.UserNameInput.Name = "UserNameInput";
             this.UserNameInput.PasswordChar = 'a';
-            this.UserNameInput.Size = new System.Drawing.Size(115, 23);
+            this.UserNameInput.Size = new System.Drawing.Size(115, 27);
             this.UserNameInput.TabIndex = 1;
             // 
             // UsernameTxt
@@ -87,7 +94,7 @@
             this.UsernameTxt.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.UsernameTxt.Location = new System.Drawing.Point(571, 217);
             this.UsernameTxt.Name = "UsernameTxt";
-            this.UsernameTxt.Size = new System.Drawing.Size(83, 20);
+            this.UsernameTxt.Size = new System.Drawing.Size(102, 25);
             this.UsernameTxt.TabIndex = 2;
             this.UsernameTxt.Text = "Username";
             // 
@@ -97,7 +104,7 @@
             this.PasswordTxt.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.PasswordTxt.Location = new System.Drawing.Point(576, 256);
             this.PasswordTxt.Name = "PasswordTxt";
-            this.PasswordTxt.Size = new System.Drawing.Size(78, 20);
+            this.PasswordTxt.Size = new System.Drawing.Size(98, 25);
             this.PasswordTxt.TabIndex = 3;
             this.PasswordTxt.Text = "Password";
             // 
@@ -106,7 +113,7 @@
             this.PasswordInput.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.PasswordInput.Location = new System.Drawing.Point(684, 254);
             this.PasswordInput.Name = "PasswordInput";
-            this.PasswordInput.Size = new System.Drawing.Size(115, 23);
+            this.PasswordInput.Size = new System.Drawing.Size(115, 27);
             this.PasswordInput.TabIndex = 4;
             // 
             // RegisterBtn
@@ -127,8 +134,8 @@
             this.AppTabs.Controls.Add(this.Home);
             this.AppTabs.Controls.Add(this.Collection);
             this.AppTabs.Controls.Add(this.Trade);
-            this.AppTabs.Controls.Add(this.tabPage4);
-            this.AppTabs.Controls.Add(this.tabPage5);
+            this.AppTabs.Controls.Add(this.OpenPacksTab);
+            this.AppTabs.Controls.Add(this.Account);
             this.AppTabs.Location = new System.Drawing.Point(0, -3);
             this.AppTabs.Name = "AppTabs";
             this.AppTabs.SelectedIndex = 0;
@@ -153,6 +160,16 @@
             this.LoginTab.TabIndex = 0;
             this.LoginTab.Text = "Login";
             // 
+            // HomeTabTest
+            // 
+            this.HomeTabTest.Location = new System.Drawing.Point(201, 253);
+            this.HomeTabTest.Name = "HomeTabTest";
+            this.HomeTabTest.Size = new System.Drawing.Size(75, 23);
+            this.HomeTabTest.TabIndex = 7;
+            this.HomeTabTest.Text = "Home";
+            this.HomeTabTest.UseVisualStyleBackColor = true;
+            this.HomeTabTest.Click += new System.EventHandler(this.HomeTabTest_Click);
+            // 
             // LoginBtn
             // 
             this.LoginBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -162,6 +179,7 @@
             this.LoginBtn.TabIndex = 6;
             this.LoginBtn.Text = "Login";
             this.LoginBtn.UseVisualStyleBackColor = true;
+            this.LoginBtn.Click += new System.EventHandler(this.LoginBtn_Click_1);
             // 
             // RegisterTab
             // 
@@ -216,7 +234,7 @@
             this.ConfirmPasswordtxt.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ConfirmPasswordtxt.Location = new System.Drawing.Point(517, 293);
             this.ConfirmPasswordtxt.Name = "ConfirmPasswordtxt";
-            this.ConfirmPasswordtxt.Size = new System.Drawing.Size(137, 20);
+            this.ConfirmPasswordtxt.Size = new System.Drawing.Size(171, 25);
             this.ConfirmPasswordtxt.TabIndex = 4;
             this.ConfirmPasswordtxt.Text = "Confirm Password";
             // 
@@ -233,7 +251,7 @@
             this.PasswordTxt1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.PasswordTxt1.Location = new System.Drawing.Point(576, 256);
             this.PasswordTxt1.Name = "PasswordTxt1";
-            this.PasswordTxt1.Size = new System.Drawing.Size(78, 20);
+            this.PasswordTxt1.Size = new System.Drawing.Size(98, 25);
             this.PasswordTxt1.TabIndex = 2;
             this.PasswordTxt1.Text = "Password";
             // 
@@ -250,17 +268,16 @@
             this.UsernameTxt1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.UsernameTxt1.Location = new System.Drawing.Point(571, 217);
             this.UsernameTxt1.Name = "UsernameTxt1";
-            this.UsernameTxt1.Size = new System.Drawing.Size(83, 20);
+            this.UsernameTxt1.Size = new System.Drawing.Size(102, 25);
             this.UsernameTxt1.TabIndex = 0;
             this.UsernameTxt1.Text = "Username";
             // 
             // Home
             // 
             this.Home.Controls.Add(this.label1);
-            this.Home.Controls.Add(this.button1);
-            this.Home.Controls.Add(this.button5);
-            this.Home.Controls.Add(this.button4);
-            this.Home.Controls.Add(this.button3);
+            this.Home.Controls.Add(this.Tradesbtn);
+            this.Home.Controls.Add(this.Accountbtn);
+            this.Home.Controls.Add(this.OpenPacksbtn);
             this.Home.Controls.Add(this.CollectionBtn);
             this.Home.Location = new System.Drawing.Point(4, 25);
             this.Home.Name = "Home";
@@ -274,51 +291,45 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 30F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(527, 114);
+            this.label1.Location = new System.Drawing.Point(788, 261);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(395, 46);
+            this.label1.Size = new System.Drawing.Size(497, 58);
             this.label1.TabIndex = 6;
             this.label1.Text = "PokemonTradingApp";
             // 
-            // button1
+            // Tradesbtn
             // 
-            this.button1.Location = new System.Drawing.Point(484, 246);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(122, 46);
-            this.button1.TabIndex = 5;
-            this.button1.Text = "Trades";
-            this.button1.UseVisualStyleBackColor = true;
+            this.Tradesbtn.Location = new System.Drawing.Point(868, 380);
+            this.Tradesbtn.Name = "Tradesbtn";
+            this.Tradesbtn.Size = new System.Drawing.Size(122, 46);
+            this.Tradesbtn.TabIndex = 5;
+            this.Tradesbtn.Text = "Trades";
+            this.Tradesbtn.UseVisualStyleBackColor = true;
+            this.Tradesbtn.Click += new System.EventHandler(this.Tradesbtn_Click);
             // 
-            // button5
+            // Accountbtn
             // 
-            this.button5.Location = new System.Drawing.Point(850, 246);
-            this.button5.Name = "button5";
-            this.button5.Size = new System.Drawing.Size(122, 46);
-            this.button5.TabIndex = 4;
-            this.button5.Text = "Account";
-            this.button5.UseVisualStyleBackColor = true;
+            this.Accountbtn.Location = new System.Drawing.Point(868, 486);
+            this.Accountbtn.Name = "Accountbtn";
+            this.Accountbtn.Size = new System.Drawing.Size(122, 46);
+            this.Accountbtn.TabIndex = 4;
+            this.Accountbtn.Text = "Account";
+            this.Accountbtn.UseVisualStyleBackColor = true;
+            this.Accountbtn.Click += new System.EventHandler(this.Accountbtn_Click);
             // 
-            // button4
+            // OpenPacksbtn
             // 
-            this.button4.Location = new System.Drawing.Point(572, 343);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(122, 46);
-            this.button4.TabIndex = 3;
-            this.button4.Text = "Friends";
-            this.button4.UseVisualStyleBackColor = true;
-            // 
-            // button3
-            // 
-            this.button3.Location = new System.Drawing.Point(774, 343);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(122, 46);
-            this.button3.TabIndex = 2;
-            this.button3.Text = "OpenPacks";
-            this.button3.UseVisualStyleBackColor = true;
+            this.OpenPacksbtn.Location = new System.Drawing.Point(1087, 486);
+            this.OpenPacksbtn.Name = "OpenPacksbtn";
+            this.OpenPacksbtn.Size = new System.Drawing.Size(122, 46);
+            this.OpenPacksbtn.TabIndex = 2;
+            this.OpenPacksbtn.Text = "OpenPacks";
+            this.OpenPacksbtn.UseVisualStyleBackColor = true;
+            this.OpenPacksbtn.Click += new System.EventHandler(this.button3_Click);
             // 
             // CollectionBtn
             // 
-            this.CollectionBtn.Location = new System.Drawing.Point(660, 246);
+            this.CollectionBtn.Location = new System.Drawing.Point(1087, 380);
             this.CollectionBtn.Name = "CollectionBtn";
             this.CollectionBtn.Size = new System.Drawing.Size(122, 46);
             this.CollectionBtn.TabIndex = 1;
@@ -328,6 +339,7 @@
             // 
             // Collection
             // 
+            this.Collection.Controls.Add(this.button2);
             this.Collection.Location = new System.Drawing.Point(4, 25);
             this.Collection.Name = "Collection";
             this.Collection.Padding = new System.Windows.Forms.Padding(3);
@@ -336,10 +348,21 @@
             this.Collection.Text = "CollectionTab";
             this.Collection.UseVisualStyleBackColor = true;
             // 
+            // button2
+            // 
+            this.button2.Location = new System.Drawing.Point(8, 6);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(75, 23);
+            this.button2.TabIndex = 8;
+            this.button2.Text = "Home";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
+            // 
             // Trade
             // 
-            this.Trade.Controls.Add(this.button9);
-            this.Trade.Controls.Add(this.button8);
+            this.Trade.Controls.Add(this.homebtnTrade);
+            this.Trade.Controls.Add(this.NewTradebtn);
+            this.Trade.Controls.Add(this.CheckTradebtn);
             this.Trade.Location = new System.Drawing.Point(4, 25);
             this.Trade.Name = "Trade";
             this.Trade.Padding = new System.Windows.Forms.Padding(3);
@@ -348,34 +371,55 @@
             this.Trade.Text = "TradeTab";
             this.Trade.UseVisualStyleBackColor = true;
             // 
-            // button9
+            // homebtnTrade
             // 
-            this.button9.Location = new System.Drawing.Point(812, 246);
-            this.button9.Name = "button9";
-            this.button9.Size = new System.Drawing.Size(122, 46);
-            this.button9.TabIndex = 1;
-            this.button9.Text = "New trade";
-            this.button9.UseVisualStyleBackColor = true;
+            this.homebtnTrade.Location = new System.Drawing.Point(8, 6);
+            this.homebtnTrade.Name = "homebtnTrade";
+            this.homebtnTrade.Size = new System.Drawing.Size(75, 23);
+            this.homebtnTrade.TabIndex = 8;
+            this.homebtnTrade.Text = "Home";
+            this.homebtnTrade.UseVisualStyleBackColor = true;
+            this.homebtnTrade.Click += new System.EventHandler(this.homebtnTrade_Click);
             // 
-            // button8
+            // NewTradebtn
             // 
-            this.button8.Location = new System.Drawing.Point(514, 246);
-            this.button8.Name = "button8";
-            this.button8.Size = new System.Drawing.Size(122, 46);
-            this.button8.TabIndex = 0;
-            this.button8.Text = "Check tades";
-            this.button8.UseVisualStyleBackColor = true;
+            this.NewTradebtn.Location = new System.Drawing.Point(812, 246);
+            this.NewTradebtn.Name = "NewTradebtn";
+            this.NewTradebtn.Size = new System.Drawing.Size(122, 46);
+            this.NewTradebtn.TabIndex = 1;
+            this.NewTradebtn.Text = "New trade";
+            this.NewTradebtn.UseVisualStyleBackColor = true;
             // 
-            // tabPage4
+            // CheckTradebtn
             // 
-            this.tabPage4.Controls.Add(this.button7);
-            this.tabPage4.Location = new System.Drawing.Point(4, 25);
-            this.tabPage4.Name = "tabPage4";
-            this.tabPage4.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage4.Size = new System.Drawing.Size(1508, 793);
-            this.tabPage4.TabIndex = 5;
-            this.tabPage4.Text = "OpenPacksTab";
-            this.tabPage4.UseVisualStyleBackColor = true;
+            this.CheckTradebtn.Location = new System.Drawing.Point(514, 246);
+            this.CheckTradebtn.Name = "CheckTradebtn";
+            this.CheckTradebtn.Size = new System.Drawing.Size(122, 46);
+            this.CheckTradebtn.TabIndex = 0;
+            this.CheckTradebtn.Text = "Check trades";
+            this.CheckTradebtn.UseVisualStyleBackColor = true;
+            // 
+            // OpenPacksTab
+            // 
+            this.OpenPacksTab.Controls.Add(this.homebtnOpen);
+            this.OpenPacksTab.Controls.Add(this.button7);
+            this.OpenPacksTab.Location = new System.Drawing.Point(4, 25);
+            this.OpenPacksTab.Name = "OpenPacksTab";
+            this.OpenPacksTab.Padding = new System.Windows.Forms.Padding(3);
+            this.OpenPacksTab.Size = new System.Drawing.Size(1508, 793);
+            this.OpenPacksTab.TabIndex = 5;
+            this.OpenPacksTab.Text = "OpenPacksTab";
+            this.OpenPacksTab.UseVisualStyleBackColor = true;
+            // 
+            // homebtnOpen
+            // 
+            this.homebtnOpen.Location = new System.Drawing.Point(8, 6);
+            this.homebtnOpen.Name = "homebtnOpen";
+            this.homebtnOpen.Size = new System.Drawing.Size(75, 23);
+            this.homebtnOpen.TabIndex = 8;
+            this.homebtnOpen.Text = "Home";
+            this.homebtnOpen.UseVisualStyleBackColor = true;
+            this.homebtnOpen.Click += new System.EventHandler(this.homebtnOpen_Click);
             // 
             // button7
             // 
@@ -386,45 +430,77 @@
             this.button7.Text = "Open a new pack";
             this.button7.UseVisualStyleBackColor = true;
             // 
-            // tabPage5
+            // Account
             // 
-            this.tabPage5.Controls.Add(this.AddFriends);
-            this.tabPage5.Controls.Add(this.button6);
-            this.tabPage5.Location = new System.Drawing.Point(4, 25);
-            this.tabPage5.Name = "tabPage5";
-            this.tabPage5.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage5.Size = new System.Drawing.Size(1508, 793);
-            this.tabPage5.TabIndex = 6;
-            this.tabPage5.Text = "FriendsTab";
-            this.tabPage5.UseVisualStyleBackColor = true;
+            this.Account.Controls.Add(this.UsernameLabel);
+            this.Account.Controls.Add(this.UsenametxtLabel);
+            this.Account.Controls.Add(this.IDUserLabel);
+            this.Account.Controls.Add(this.IDUsertxt);
+            this.Account.Controls.Add(this.deleteAccbtn);
+            this.Account.Controls.Add(this.HomebtnAccount);
+            this.Account.Location = new System.Drawing.Point(4, 25);
+            this.Account.Name = "Account";
+            this.Account.Padding = new System.Windows.Forms.Padding(3);
+            this.Account.Size = new System.Drawing.Size(1508, 793);
+            this.Account.TabIndex = 7;
+            this.Account.Text = "Account tab";
+            this.Account.UseVisualStyleBackColor = true;
             // 
-            // AddFriends
+            // IDUsertxt
             // 
-            this.AddFriends.Location = new System.Drawing.Point(771, 391);
-            this.AddFriends.Name = "AddFriends";
-            this.AddFriends.Size = new System.Drawing.Size(122, 46);
-            this.AddFriends.TabIndex = 1;
-            this.AddFriends.Text = "Add Friends";
-            this.AddFriends.UseVisualStyleBackColor = true;
+            this.IDUsertxt.AutoSize = true;
+            this.IDUsertxt.Location = new System.Drawing.Point(329, 216);
+            this.IDUsertxt.Name = "IDUsertxt";
+            this.IDUsertxt.Size = new System.Drawing.Size(23, 16);
+            this.IDUsertxt.TabIndex = 11;
+            this.IDUsertxt.Text = "ID:";
             // 
-            // button6
+            // deleteAccbtn
             // 
-            this.button6.Location = new System.Drawing.Point(735, 255);
-            this.button6.Name = "button6";
-            this.button6.Size = new System.Drawing.Size(122, 46);
-            this.button6.TabIndex = 0;
-            this.button6.Text = "Friend List";
-            this.button6.UseVisualStyleBackColor = true;
+            this.deleteAccbtn.ForeColor = System.Drawing.Color.Red;
+            this.deleteAccbtn.Location = new System.Drawing.Point(785, 432);
+            this.deleteAccbtn.Name = "deleteAccbtn";
+            this.deleteAccbtn.Size = new System.Drawing.Size(75, 23);
+            this.deleteAccbtn.TabIndex = 10;
+            this.deleteAccbtn.Text = "Delete Account";
+            this.deleteAccbtn.UseVisualStyleBackColor = true;
             // 
-            // HomeTabTest
+            // HomebtnAccount
             // 
-            this.HomeTabTest.Location = new System.Drawing.Point(201, 253);
-            this.HomeTabTest.Name = "HomeTabTest";
-            this.HomeTabTest.Size = new System.Drawing.Size(75, 23);
-            this.HomeTabTest.TabIndex = 7;
-            this.HomeTabTest.Text = "Home";
-            this.HomeTabTest.UseVisualStyleBackColor = true;
-            this.HomeTabTest.Click += new System.EventHandler(this.HomeTabTest_Click);
+            this.HomebtnAccount.Location = new System.Drawing.Point(6, 6);
+            this.HomebtnAccount.Name = "HomebtnAccount";
+            this.HomebtnAccount.Size = new System.Drawing.Size(75, 23);
+            this.HomebtnAccount.TabIndex = 9;
+            this.HomebtnAccount.Text = "Home";
+            this.HomebtnAccount.UseVisualStyleBackColor = true;
+            this.HomebtnAccount.Click += new System.EventHandler(this.HomebtnAccount_Click);
+            // 
+            // IDUserLabel
+            // 
+            this.IDUserLabel.AutoSize = true;
+            this.IDUserLabel.Location = new System.Drawing.Point(382, 216);
+            this.IDUserLabel.Name = "IDUserLabel";
+            this.IDUserLabel.Size = new System.Drawing.Size(14, 16);
+            this.IDUserLabel.TabIndex = 12;
+            this.IDUserLabel.Text = "1";
+            // 
+            // UsernameLabel
+            // 
+            this.UsernameLabel.AutoSize = true;
+            this.UsernameLabel.Location = new System.Drawing.Point(382, 247);
+            this.UsernameLabel.Name = "UsernameLabel";
+            this.UsernameLabel.Size = new System.Drawing.Size(14, 16);
+            this.UsernameLabel.TabIndex = 14;
+            this.UsernameLabel.Text = "1";
+            // 
+            // UsenametxtLabel
+            // 
+            this.UsenametxtLabel.AutoSize = true;
+            this.UsenametxtLabel.Location = new System.Drawing.Point(279, 247);
+            this.UsenametxtLabel.Name = "UsenametxtLabel";
+            this.UsenametxtLabel.Size = new System.Drawing.Size(73, 16);
+            this.UsenametxtLabel.TabIndex = 13;
+            this.UsenametxtLabel.Text = "Username:";
             // 
             // App
             // 
@@ -444,9 +520,11 @@
             this.RegisterTab.PerformLayout();
             this.Home.ResumeLayout(false);
             this.Home.PerformLayout();
+            this.Collection.ResumeLayout(false);
             this.Trade.ResumeLayout(false);
-            this.tabPage4.ResumeLayout(false);
-            this.tabPage5.ResumeLayout(false);
+            this.OpenPacksTab.ResumeLayout(false);
+            this.Account.ResumeLayout(false);
+            this.Account.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -472,20 +550,26 @@
         private System.Windows.Forms.TabPage Home;
         private System.Windows.Forms.TabPage Collection;
         private System.Windows.Forms.TabPage Trade;
-        private System.Windows.Forms.TabPage tabPage4;
-        private System.Windows.Forms.TabPage tabPage5;
-        private System.Windows.Forms.Button button5;
-        private System.Windows.Forms.Button button4;
-        private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.TabPage OpenPacksTab;
+        private System.Windows.Forms.Button Accountbtn;
+        private System.Windows.Forms.Button OpenPacksbtn;
         private System.Windows.Forms.Button CollectionBtn;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.Button AddFriends;
-        private System.Windows.Forms.Button button6;
-        private System.Windows.Forms.Button button9;
-        private System.Windows.Forms.Button button8;
+        private System.Windows.Forms.Button Tradesbtn;
+        private System.Windows.Forms.Button NewTradebtn;
+        private System.Windows.Forms.Button CheckTradebtn;
         private System.Windows.Forms.Button button7;
         private System.Windows.Forms.Button HomeTabTest;
+        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button homebtnTrade;
+        private System.Windows.Forms.Button homebtnOpen;
+        private System.Windows.Forms.TabPage Account;
+        private System.Windows.Forms.Button HomebtnAccount;
+        private System.Windows.Forms.Label IDUsertxt;
+        private System.Windows.Forms.Button deleteAccbtn;
+        private System.Windows.Forms.Label IDUserLabel;
+        private System.Windows.Forms.Label UsernameLabel;
+        private System.Windows.Forms.Label UsenametxtLabel;
     }
 }
 
