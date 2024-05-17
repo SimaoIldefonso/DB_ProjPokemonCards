@@ -57,10 +57,25 @@
             this.DeletePokeBTN = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.Trade = new System.Windows.Forms.TabPage();
+            this.MakeChoiseBtnTrade = new System.Windows.Forms.Button();
+            this.CheckTradesBoxinfo = new System.Windows.Forms.Label();
+            this.RefreshBtnTrades = new System.Windows.Forms.Button();
+            this.SendTradeBTN = new System.Windows.Forms.Button();
+            this.comboBox2 = new System.Windows.Forms.ComboBox();
+            this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.FriendPokeLabel = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
+            this.CheckFriendBTN = new System.Windows.Forms.Button();
+            this.label6 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.CheckTradesLabelBackground = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
             this.homebtnTrade = new System.Windows.Forms.Button();
             this.OpenPacksTab = new System.Windows.Forms.TabPage();
             this.homebtnOpen = new System.Windows.Forms.Button();
-            this.button7 = new System.Windows.Forms.Button();
+            this.OpenPackBtn = new System.Windows.Forms.Button();
             this.Account = new System.Windows.Forms.TabPage();
             this.UsernameLabel = new System.Windows.Forms.Label();
             this.UsenametxtLabel = new System.Windows.Forms.Label();
@@ -68,18 +83,6 @@
             this.IDUsertxt = new System.Windows.Forms.Label();
             this.deleteAccbtn = new System.Windows.Forms.Button();
             this.HomebtnAccount = new System.Windows.Forms.Button();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.label5 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
-            this.CheckFriendBTN = new System.Windows.Forms.Button();
-            this.label7 = new System.Windows.Forms.Label();
-            this.FriendPokeLabel = new System.Windows.Forms.Label();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
-            this.comboBox2 = new System.Windows.Forms.ComboBox();
-            this.SendTradeBTN = new System.Windows.Forms.Button();
             this.AppTabs.SuspendLayout();
             this.LoginTab.SuspendLayout();
             this.RegisterTab.SuspendLayout();
@@ -382,6 +385,9 @@
             // 
             // Trade
             // 
+            this.Trade.Controls.Add(this.MakeChoiseBtnTrade);
+            this.Trade.Controls.Add(this.CheckTradesBoxinfo);
+            this.Trade.Controls.Add(this.RefreshBtnTrades);
             this.Trade.Controls.Add(this.SendTradeBTN);
             this.Trade.Controls.Add(this.comboBox2);
             this.Trade.Controls.Add(this.comboBox1);
@@ -392,7 +398,7 @@
             this.Trade.Controls.Add(this.label4);
             this.Trade.Controls.Add(this.label5);
             this.Trade.Controls.Add(this.textBox1);
-            this.Trade.Controls.Add(this.label3);
+            this.Trade.Controls.Add(this.CheckTradesLabelBackground);
             this.Trade.Controls.Add(this.label2);
             this.Trade.Controls.Add(this.homebtnTrade);
             this.Trade.Location = new System.Drawing.Point(4, 25);
@@ -402,6 +408,174 @@
             this.Trade.TabIndex = 4;
             this.Trade.Text = "TradeTab";
             this.Trade.UseVisualStyleBackColor = true;
+            // 
+            // MakeChoiseBtnTrade
+            // 
+            this.MakeChoiseBtnTrade.Location = new System.Drawing.Point(967, 535);
+            this.MakeChoiseBtnTrade.Name = "MakeChoiseBtnTrade";
+            this.MakeChoiseBtnTrade.Size = new System.Drawing.Size(158, 44);
+            this.MakeChoiseBtnTrade.TabIndex = 25;
+            this.MakeChoiseBtnTrade.Text = "Make Choise";
+            this.MakeChoiseBtnTrade.UseVisualStyleBackColor = true;
+            // 
+            // CheckTradesBoxinfo
+            // 
+            this.CheckTradesBoxinfo.AutoSize = true;
+            this.CheckTradesBoxinfo.BackColor = System.Drawing.SystemColors.ActiveBorder;
+            this.CheckTradesBoxinfo.Location = new System.Drawing.Point(955, 180);
+            this.CheckTradesBoxinfo.Name = "CheckTradesBoxinfo";
+            this.CheckTradesBoxinfo.Size = new System.Drawing.Size(26, 16);
+            this.CheckTradesBoxinfo.TabIndex = 24;
+            this.CheckTradesBoxinfo.Text = "lab";
+            // 
+            // RefreshBtnTrades
+            // 
+            this.RefreshBtnTrades.Location = new System.Drawing.Point(1336, 543);
+            this.RefreshBtnTrades.Name = "RefreshBtnTrades";
+            this.RefreshBtnTrades.Size = new System.Drawing.Size(85, 37);
+            this.RefreshBtnTrades.TabIndex = 23;
+            this.RefreshBtnTrades.Text = "Refresh";
+            this.RefreshBtnTrades.UseVisualStyleBackColor = true;
+            this.RefreshBtnTrades.Click += new System.EventHandler(this.RefreshBtnTrades_Click);
+            // 
+            // SendTradeBTN
+            // 
+            this.SendTradeBTN.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.SendTradeBTN.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.SendTradeBTN.Location = new System.Drawing.Point(243, 361);
+            this.SendTradeBTN.Name = "SendTradeBTN";
+            this.SendTradeBTN.Size = new System.Drawing.Size(203, 34);
+            this.SendTradeBTN.TabIndex = 21;
+            this.SendTradeBTN.Text = "Send Trade Request";
+            this.SendTradeBTN.UseVisualStyleBackColor = true;
+            // 
+            // comboBox2
+            // 
+            this.comboBox2.Cursor = System.Windows.Forms.Cursors.Default;
+            this.comboBox2.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.comboBox2.FormattingEnabled = true;
+            this.comboBox2.Location = new System.Drawing.Point(425, 222);
+            this.comboBox2.Name = "comboBox2";
+            this.comboBox2.Size = new System.Drawing.Size(163, 37);
+            this.comboBox2.TabIndex = 20;
+            // 
+            // comboBox1
+            // 
+            this.comboBox1.Cursor = System.Windows.Forms.Cursors.Default;
+            this.comboBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.comboBox1.FormattingEnabled = true;
+            this.comboBox1.Location = new System.Drawing.Point(425, 180);
+            this.comboBox1.Name = "comboBox1";
+            this.comboBox1.Size = new System.Drawing.Size(163, 37);
+            this.comboBox1.TabIndex = 19;
+            // 
+            // FriendPokeLabel
+            // 
+            this.FriendPokeLabel.AutoSize = true;
+            this.FriendPokeLabel.BackColor = System.Drawing.SystemColors.ActiveBorder;
+            this.FriendPokeLabel.Cursor = System.Windows.Forms.Cursors.Default;
+            this.FriendPokeLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.FriendPokeLabel.Location = new System.Drawing.Point(98, 225);
+            this.FriendPokeLabel.Name = "FriendPokeLabel";
+            this.FriendPokeLabel.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.FriendPokeLabel.Size = new System.Drawing.Size(282, 29);
+            this.FriendPokeLabel.TabIndex = 18;
+            this.FriendPokeLabel.Text = "Select Friend\'s Pokemon";
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.BackColor = System.Drawing.SystemColors.ActiveBorder;
+            this.label7.Cursor = System.Windows.Forms.Cursors.Default;
+            this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label7.Location = new System.Drawing.Point(98, 183);
+            this.label7.Name = "label7";
+            this.label7.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.label7.Size = new System.Drawing.Size(242, 29);
+            this.label7.TabIndex = 17;
+            this.label7.Text = "Select your Pokemon";
+            // 
+            // CheckFriendBTN
+            // 
+            this.CheckFriendBTN.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.CheckFriendBTN.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.CheckFriendBTN.Location = new System.Drawing.Point(473, 130);
+            this.CheckFriendBTN.Name = "CheckFriendBTN";
+            this.CheckFriendBTN.Size = new System.Drawing.Size(76, 34);
+            this.CheckFriendBTN.TabIndex = 16;
+            this.CheckFriendBTN.Text = "Check";
+            this.CheckFriendBTN.UseVisualStyleBackColor = true;
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.BackColor = System.Drawing.SystemColors.ActiveBorder;
+            this.label6.Cursor = System.Windows.Forms.Cursors.Default;
+            this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label6.Location = new System.Drawing.Point(291, 98);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(79, 29);
+            this.label6.TabIndex = 15;
+            this.label6.Text = "label6";
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.BackColor = System.Drawing.SystemColors.ActiveBorder;
+            this.label4.Cursor = System.Windows.Forms.Cursors.Default;
+            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label4.Location = new System.Drawing.Point(98, 133);
+            this.label4.Name = "label4";
+            this.label4.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.label4.Size = new System.Drawing.Size(118, 29);
+            this.label4.TabIndex = 14;
+            this.label4.Text = "Friend ID:";
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.BackColor = System.Drawing.SystemColors.ActiveBorder;
+            this.label5.Cursor = System.Windows.Forms.Cursors.Default;
+            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label5.Location = new System.Drawing.Point(126, 98);
+            this.label5.Name = "label5";
+            this.label5.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.label5.Size = new System.Drawing.Size(90, 29);
+            this.label5.TabIndex = 13;
+            this.label5.Text = "Self ID:";
+            this.label5.Click += new System.EventHandler(this.label5_Click);
+            // 
+            // textBox1
+            // 
+            this.textBox1.Cursor = System.Windows.Forms.Cursors.IBeam;
+            this.textBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBox1.Location = new System.Drawing.Point(253, 130);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(168, 34);
+            this.textBox1.TabIndex = 11;
+            // 
+            // CheckTradesLabelBackground
+            // 
+            this.CheckTradesLabelBackground.BackColor = System.Drawing.SystemColors.ActiveBorder;
+            this.CheckTradesLabelBackground.Font = new System.Drawing.Font("Microsoft Sans Serif", 16.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.CheckTradesLabelBackground.Location = new System.Drawing.Point(822, 52);
+            this.CheckTradesLabelBackground.Name = "CheckTradesLabelBackground";
+            this.CheckTradesLabelBackground.Size = new System.Drawing.Size(726, 576);
+            this.CheckTradesLabelBackground.TabIndex = 10;
+            this.CheckTradesLabelBackground.Text = "Check Trades";
+            this.CheckTradesLabelBackground.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.CheckTradesLabelBackground.Click += new System.EventHandler(this.label3_Click);
+            // 
+            // label2
+            // 
+            this.label2.BackColor = System.Drawing.SystemColors.ActiveBorder;
+            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 16.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.Location = new System.Drawing.Point(78, 52);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(541, 362);
+            this.label2.TabIndex = 9;
+            this.label2.Text = "New Trade";
+            this.label2.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
             // homebtnTrade
             // 
@@ -416,7 +590,7 @@
             // OpenPacksTab
             // 
             this.OpenPacksTab.Controls.Add(this.homebtnOpen);
-            this.OpenPacksTab.Controls.Add(this.button7);
+            this.OpenPacksTab.Controls.Add(this.OpenPackBtn);
             this.OpenPacksTab.Location = new System.Drawing.Point(4, 25);
             this.OpenPacksTab.Name = "OpenPacksTab";
             this.OpenPacksTab.Padding = new System.Windows.Forms.Padding(3);
@@ -435,14 +609,15 @@
             this.homebtnOpen.UseVisualStyleBackColor = true;
             this.homebtnOpen.Click += new System.EventHandler(this.homebtnOpen_Click);
             // 
-            // button7
+            // OpenPackBtn
             // 
-            this.button7.Location = new System.Drawing.Point(607, 265);
-            this.button7.Name = "button7";
-            this.button7.Size = new System.Drawing.Size(122, 46);
-            this.button7.TabIndex = 0;
-            this.button7.Text = "Open a new pack";
-            this.button7.UseVisualStyleBackColor = true;
+            this.OpenPackBtn.Location = new System.Drawing.Point(607, 265);
+            this.OpenPackBtn.Name = "OpenPackBtn";
+            this.OpenPackBtn.Size = new System.Drawing.Size(122, 46);
+            this.OpenPackBtn.TabIndex = 0;
+            this.OpenPackBtn.Text = "Open a new pack";
+            this.OpenPackBtn.UseVisualStyleBackColor = true;
+            this.OpenPackBtn.Click += new System.EventHandler(this.OpenPackBtn_Click);
             // 
             // Account
             // 
@@ -516,138 +691,6 @@
             this.HomebtnAccount.UseVisualStyleBackColor = true;
             this.HomebtnAccount.Click += new System.EventHandler(this.HomebtnAccount_Click);
             // 
-            // label2
-            // 
-            this.label2.BackColor = System.Drawing.SystemColors.ActiveBorder;
-            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 16.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(78, 52);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(541, 362);
-            this.label2.TabIndex = 9;
-            this.label2.Text = "New Trade";
-            this.label2.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-            // 
-            // label3
-            // 
-            this.label3.BackColor = System.Drawing.SystemColors.ActiveBorder;
-            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 16.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(822, 52);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(424, 362);
-            this.label3.TabIndex = 10;
-            this.label3.Text = "Check Trades";
-            this.label3.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.label3.Click += new System.EventHandler(this.label3_Click);
-            // 
-            // textBox1
-            // 
-            this.textBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox1.Location = new System.Drawing.Point(253, 130);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(168, 34);
-            this.textBox1.TabIndex = 11;
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.BackColor = System.Drawing.Color.Transparent;
-            this.label5.Cursor = System.Windows.Forms.Cursors.No;
-            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.Location = new System.Drawing.Point(126, 98);
-            this.label5.Name = "label5";
-            this.label5.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.label5.Size = new System.Drawing.Size(90, 29);
-            this.label5.TabIndex = 13;
-            this.label5.Text = "Self ID:";
-            this.label5.Click += new System.EventHandler(this.label5_Click);
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.BackColor = System.Drawing.Color.Transparent;
-            this.label4.Cursor = System.Windows.Forms.Cursors.No;
-            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.Location = new System.Drawing.Point(98, 133);
-            this.label4.Name = "label4";
-            this.label4.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.label4.Size = new System.Drawing.Size(118, 29);
-            this.label4.TabIndex = 14;
-            this.label4.Text = "Friend ID:";
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label6.Location = new System.Drawing.Point(291, 98);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(79, 29);
-            this.label6.TabIndex = 15;
-            this.label6.Text = "label6";
-            // 
-            // CheckFriendBTN
-            // 
-            this.CheckFriendBTN.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.CheckFriendBTN.Location = new System.Drawing.Point(473, 130);
-            this.CheckFriendBTN.Name = "CheckFriendBTN";
-            this.CheckFriendBTN.Size = new System.Drawing.Size(76, 34);
-            this.CheckFriendBTN.TabIndex = 16;
-            this.CheckFriendBTN.Text = "Check";
-            this.CheckFriendBTN.UseVisualStyleBackColor = true;
-            // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.BackColor = System.Drawing.Color.Transparent;
-            this.label7.Cursor = System.Windows.Forms.Cursors.No;
-            this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label7.Location = new System.Drawing.Point(98, 183);
-            this.label7.Name = "label7";
-            this.label7.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.label7.Size = new System.Drawing.Size(242, 29);
-            this.label7.TabIndex = 17;
-            this.label7.Text = "Select your Pokemon";
-            // 
-            // FriendPokeLabel
-            // 
-            this.FriendPokeLabel.AutoSize = true;
-            this.FriendPokeLabel.BackColor = System.Drawing.Color.Transparent;
-            this.FriendPokeLabel.Cursor = System.Windows.Forms.Cursors.No;
-            this.FriendPokeLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.FriendPokeLabel.Location = new System.Drawing.Point(98, 225);
-            this.FriendPokeLabel.Name = "FriendPokeLabel";
-            this.FriendPokeLabel.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.FriendPokeLabel.Size = new System.Drawing.Size(282, 29);
-            this.FriendPokeLabel.TabIndex = 18;
-            this.FriendPokeLabel.Text = "Select Friend\'s Pokemon";
-            // 
-            // comboBox1
-            // 
-            this.comboBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(425, 180);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(163, 37);
-            this.comboBox1.TabIndex = 19;
-            // 
-            // comboBox2
-            // 
-            this.comboBox2.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.comboBox2.FormattingEnabled = true;
-            this.comboBox2.Location = new System.Drawing.Point(425, 222);
-            this.comboBox2.Name = "comboBox2";
-            this.comboBox2.Size = new System.Drawing.Size(163, 37);
-            this.comboBox2.TabIndex = 20;
-            // 
-            // SendTradeBTN
-            // 
-            this.SendTradeBTN.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.SendTradeBTN.Location = new System.Drawing.Point(243, 361);
-            this.SendTradeBTN.Name = "SendTradeBTN";
-            this.SendTradeBTN.Size = new System.Drawing.Size(203, 34);
-            this.SendTradeBTN.TabIndex = 21;
-            this.SendTradeBTN.Text = "Send Trade Request";
-            this.SendTradeBTN.UseVisualStyleBackColor = true;
-            // 
             // App
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -703,7 +746,7 @@
         private System.Windows.Forms.Button CollectionBtn;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button Tradesbtn;
-        private System.Windows.Forms.Button button7;
+        private System.Windows.Forms.Button OpenPackBtn;
         private System.Windows.Forms.Button HomeTabTest;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Button homebtnTrade;
@@ -717,7 +760,7 @@
         private System.Windows.Forms.Label UsenametxtLabel;
         private System.Windows.Forms.Button DeletePokeBTN;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label CheckTradesLabelBackground;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.Label label6;
@@ -728,6 +771,11 @@
         private System.Windows.Forms.Label FriendPokeLabel;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Button CheckFriendBTN;
+        private System.Windows.Forms.Button SeeTradeBtn;
+        private System.Windows.Forms.Button RefreshBtnTrades;
+        private System.Windows.Forms.Label CheckTradesBox;
+        private System.Windows.Forms.Button MakeChoiseBtnTrade;
+        private System.Windows.Forms.Label CheckTradesBoxinfo;
     }
 }
 
