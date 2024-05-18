@@ -676,10 +676,11 @@
             this.deleteAccbtn.ForeColor = System.Drawing.Color.Red;
             this.deleteAccbtn.Location = new System.Drawing.Point(785, 432);
             this.deleteAccbtn.Name = "deleteAccbtn";
-            this.deleteAccbtn.Size = new System.Drawing.Size(75, 23);
+            this.deleteAccbtn.Size = new System.Drawing.Size(158, 37);
             this.deleteAccbtn.TabIndex = 10;
             this.deleteAccbtn.Text = "Delete Account";
             this.deleteAccbtn.UseVisualStyleBackColor = true;
+            this.deleteAccbtn.Click += new System.EventHandler(this.deleteAccbtn_Click);
             // 
             // HomebtnAccount
             // 
