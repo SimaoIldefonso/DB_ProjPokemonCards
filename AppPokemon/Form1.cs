@@ -47,11 +47,57 @@ namespace AppPokemon
 
             // Abrir a conexão com o banco de dados
             cn.Open();
+            AddDefaultCardsToBancoCartas();
         }
 
         private SqlConnection getSGBDConnection()
         {
             return new SqlConnection("data source=LAPTOP-SCB9ONGM\\SQLEXPRESS;integrated security=true;initial catalog=PokemonDB");
+        }
+
+        private void AddDefaultCardsToBancoCartas()
+        {
+            // Predefined set of Pokémon cards
+            var cards = new List<(string Name, string Type, int Rarity, int Quantity)>
+                {
+                    ("Pikachu", "eletrico", 0, 100),
+                    ("Charizard", "fogo", 3, 50),
+                    ("Squirtle", "água", 0, 100),
+                    ("Bulbasaur", "planta", 0, 100),
+                    ("Jigglypuff", "fada", 1, 80),
+                    ("Meowth", "normal", 1, 80)
+                };
+
+            try
+            {
+                foreach (var card in cards)
+                {
+                    // Check if the card exists in BancoCartas table
+                    string checkCardQuery = "SELECT COUNT(*) FROM PokemonApp.BancoCartas WHERE Nome_Carta = @Nome_Carta";
+                    using (SqlCommand cmdCheck = new SqlCommand(checkCardQuery, cn))
+                    {
+                        cmdCheck.Parameters.AddWithValue("@Nome_Carta", card.Name);
+                        int cardExists = (int)cmdCheck.ExecuteScalar();
+                        if (cardExists == 0)
+                        {
+                            // Insert the card into BancoCartas table
+                            string insertCardQuery = "INSERT INTO PokemonApp.BancoCartas (Nome_Carta, Tipo, Raridade, Quantidade) VALUES (@Nome_Carta, @Tipo, @Raridade, @Quantidade)";
+                            using (SqlCommand cmdInsert = new SqlCommand(insertCardQuery, cn))
+                            {
+                                cmdInsert.Parameters.AddWithValue("@Nome_Carta", card.Name);
+                                cmdInsert.Parameters.AddWithValue("@Tipo", card.Type);
+                                cmdInsert.Parameters.AddWithValue("@Raridade", card.Rarity);
+                                cmdInsert.Parameters.AddWithValue("@Quantidade", card.Quantity);
+                                cmdInsert.ExecuteNonQuery();
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("An error occurred while adding default cards to BancoCartas: " + ex.Message);
+            }
         }
 
         private void ConfigureCheckTradesComponents()
@@ -351,13 +397,125 @@ namespace AppPokemon
 
         private void OpenPackBtn_Click(object sender, EventArgs e)
         {
+            // Define the names of Pokémon cards in the pack
             string[] pokemonNames = { "Pikachu", "Charizard", "Squirtle", "Bulbasaur", "Jigglypuff", "Meowth" };
 
-            for (int i = 0; i < pokemonNames.Length; i++)
+            // Open a pack and add each card to the user's collection
+            foreach (string pokemonName in pokemonNames)
             {
-                string message = String.Format("You earned {0}!", pokemonNames[i]);
-                MessageBox.Show(message);
+                AddCardToUserCollection(pokemonName);
             }
+
+            MessageBox.Show("You have opened a pack!");
+            DisplayUserCollection(); // Refresh the user's collection display
+        }
+
+        private void AddCardToUserCollection(string cardName)
+        {
+            try
+            {
+                // Insert the card into the user's collection
+                string insertCardQuery = "INSERT INTO PokemonApp.Carta (Nome_Carta, ID_Utilizador) VALUES (@Nome_Carta, @ID_Utilizador)";
+                using (SqlCommand cmd = new SqlCommand(insertCardQuery, cn))
+                {
+                    cmd.Parameters.AddWithValue("@Nome_Carta", cardName);
+                    cmd.Parameters.AddWithValue("@ID_Utilizador", currentUserID);
+                    cmd.ExecuteNonQuery();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("An error occurred while adding the card to your collection: " + ex.Message);
+            }
+        }
+
+        private void DisplayUserCollection()
+        {
+            try
+            {
+                string query = "SELECT c.Nome_Carta, b.Tipo, b.Raridade " +
+                               "FROM PokemonApp.Carta c " +
+                               "JOIN PokemonApp.BancoCartas b ON c.Nome_Carta = b.Nome_Carta " +
+                               "WHERE c.ID_Utilizador = @ID_Utilizador";
+
+                using (SqlCommand cmd = new SqlCommand(query, cn))
+                {
+                    cmd.Parameters.AddWithValue("@ID_Utilizador", currentUserID);
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        Collection.Controls.Clear(); // Clear previous collection display
+
+                        int pokemonsPerRow = 5; // Number of Pokémon per row
+                        int pokemonWidth = 100;
+                        int pokemonHeight = 100;
+                        int spacing = 20;
+
+                        int screenWidth = Screen.PrimaryScreen.Bounds.Width;
+                        int startY = 50; // Start Y position
+
+                        int currentX = spacing;
+                        int currentY = startY;
+
+                        while (reader.Read())
+                        {
+                            string cardName = reader["Nome_Carta"].ToString();
+                            string cardType = reader["Tipo"].ToString();
+                            int rarity = (int)reader["Raridade"];
+
+                            PictureBox pic = new PictureBox();
+                            string imagePath = Path.Combine("Imagens", cardName + ".png"); // Adjust the path if necessary
+                            if (File.Exists(imagePath))
+                            {
+                                pic.Image = Image.FromFile(imagePath);
+                            }
+                            else
+                            {
+                                pic.Image = null; // Or set a default image
+                            }
+
+                            pic.SizeMode = PictureBoxSizeMode.StretchImage;
+                            pic.Size = new Size(pokemonWidth, pokemonHeight);
+                            pic.Location = new Point(currentX, currentY);
+
+                            Label label = new Label();
+                            label.Text = $"{cardName}\n{cardType}\nRarity: {rarity}";
+                            label.Font = new Font("Arial", 11, FontStyle.Bold);
+                            label.AutoSize = true;
+                            label.Location = new Point(currentX, currentY + pokemonHeight);
+
+                            Collection.Controls.Add(pic);
+                            Collection.Controls.Add(label);
+
+                            currentX += pokemonWidth + spacing;
+                            if (currentX + pokemonWidth + spacing > screenWidth)
+                            {
+                                currentX = spacing;
+                                currentY += pokemonHeight + spacing + label.Height;
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("An error occurred while loading your collection: " + ex.Message);
+            }
+        }
+
+        private void LogoutBTN_Click(object sender, EventArgs e)
+        {
+            currentUsername = null;
+            currentUserID = 0;
+
+            if (cn != null && cn.State == ConnectionState.Open)
+            {
+                cn.Close();
+            }
+
+            cn = getSGBDConnection();
+            cn.Open();
+
+            AppTabs.SelectedTab = LoginTab;
         }
     }
 }

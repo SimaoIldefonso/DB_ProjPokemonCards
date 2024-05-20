@@ -83,6 +83,7 @@
             this.IDUsertxt = new System.Windows.Forms.Label();
             this.deleteAccbtn = new System.Windows.Forms.Button();
             this.HomebtnAccount = new System.Windows.Forms.Button();
+            this.LogoutBTN = new System.Windows.Forms.Button();
             this.AppTabs.SuspendLayout();
             this.LoginTab.SuspendLayout();
             this.RegisterTab.SuspendLayout();
@@ -621,6 +622,7 @@
             // 
             // Account
             // 
+            this.Account.Controls.Add(this.LogoutBTN);
             this.Account.Controls.Add(this.UsernameLabel);
             this.Account.Controls.Add(this.UsenametxtLabel);
             this.Account.Controls.Add(this.IDUserLabel);
@@ -674,7 +676,7 @@
             // deleteAccbtn
             // 
             this.deleteAccbtn.ForeColor = System.Drawing.Color.Red;
-            this.deleteAccbtn.Location = new System.Drawing.Point(785, 432);
+            this.deleteAccbtn.Location = new System.Drawing.Point(482, 418);
             this.deleteAccbtn.Name = "deleteAccbtn";
             this.deleteAccbtn.Size = new System.Drawing.Size(158, 37);
             this.deleteAccbtn.TabIndex = 10;
@@ -691,6 +693,16 @@
             this.HomebtnAccount.Text = "Home";
             this.HomebtnAccount.UseVisualStyleBackColor = true;
             this.HomebtnAccount.Click += new System.EventHandler(this.HomebtnAccount_Click);
+            // 
+            // LogoutBTN
+            // 
+            this.LogoutBTN.Location = new System.Drawing.Point(666, 418);
+            this.LogoutBTN.Name = "LogoutBTN";
+            this.LogoutBTN.Size = new System.Drawing.Size(158, 37);
+            this.LogoutBTN.TabIndex = 15;
+            this.LogoutBTN.Text = "Logout";
+            this.LogoutBTN.UseVisualStyleBackColor = true;
+            this.LogoutBTN.Click += new System.EventHandler(this.LogoutBTN_Click);
             // 
             // App
             // 
@@ -777,6 +789,7 @@
         private System.Windows.Forms.Label CheckTradesBox;
         private System.Windows.Forms.Button MakeChoiseBtnTrade;
         private System.Windows.Forms.Label CheckTradesBoxinfo;
+        private System.Windows.Forms.Button LogoutBTN;
     }
 }
 

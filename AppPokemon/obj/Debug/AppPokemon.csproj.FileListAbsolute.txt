@@ -20,3 +20,15 @@ C:\Users\box\Documents\BD_PokemonCards\AppPokemon\obj\Debug\AppPokemon.csproj.Co
 C:\Users\box\Documents\BD_PokemonCards\AppPokemon\obj\Debug\AppPokemon.csproj.Up2Date
 C:\Users\box\Documents\BD_PokemonCards\AppPokemon\obj\Debug\AppPokemon.exe
 C:\Users\box\Documents\BD_PokemonCards\AppPokemon\obj\Debug\AppPokemon.pdb
+C:\Users\box\Documents\BD\BD_PokemonCards\AppPokemon\bin\Debug\AppPokemon.exe.config
+C:\Users\box\Documents\BD\BD_PokemonCards\AppPokemon\bin\Debug\AppPokemon.exe
+C:\Users\box\Documents\BD\BD_PokemonCards\AppPokemon\bin\Debug\AppPokemon.pdb
+C:\Users\box\Documents\BD\BD_PokemonCards\AppPokemon\bin\Debug\System.Console.dll
+C:\Users\box\Documents\BD\BD_PokemonCards\AppPokemon\obj\Debug\AppPokemon.csproj.AssemblyReference.cache
+C:\Users\box\Documents\BD\BD_PokemonCards\AppPokemon\obj\Debug\AppPokemon.App.resources
+C:\Users\box\Documents\BD\BD_PokemonCards\AppPokemon\obj\Debug\AppPokemon.Properties.Resources.resources
+C:\Users\box\Documents\BD\BD_PokemonCards\AppPokemon\obj\Debug\AppPokemon.csproj.GenerateResource.cache
+C:\Users\box\Documents\BD\BD_PokemonCards\AppPokemon\obj\Debug\AppPokemon.csproj.CoreCompileInputs.cache
+C:\Users\box\Documents\BD\BD_PokemonCards\AppPokemon\obj\Debug\AppPokemon.csproj.Up2Date
+C:\Users\box\Documents\BD\BD_PokemonCards\AppPokemon\obj\Debug\AppPokemon.exe
+C:\Users\box\Documents\BD\BD_PokemonCards\AppPokemon\obj\Debug\AppPokemon.pdb
