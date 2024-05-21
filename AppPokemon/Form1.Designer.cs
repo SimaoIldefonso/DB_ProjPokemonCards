@@ -77,13 +77,13 @@
             this.homebtnOpen = new System.Windows.Forms.Button();
             this.OpenPackBtn = new System.Windows.Forms.Button();
             this.Account = new System.Windows.Forms.TabPage();
+            this.LogoutBTN = new System.Windows.Forms.Button();
             this.UsernameLabel = new System.Windows.Forms.Label();
             this.UsenametxtLabel = new System.Windows.Forms.Label();
             this.IDUserLabel = new System.Windows.Forms.Label();
             this.IDUsertxt = new System.Windows.Forms.Label();
             this.deleteAccbtn = new System.Windows.Forms.Button();
             this.HomebtnAccount = new System.Windows.Forms.Button();
-            this.LogoutBTN = new System.Windows.Forms.Button();
             this.AppTabs.SuspendLayout();
             this.LoginTab.SuspendLayout();
             this.RegisterTab.SuspendLayout();
@@ -99,7 +99,6 @@
             this.UserNameInput.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.UserNameInput.Location = new System.Drawing.Point(684, 215);
             this.UserNameInput.Name = "UserNameInput";
-            this.UserNameInput.PasswordChar = 'a';
             this.UserNameInput.Size = new System.Drawing.Size(115, 27);
             this.UserNameInput.TabIndex = 1;
             // 
@@ -128,6 +127,7 @@
             this.PasswordInput.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.PasswordInput.Location = new System.Drawing.Point(684, 254);
             this.PasswordInput.Name = "PasswordInput";
+            this.PasswordInput.PasswordChar = '*';
             this.PasswordInput.Size = new System.Drawing.Size(115, 27);
             this.PasswordInput.TabIndex = 4;
             // 
@@ -240,6 +240,7 @@
             // 
             this.ConfPasswordInput.Location = new System.Drawing.Point(684, 291);
             this.ConfPasswordInput.Name = "ConfPasswordInput";
+            this.ConfPasswordInput.PasswordChar = '*';
             this.ConfPasswordInput.Size = new System.Drawing.Size(115, 22);
             this.ConfPasswordInput.TabIndex = 5;
             // 
@@ -257,6 +258,7 @@
             // 
             this.PasswordInput1.Location = new System.Drawing.Point(684, 254);
             this.PasswordInput1.Name = "PasswordInput1";
+            this.PasswordInput1.PasswordChar = '*';
             this.PasswordInput1.Size = new System.Drawing.Size(115, 22);
             this.PasswordInput1.TabIndex = 3;
             // 
@@ -376,7 +378,7 @@
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(8, 6);
+            this.button2.Location = new System.Drawing.Point(8, 760);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(75, 23);
             this.button2.TabIndex = 8;
@@ -612,7 +614,7 @@
             // 
             // OpenPackBtn
             // 
-            this.OpenPackBtn.Location = new System.Drawing.Point(607, 265);
+            this.OpenPackBtn.Location = new System.Drawing.Point(419, 253);
             this.OpenPackBtn.Name = "OpenPackBtn";
             this.OpenPackBtn.Size = new System.Drawing.Size(122, 46);
             this.OpenPackBtn.TabIndex = 0;
@@ -636,6 +638,16 @@
             this.Account.TabIndex = 7;
             this.Account.Text = "Account tab";
             this.Account.UseVisualStyleBackColor = true;
+            // 
+            // LogoutBTN
+            // 
+            this.LogoutBTN.Location = new System.Drawing.Point(666, 418);
+            this.LogoutBTN.Name = "LogoutBTN";
+            this.LogoutBTN.Size = new System.Drawing.Size(158, 37);
+            this.LogoutBTN.TabIndex = 15;
+            this.LogoutBTN.Text = "Logout";
+            this.LogoutBTN.UseVisualStyleBackColor = true;
+            this.LogoutBTN.Click += new System.EventHandler(this.LogoutBTN_Click);
             // 
             // UsernameLabel
             // 
@@ -693,16 +705,6 @@
             this.HomebtnAccount.Text = "Home";
             this.HomebtnAccount.UseVisualStyleBackColor = true;
             this.HomebtnAccount.Click += new System.EventHandler(this.HomebtnAccount_Click);
-            // 
-            // LogoutBTN
-            // 
-            this.LogoutBTN.Location = new System.Drawing.Point(666, 418);
-            this.LogoutBTN.Name = "LogoutBTN";
-            this.LogoutBTN.Size = new System.Drawing.Size(158, 37);
-            this.LogoutBTN.TabIndex = 15;
-            this.LogoutBTN.Text = "Logout";
-            this.LogoutBTN.UseVisualStyleBackColor = true;
-            this.LogoutBTN.Click += new System.EventHandler(this.LogoutBTN_Click);
             // 
             // App
             // 

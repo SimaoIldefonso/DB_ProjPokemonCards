@@ -39,7 +39,7 @@ CREATE TABLE PokemonApp.Troca (
     ID_CartaUnica1 INT NOT NULL,
     ID_CartaUnica2 INT NOT NULL,
     Estado_Troca INT CHECK (Estado_Troca IN (0, 1, 2)), /* 0- PENDENTE 1-RECUSADA 2-ACEITE*/
-    Tempo TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    Tempo TIMESTAMP NOT NULL ,
 
     FOREIGN KEY (ID_Utilizador1) REFERENCES PokemonApp.Utilizadores(ID_Utilizador), 
     FOREIGN KEY (ID_Utilizador2) REFERENCES PokemonApp.Utilizadores(ID_Utilizador),

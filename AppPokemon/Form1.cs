@@ -34,9 +34,6 @@ namespace AppPokemon
             AppTabs.ItemSize = new Size(0, 1);
             AppTabs.SizeMode = TabSizeMode.Fixed;
 
-            PasswordInput.PasswordChar = '*';
-            PasswordInput1.PasswordChar = '*';
-            ConfPasswordInput.PasswordChar = '*';
 
             DeletePokeBTN.Location = new Point(Collection.Width - DeletePokeBTN.Width - 20, Collection.Height - DeletePokeBTN.Height - 20);
 
@@ -47,58 +44,15 @@ namespace AppPokemon
 
             // Abrir a conexão com o banco de dados
             cn.Open();
-            AddDefaultCardsToBancoCartas();
         }
 
         private SqlConnection getSGBDConnection()
-        {
-            return new SqlConnection("data source=LAPTOP-SCB9ONGM\\SQLEXPRESS;integrated security=true;initial catalog=PokemonDB");
+        {// LAPTOP-S4H22GJP\SQLEXPRESS -Simão
+            // LAPTOP-SCB9ONGM\\SQLEXPRESS - Mike
+            return new SqlConnection("data source=LAPTOP-S4H22GJP\\SQLEXPRESS;integrated security=true;initial catalog=PokemonDB");
         }
 
-        private void AddDefaultCardsToBancoCartas()
-        {
-            // Predefined set of Pokémon cards
-            var cards = new List<(string Name, string Type, int Rarity, int Quantity)>
-                {
-                    ("Pikachu", "eletrico", 0, 100),
-                    ("Charizard", "fogo", 3, 50),
-                    ("Squirtle", "água", 0, 100),
-                    ("Bulbasaur", "planta", 0, 100),
-                    ("Jigglypuff", "fada", 1, 80),
-                    ("Meowth", "normal", 1, 80)
-                };
-
-            try
-            {
-                foreach (var card in cards)
-                {
-                    // Check if the card exists in BancoCartas table
-                    string checkCardQuery = "SELECT COUNT(*) FROM PokemonApp.BancoCartas WHERE Nome_Carta = @Nome_Carta";
-                    using (SqlCommand cmdCheck = new SqlCommand(checkCardQuery, cn))
-                    {
-                        cmdCheck.Parameters.AddWithValue("@Nome_Carta", card.Name);
-                        int cardExists = (int)cmdCheck.ExecuteScalar();
-                        if (cardExists == 0)
-                        {
-                            // Insert the card into BancoCartas table
-                            string insertCardQuery = "INSERT INTO PokemonApp.BancoCartas (Nome_Carta, Tipo, Raridade, Quantidade) VALUES (@Nome_Carta, @Tipo, @Raridade, @Quantidade)";
-                            using (SqlCommand cmdInsert = new SqlCommand(insertCardQuery, cn))
-                            {
-                                cmdInsert.Parameters.AddWithValue("@Nome_Carta", card.Name);
-                                cmdInsert.Parameters.AddWithValue("@Tipo", card.Type);
-                                cmdInsert.Parameters.AddWithValue("@Raridade", card.Rarity);
-                                cmdInsert.Parameters.AddWithValue("@Quantidade", card.Quantity);
-                                cmdInsert.ExecuteNonQuery();
-                            }
-                        }
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("An error occurred while adding default cards to BancoCartas: " + ex.Message);
-            }
-        }
+        
 
         private void ConfigureCheckTradesComponents()
         {
@@ -162,8 +116,21 @@ namespace AppPokemon
 
             try
             {
-                string query = "INSERT INTO PokemonApp.Utilizadores (Nome, Senha) VALUES (@Nome, @Senha)";
+                // Verifica se o nome de usuário já existe na base de dados
+                string checkUserQuery = "SELECT COUNT(*) FROM PokemonApp.Utilizadores WHERE Nome = @Nome";
+                using (SqlCommand cmdCheckUser = new SqlCommand(checkUserQuery, cn))
+                {
+                    cmdCheckUser.Parameters.AddWithValue("@Nome", username);
+                    int userExists = (int)cmdCheckUser.ExecuteScalar();
+                    if (userExists > 0)
+                    {
+                        MessageBox.Show("Username already exists. Please choose a different username.");
+                        return;
+                    }
+                }
 
+                // Insere novo usuário na base de dados
+                string query = "INSERT INTO PokemonApp.Utilizadores (Nome, Senha) VALUES (@Nome, @Senha)";
                 using (SqlCommand cmd = new SqlCommand(query, cn))
                 {
                     cmd.Parameters.AddWithValue("@Nome", username);
@@ -273,51 +240,65 @@ namespace AppPokemon
         private void CollectionBtn_Click(object sender, EventArgs e, Button button)
         {
             AppTabs.SelectedTab = Collection;
-            string projectDirectory = Path.GetFullPath(Path.Combine(Application.StartupPath, "..\\..\\")); // Ajustar caminho conforme necessário
-            string imagesDirectory = Path.Combine(projectDirectory, "Imagens");
+            DisplayUserCollection();
+            
+        }
+        private void DisplayUserCollection()
+        {
+            string query = "SELECT Nome_Carta FROM PokemonApp.Carta WHERE ID_Utilizador = @ID_Utilizador";
+            SqlCommand cmd = new SqlCommand(query, cn);
+            cmd.Parameters.AddWithValue("@ID_Utilizador", currentUserID);
 
-            int pokemonsPerRow = 5; // Valor padrão
-            int pokemonWidth = 100;
-            int pokemonHeight = 100;
-            int spacing = 20;
-
-            int screenWidth = Screen.PrimaryScreen.Bounds.Width;
-            int screenHeight = Screen.PrimaryScreen.Bounds.Height;
-
-            pokemonsPerRow = (screenWidth - spacing) / (pokemonWidth + spacing);
-            int startY = button.Location.Y + button.Height + spacing;
-
-            if (!Collection.Controls.OfType<PictureBox>().Any()) // Verificar se as imagens já estão carregadas
+            try
             {
-                var imageFiles = Directory.GetFiles(imagesDirectory, "*.png"); // Obter todos os arquivos PNG na pasta
-                for (int i = 0; i < imageFiles.Length; i++)
+                cn.Open();
+                SqlDataReader reader = cmd.ExecuteReader();
+                Collection.Controls.Clear();  // Limpa a coleção anterior
+
+                int x = 10, y = 10; // Posição inicial para os PictureBoxes
+                int spacing = 10;  // Espaço entre os PictureBoxes
+                int count = 0;  // Contador para saber quantos PictureBoxes foram adicionados
+
+                while (reader.Read())
                 {
                     PictureBox pic = new PictureBox();
-                    string imagePath = imageFiles[i];
-                    string imageName = Path.GetFileNameWithoutExtension(imagePath); // Obter nome do arquivo sem extensão
-
-                    pic.Image = Image.FromFile(imagePath);
+                    string cardName = reader["Nome_Carta"].ToString();
+                    pic.Image = LoadImageFromResources(cardName); // Carrega a imagem (você precisa implementar essa função)
                     pic.SizeMode = PictureBoxSizeMode.StretchImage;
-                    pic.Size = new Size(pokemonWidth, pokemonHeight);
-
-                    int row = i / pokemonsPerRow;
-                    int col = i % pokemonsPerRow;
-
-                    int x = spacing + col * (pokemonWidth + spacing);
-                    int y = startY + row * (pokemonHeight + spacing);
-
+                    pic.Size = new Size(100, 100);  // Tamanho padrão de cada PictureBox
                     pic.Location = new Point(x, y);
 
-                    Label label = new Label();
-                    label.Text = imageName;
-                    label.Font = new Font("Arial", 11, FontStyle.Bold);
-                    label.AutoSize = true;
-                    label.Location = new Point(x, y - label.Height);
-
                     Collection.Controls.Add(pic);
-                    Collection.Controls.Add(label);
+
+                    x += pic.Width + spacing;
+                    count++;
+                    if (count % 5 == 0)  // Nova linha após 5 PictureBoxes
+                    {
+                        y += pic.Height + spacing;
+                        x = 10;
+                    }
                 }
             }
+            catch (Exception ex)
+            {
+                MessageBox.Show("An error occurred while loading your collection: " + ex.Message);
+            }
+            finally
+            {
+                if (cn.State == ConnectionState.Open)
+                    cn.Close();
+            }
+        }
+
+        // Você precisa implementar este método ou ajustar conforme sua estrutura de diretórios e recursos
+        private Image LoadImageFromResources(string cardName)
+        {
+            string imagesDirectory = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "../../Imagens");
+            string imagePath = Path.Combine(imagesDirectory, cardName + ".png");
+            if (File.Exists(imagePath))
+                return Image.FromFile(imagePath);
+            else
+                return Image.FromFile(Path.Combine(imagesDirectory, "default.png"));  // Imagem padrão caso não encontre a específica
         }
 
         private void CollectionBtn_Click(object sender, EventArgs e)
@@ -394,114 +375,7 @@ namespace AppPokemon
             CheckTradesBoxinfo.Font = new Font("Courier New", 15, FontStyle.Regular);
             CheckTradesBoxinfo.Text = formattedText;
         }
-
-        private void OpenPackBtn_Click(object sender, EventArgs e)
-        {
-            // Define the names of Pokémon cards in the pack
-            string[] pokemonNames = { "Pikachu", "Charizard", "Squirtle", "Bulbasaur", "Jigglypuff", "Meowth" };
-
-            // Open a pack and add each card to the user's collection
-            foreach (string pokemonName in pokemonNames)
-            {
-                AddCardToUserCollection(pokemonName);
-            }
-
-            MessageBox.Show("You have opened a pack!");
-            DisplayUserCollection(); // Refresh the user's collection display
-        }
-
-        private void AddCardToUserCollection(string cardName)
-        {
-            try
-            {
-                // Insert the card into the user's collection
-                string insertCardQuery = "INSERT INTO PokemonApp.Carta (Nome_Carta, ID_Utilizador) VALUES (@Nome_Carta, @ID_Utilizador)";
-                using (SqlCommand cmd = new SqlCommand(insertCardQuery, cn))
-                {
-                    cmd.Parameters.AddWithValue("@Nome_Carta", cardName);
-                    cmd.Parameters.AddWithValue("@ID_Utilizador", currentUserID);
-                    cmd.ExecuteNonQuery();
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("An error occurred while adding the card to your collection: " + ex.Message);
-            }
-        }
-
-        private void DisplayUserCollection()
-        {
-            try
-            {
-                string query = "SELECT c.Nome_Carta, b.Tipo, b.Raridade " +
-                               "FROM PokemonApp.Carta c " +
-                               "JOIN PokemonApp.BancoCartas b ON c.Nome_Carta = b.Nome_Carta " +
-                               "WHERE c.ID_Utilizador = @ID_Utilizador";
-
-                using (SqlCommand cmd = new SqlCommand(query, cn))
-                {
-                    cmd.Parameters.AddWithValue("@ID_Utilizador", currentUserID);
-                    using (SqlDataReader reader = cmd.ExecuteReader())
-                    {
-                        Collection.Controls.Clear(); // Clear previous collection display
-
-                        int pokemonsPerRow = 5; // Number of Pokémon per row
-                        int pokemonWidth = 100;
-                        int pokemonHeight = 100;
-                        int spacing = 20;
-
-                        int screenWidth = Screen.PrimaryScreen.Bounds.Width;
-                        int startY = 50; // Start Y position
-
-                        int currentX = spacing;
-                        int currentY = startY;
-
-                        while (reader.Read())
-                        {
-                            string cardName = reader["Nome_Carta"].ToString();
-                            string cardType = reader["Tipo"].ToString();
-                            int rarity = (int)reader["Raridade"];
-
-                            PictureBox pic = new PictureBox();
-                            string imagePath = Path.Combine("Imagens", cardName + ".png"); // Adjust the path if necessary
-                            if (File.Exists(imagePath))
-                            {
-                                pic.Image = Image.FromFile(imagePath);
-                            }
-                            else
-                            {
-                                pic.Image = null; // Or set a default image
-                            }
-
-                            pic.SizeMode = PictureBoxSizeMode.StretchImage;
-                            pic.Size = new Size(pokemonWidth, pokemonHeight);
-                            pic.Location = new Point(currentX, currentY);
-
-                            Label label = new Label();
-                            label.Text = $"{cardName}\n{cardType}\nRarity: {rarity}";
-                            label.Font = new Font("Arial", 11, FontStyle.Bold);
-                            label.AutoSize = true;
-                            label.Location = new Point(currentX, currentY + pokemonHeight);
-
-                            Collection.Controls.Add(pic);
-                            Collection.Controls.Add(label);
-
-                            currentX += pokemonWidth + spacing;
-                            if (currentX + pokemonWidth + spacing > screenWidth)
-                            {
-                                currentX = spacing;
-                                currentY += pokemonHeight + spacing + label.Height;
-                            }
-                        }
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("An error occurred while loading your collection: " + ex.Message);
-            }
-        }
-
+    
         private void LogoutBTN_Click(object sender, EventArgs e)
         {
             currentUsername = null;
@@ -516,6 +390,48 @@ namespace AppPokemon
             cn.Open();
 
             AppTabs.SelectedTab = LoginTab;
+        }
+
+        private void OpenPackBtn_Click(object sender, EventArgs e)
+        {
+            using (SqlCommand cmd = new SqlCommand("PokemonApp.AbrirPack", cn))
+            {
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@ID_Utilizador", currentUserID);
+                
+                try
+                {
+                    cn.Open();
+                    cmd.ExecuteNonQuery(); // Executar o stored procedure que modifica os dados
+
+                    // Recuperar as últimas 5 cartas adicionadas à coleção do usuário para exibição
+                    string query = "SELECT TOP 5 Nome_Carta FROM PokemonApp.Carta WHERE ID_Utilizador = @ID_Utilizador ORDER BY ID_CartaUnica DESC";
+                    using (SqlCommand cmdGetCards = new SqlCommand(query, cn))
+                    {
+                        cmdGetCards.Parameters.AddWithValue("@ID_Utilizador", currentUserID);
+                        using (SqlDataReader reader = cmdGetCards.ExecuteReader())
+                        {
+                            string resultMessage = "You have opened a pack! Here are your new cards:\n";
+                            while (reader.Read())
+                            {
+                                string cardName = reader["Nome_Carta"].ToString();
+                                resultMessage += $"{cardName}\n";
+                            }
+                            MessageBox.Show(resultMessage);
+                        }
+                    }
+
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("An error occurred: " + ex.Message);
+                }
+                finally
+                {
+                    if (cn.State == ConnectionState.Open)
+                        cn.Close();
+                }
+            }
         }
     }
 }
