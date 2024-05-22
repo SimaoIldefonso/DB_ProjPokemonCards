@@ -41,15 +41,12 @@ namespace AppPokemon
             ConfigureCheckTradesComponents();
 
             CheckTradesBoxinfo.Text = "";
-
-            // Abrir a conexão com o banco de dados
-            cn.Open();
         }
 
         private SqlConnection getSGBDConnection()
         {// LAPTOP-S4H22GJP\SQLEXPRESS -Simão
             // LAPTOP-SCB9ONGM\\SQLEXPRESS - Mike
-            return new SqlConnection("data source=LAPTOP-S4H22GJP\\SQLEXPRESS;integrated security=true;initial catalog=PokemonDB");
+            return new SqlConnection("data source=LAPTOP-SCB9ONGM\\SQLEXPRESS;integrated security=true;initial catalog=PokemonDB");
         }
 
         
@@ -116,6 +113,8 @@ namespace AppPokemon
 
             try
             {
+                cn.Open();
+
                 // Verifica se o nome de usuário já existe na base de dados
                 string checkUserQuery = "SELECT COUNT(*) FROM PokemonApp.Utilizadores WHERE Nome = @Nome";
                 using (SqlCommand cmdCheckUser = new SqlCommand(checkUserQuery, cn))
@@ -151,7 +150,13 @@ namespace AppPokemon
             {
                 MessageBox.Show("An error occurred: " + ex.Message);
             }
+            finally
+            {
+                if (cn.State == ConnectionState.Open)
+                    cn.Close();
+            }
         }
+
 
         private void LoginBtn_Click_1(object sender, EventArgs e)
         {
@@ -161,8 +166,9 @@ namespace AppPokemon
 
             try
             {
-                string query = "SELECT ID_Utilizador FROM PokemonApp.Utilizadores WHERE Nome = @Nome AND Senha = @Senha";
+                cn.Open();
 
+                string query = "SELECT ID_Utilizador FROM PokemonApp.Utilizadores WHERE Nome = @Nome AND Senha = @Senha";
                 using (SqlCommand cmd = new SqlCommand(query, cn))
                 {
                     cmd.Parameters.AddWithValue("@Nome", username);
@@ -186,7 +192,13 @@ namespace AppPokemon
             {
                 MessageBox.Show("An error occurred: " + ex.Message);
             }
+            finally
+            {
+                if (cn.State == ConnectionState.Open)
+                    cn.Close();
+            }
         }
+
 
         private void Accountbtn_Click(object sender, EventArgs e)
         {
@@ -289,6 +301,7 @@ namespace AppPokemon
                     cn.Close();
             }
         }
+
 
         // Você precisa implementar este método ou ajustar conforme sua estrutura de diretórios e recursos
         private Image LoadImageFromResources(string cardName)
@@ -394,14 +407,14 @@ namespace AppPokemon
 
         private void OpenPackBtn_Click(object sender, EventArgs e)
         {
-            using (SqlCommand cmd = new SqlCommand("PokemonApp.AbrirPack", cn))
+            try
             {
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@ID_Utilizador", currentUserID);
-                
-                try
+                cn.Open();
+                using (SqlCommand cmd = new SqlCommand("PokemonApp.AbrirPack", cn))
                 {
-                    cn.Open();
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@ID_Utilizador", currentUserID);
+
                     cmd.ExecuteNonQuery(); // Executar o stored procedure que modifica os dados
 
                     // Recuperar as últimas 5 cartas adicionadas à coleção do usuário para exibição
@@ -420,17 +433,16 @@ namespace AppPokemon
                             MessageBox.Show(resultMessage);
                         }
                     }
-
                 }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("An error occurred: " + ex.Message);
-                }
-                finally
-                {
-                    if (cn.State == ConnectionState.Open)
-                        cn.Close();
-                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("An error occurred: " + ex.Message);
+            }
+            finally
+            {
+                if (cn.State == ConnectionState.Open)
+                    cn.Close();
             }
         }
     }
