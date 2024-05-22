@@ -46,7 +46,7 @@ namespace AppPokemon
         private SqlConnection getSGBDConnection()
         {// LAPTOP-S4H22GJP\SQLEXPRESS -Simão
             // LAPTOP-SCB9ONGM\\SQLEXPRESS - Mike
-            return new SqlConnection("data source=LAPTOP-SCB9ONGM\\SQLEXPRESS;integrated security=true;initial catalog=PokemonDB");
+            return new SqlConnection("data source=LAPTOP-S4H22GJP\\SQLEXPRESS;integrated security=true;initial catalog=PokemonDB");
         }
 
         
@@ -255,52 +255,94 @@ namespace AppPokemon
             DisplayUserCollection();
             
         }
-        private void DisplayUserCollection()
+private void DisplayUserCollection()
+{
+    // Consulta agora inclui um JOIN para pegar informações de tipo e raridade
+    string query = @"
+        SELECT c.Nome_Carta, bc.Tipo, bc.Raridade 
+        FROM PokemonApp.Carta c
+        JOIN PokemonApp.BancoCartas bc ON c.Nome_Carta = bc.Nome_Carta
+        WHERE c.ID_Utilizador = @ID_Utilizador";
+
+    SqlCommand cmd = new SqlCommand(query, cn);
+    cmd.Parameters.AddWithValue("@ID_Utilizador", currentUserID);
+
+    Button backButton = new Button();
+    backButton.Text = "Back to Home";
+    backButton.Size = new Size(100, 30);
+    backButton.Location = new Point(10, 10);
+    backButton.Click += (sender, e) => { AppTabs.SelectedTab = Home; };
+
+    try
+    {
+        cn.Open();
+        SqlDataReader reader = cmd.ExecuteReader();
+        Collection.Controls.Clear();
+        Collection.Controls.Add(backButton);
+
+        int cardWidth = 100;
+        int cardHeight = 180; // increased height for additional text
+        int margin = 10;
+        int availableWidth = Collection.ClientSize.Width;
+        int cardsPerRow = availableWidth / (cardWidth + margin);
+
+        int x = margin, y = backButton.Bottom + margin;
+
+        while (reader.Read())
         {
-            string query = "SELECT Nome_Carta FROM PokemonApp.Carta WHERE ID_Utilizador = @ID_Utilizador";
-            SqlCommand cmd = new SqlCommand(query, cn);
-            cmd.Parameters.AddWithValue("@ID_Utilizador", currentUserID);
+            string cardName = reader["Nome_Carta"].ToString();
+            string cardType = reader["Tipo"].ToString();
+            string rarity = reader["Raridade"].ToString();
+            string rarityText = rarity;
 
-            try
+            PictureBox pic = new PictureBox();
+            pic.Image = LoadImageFromResources(cardName); // Assume you have this method implemented
+            pic.SizeMode = PictureBoxSizeMode.StretchImage;
+            pic.Size = new Size(100, 100);
+            pic.Location = new Point(x, y);
+
+            Label nameLabel = new Label();
+            nameLabel.Text = cardName;
+            nameLabel.AutoSize = true;
+            nameLabel.Location = new Point(x, y + pic.Height + 5);
+
+            Label typeLabel = new Label();
+            typeLabel.Text = "Tipo: " + cardType;
+            typeLabel.AutoSize = true;
+            typeLabel.Location = new Point(x, y + pic.Height + 20);
+
+            Label rarityLabel = new Label();
+            rarityLabel.Text = "Raridade: " + rarityText;
+            rarityLabel.AutoSize = true;
+            rarityLabel.Location = new Point(x, y + pic.Height + 35);
+
+            Collection.Controls.Add(pic);
+            Collection.Controls.Add(nameLabel);
+            Collection.Controls.Add(typeLabel);
+            Collection.Controls.Add(rarityLabel);
+
+            x += pic.Width + margin;
+
+            if ((x + cardWidth) > availableWidth) 
             {
-                cn.Open();
-                SqlDataReader reader = cmd.ExecuteReader();
-                Collection.Controls.Clear();  // Limpa a coleção anterior
-
-                int x = 10, y = 10; // Posição inicial para os PictureBoxes
-                int spacing = 10;  // Espaço entre os PictureBoxes
-                int count = 0;  // Contador para saber quantos PictureBoxes foram adicionados
-
-                while (reader.Read())
-                {
-                    PictureBox pic = new PictureBox();
-                    string cardName = reader["Nome_Carta"].ToString();
-                    pic.Image = LoadImageFromResources(cardName); // Carrega a imagem (você precisa implementar essa função)
-                    pic.SizeMode = PictureBoxSizeMode.StretchImage;
-                    pic.Size = new Size(100, 100);  // Tamanho padrão de cada PictureBox
-                    pic.Location = new Point(x, y);
-
-                    Collection.Controls.Add(pic);
-
-                    x += pic.Width + spacing;
-                    count++;
-                    if (count % 5 == 0)  // Nova linha após 5 PictureBoxes
-                    {
-                        y += pic.Height + spacing;
-                        x = 10;
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("An error occurred while loading your collection: " + ex.Message);
-            }
-            finally
-            {
-                if (cn.State == ConnectionState.Open)
-                    cn.Close();
+                x = margin;
+                y += cardHeight + margin;
             }
         }
+    }
+    catch (Exception ex)
+    {
+        MessageBox.Show("An error occurred while loading your collection: " + ex.Message);
+    }
+    finally
+    {
+        if (cn.State == ConnectionState.Open)
+            cn.Close();
+    }
+}
+
+
+
 
 
         // Você precisa implementar este método ou ajustar conforme sua estrutura de diretórios e recursos
