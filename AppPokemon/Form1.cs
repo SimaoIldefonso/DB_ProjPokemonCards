@@ -270,6 +270,11 @@ namespace AppPokemon
                         MessageBox.Show("No records found to delete.");
                     }
                 }
+                UserNameInput.Text = "";
+                PasswordInput.Text = "";
+                UserNameInput1.Text = "";
+                PasswordInput1.Text = "";
+                ConfPasswordInput.Text = "";
                 AppTabs.SelectedTab = LoginTab;
             }
             catch (Exception ex)
@@ -420,7 +425,11 @@ namespace AppPokemon
         private void Tradesbtn_Click(object sender, EventArgs e)
         {
             label6.Text = currentUserID.ToString();
-
+            textBox1.Text = "";
+            comboBox1.Text = "";
+            comboBox2.Text = "";
+            comboBox1.Items.Clear();
+            comboBox2.Items.Clear();
             LoadUserPokemons();
             LoadPendingTrades();
             AppTabs.SelectedTab = Trade;
