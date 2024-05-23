@@ -1,3 +1,28 @@
+--drop procedure PokemonApp.DeleteUserAndAssociations;
+CREATE PROCEDURE PokemonApp.DeleteUserAndAssociations
+    @UserID INT
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    -- Primeiro, deletar trocas onde o usuário é o ID_Utilizador1 ou ID_Utilizador2
+    DELETE FROM PokemonApp.Troca
+    WHERE ID_Utilizador1 = @UserID OR ID_Utilizador2 = @UserID;
+
+    -- Segundo, deletar cartas associadas ao usuário
+    DELETE FROM PokemonApp.Carta
+    WHERE ID_Utilizador = @UserID;
+
+    -- Por último, deletar o usuário
+    DELETE FROM PokemonApp.Utilizadores
+    WHERE ID_Utilizador = @UserID;
+END;
+GO
+
+
+
+
+/*---------------------*/
 CREATE PROCEDURE PokemonApp.AbrirPack (@ID_Utilizador INT)
 AS
 BEGIN

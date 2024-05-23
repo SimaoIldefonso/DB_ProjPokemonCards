@@ -114,6 +114,13 @@ namespace AppPokemon
             string password = PasswordInput1.Text;
             string confirmPassword = ConfPasswordInput.Text;
 
+            // Verificação do tamanho do username e password
+            if (username.Length < 3 || password.Length < 3)
+            {
+                MessageBox.Show("Username and password must be at least 3 characters long.");
+                return;
+            }
+
             if (password != confirmPassword)
             {
                 MessageBox.Show("Passwords do not match. Please try again.");
@@ -169,10 +176,19 @@ namespace AppPokemon
         }
 
 
+
         private void LoginBtn_Click_1(object sender, EventArgs e)
         {
             string username = UserNameInput.Text; // Nome de usuário fornecido
             string password = PasswordInput.Text; // Senha fornecida
+
+            // Verificação do tamanho do username e password
+            if (username.Length < 3 || password.Length < 3)
+            {
+                MessageBox.Show("Username and password must be at least 3 characters long.");
+                return;
+            }
+
             string hashedPassword = HashPassword(password); // Cifra a senha fornecida
 
             try
@@ -211,6 +227,7 @@ namespace AppPokemon
         }
 
 
+
         private void Accountbtn_Click(object sender, EventArgs e)
         {
             UsernameLabel.Text = currentUsername; // Atualiza a label com o nome de usuário atual
@@ -232,25 +249,25 @@ namespace AppPokemon
         {
             try
             {
-                string query = "DELETE FROM PokemonApp.Utilizadores WHERE ID_Utilizador = @ID_Utilizador";
+                if (cn.State != ConnectionState.Open)
+                    cn.Open();  // Assegure que a conexão está aberta
 
-                using (SqlCommand cmd = new SqlCommand(query, cn))
+                using (SqlCommand cmd = new SqlCommand("PokemonApp.DeleteUserAndAssociations", cn))
                 {
-                    cmd.Parameters.AddWithValue("@ID_Utilizador", currentUserID);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@UserID", currentUserID);
 
-                    int result = cmd.ExecuteNonQuery();
-                    if (result > 0)
+                    int result = cmd.ExecuteNonQuery(); // Executa o stored procedure
+                    if (result >= 0)
                     {
-                        MessageBox.Show("Account deleted successfully.");
-                        // Opcional: Redirecionar para a aba de login após exclusão
-                        AppTabs.SelectedTab = LoginTab;
-                        // Limpar variáveis de instância relacionadas ao usuário
+                        MessageBox.Show("Account and all associated records deleted successfully.");
                         currentUsername = null;
                         currentUserID = 0;
+                        AppTabs.SelectedTab = LoginTab;
                     }
                     else
                     {
-                        MessageBox.Show("Error in deleting account. Please try again.");
+                        MessageBox.Show("No records found to delete.");
                     }
                 }
             }
@@ -258,7 +275,15 @@ namespace AppPokemon
             {
                 MessageBox.Show("An error occurred: " + ex.Message);
             }
+            finally
+            {
+                if (cn.State == ConnectionState.Open)
+                    cn.Close();
+            }
         }
+
+
+
 
         private void CollectionBtn_Click(object sender, EventArgs e, Button button)
         {
@@ -371,11 +396,6 @@ namespace AppPokemon
             CollectionBtn_Click(sender, e, button2);
         }
 
-        private void HomeTabTest_Click(object sender, EventArgs e)
-        {
-            AppTabs.SelectedTab = Home;
-        }
-
         private void button3_Click(object sender, EventArgs e)
         {
             AppTabs.SelectedTab = OpenPacksTab;
@@ -444,6 +464,11 @@ namespace AppPokemon
             }
 
             cn = getSGBDConnection();
+            UserNameInput.Text = "";
+            PasswordInput.Text = "";
+            UserNameInput1.Text = "";
+            PasswordInput1.Text = "";
+            ConfPasswordInput.Text = "";
 
             AppTabs.SelectedTab = LoginTab;
         }
@@ -642,8 +667,8 @@ namespace AppPokemon
         private void SetupTradeListView()
         {
             // Configuração inicial do ListBox
-            listBoxTrades.Location = new Point((int)(this.Width * 0.5), listBoxTrades.Location.Y);  // Ajuste para 10% da borda direita
-            listBoxTrades.Width = (int)(this.Width * 0.48);
+            listBoxTrades.Location = new Point((int)(this.Width * 0.4), listBoxTrades.Location.Y);  // Ajuste para 10% da borda direita
+            listBoxTrades.Width = (int)(this.Width * 0.58);
             // ajusta para 30% da altura da tela
             listBoxTrades.Height = (int)(this.Height * 0.3);
         }
@@ -728,8 +753,5 @@ namespace AppPokemon
                 }
             }
         }
-
-
-
     }
 }
