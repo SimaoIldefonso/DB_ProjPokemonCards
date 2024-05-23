@@ -57,7 +57,7 @@ namespace AppPokemon
         private SqlConnection getSGBDConnection()
         {// LAPTOP-S4H22GJP\SQLEXPRESS -Simão
             // LAPTOP-SCB9ONGM\\SQLEXPRESS - Mike
-            return new SqlConnection("data source=LAPTOP-S4H22GJP\\SQLEXPRESS;integrated security=true;initial catalog=PokemonDB");
+            return new SqlConnection("data source=LAPTOP-SCB9ONGM\\SQLEXPRESS;integrated security=true;initial catalog=PokemonDB");
         }
 
         
@@ -175,7 +175,69 @@ namespace AppPokemon
             }
         }
 
+        private PictureBox selectedPokemon = null;
 
+        private void PictureBox_Click(object sender, EventArgs e)
+        {
+            if (selectedPokemon != null)
+            {
+                selectedPokemon.BorderStyle = BorderStyle.None; // Remove a borda do anteriormente selecionado
+            }
+            PictureBox pic = sender as PictureBox;
+            pic.BorderStyle = BorderStyle.Fixed3D; // Adiciona borda ao clicado
+            selectedPokemon = pic;
+        }
+
+        private void DeleteBtn_Click(object sender, EventArgs e)
+        {
+            if (selectedPokemon == null)
+            {
+                MessageBox.Show("No Pokemon selected.");
+                return;
+            }
+
+            // Aqui chamamos a stored procedure para deletar a carta
+            DeleteSelectedPokemon();
+        }
+
+        private void DeleteSelectedPokemon()
+        {
+            if (selectedPokemon != null && selectedPokemon.Tag is int cardId)
+            {
+                try
+                {
+                    if (cn.State != ConnectionState.Open)
+                        cn.Open();
+
+                    using (SqlCommand cmd = new SqlCommand("PokemonApp.DescartarCarta", cn))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.AddWithValue("@ID_CartaUnica", cardId);
+
+                        int result = cmd.ExecuteNonQuery();
+                        if (result > 0)
+                        {
+                            MessageBox.Show("Pokemon deleted successfully.");
+                            selectedPokemon.Parent.Controls.Remove(selectedPokemon);
+                            selectedPokemon = null;
+                        }
+                        else
+                        {
+                            MessageBox.Show("Failed to delete Pokemon.");
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("An error occurred: " + ex.Message);
+                }
+                finally
+                {
+                    if (cn.State == ConnectionState.Open)
+                        cn.Close();
+                }
+            }
+        }
 
         private void LoginBtn_Click_1(object sender, EventArgs e)
         {
@@ -235,6 +297,7 @@ namespace AppPokemon
             AppTabs.SelectedTab = Account; // Muda para a aba Account
         }
 
+
         private void RegisterBtn_Click(object sender, EventArgs e)
         {
             AppTabs.SelectedTab = RegisterTab;
@@ -289,22 +352,29 @@ namespace AppPokemon
 
         }
 
-
-
         private void CollectionBtn_Click(object sender, EventArgs e, Button button)
         {
             AppTabs.SelectedTab = Collection;
             DisplayUserCollection();
             
         }
+        private void SetupDeleteButton()
+        {
+            Button deleteBtn = new Button();
+            deleteBtn.Text = "Delete Pokemon";
+            deleteBtn.Size = new Size(150, 30);
+            deleteBtn.Location = new Point(Collection.Width - deleteBtn.Width - 10, 10);
+            deleteBtn.Click += DeleteBtn_Click;  // Evento Click que chamará o método de deleção
+            Collection.Controls.Add(deleteBtn);
+        }
+
         private void DisplayUserCollection()
         {
-            // Consulta agora inclui um JOIN para pegar informações de tipo e raridade
             string query = @"
-                SELECT c.Nome_Carta, bc.Tipo, bc.Raridade 
-                FROM PokemonApp.Carta c
-                JOIN PokemonApp.BancoCartas bc ON c.Nome_Carta = bc.Nome_Carta
-                WHERE c.ID_Utilizador = @ID_Utilizador";
+SELECT c.ID_CartaUnica, c.Nome_Carta, bc.Tipo, bc.Raridade 
+FROM PokemonApp.Carta c
+JOIN PokemonApp.BancoCartas bc ON c.Nome_Carta = bc.Nome_Carta
+WHERE c.ID_Utilizador = @ID_Utilizador";
 
             SqlCommand cmd = new SqlCommand(query, cn);
             cmd.Parameters.AddWithValue("@ID_Utilizador", currentUserID);
@@ -319,58 +389,49 @@ namespace AppPokemon
             {
                 cn.Open();
                 SqlDataReader reader = cmd.ExecuteReader();
+
+                Panel scrollPanel = new Panel();
+                scrollPanel.Location = new Point(10, backButton.Bottom + 20);
+                scrollPanel.Size = new Size(Collection.ClientSize.Width - 20, Collection.ClientSize.Height - backButton.Height - 50);
+                scrollPanel.AutoScroll = true;
+
                 Collection.Controls.Clear();
                 Collection.Controls.Add(backButton);
+                Collection.Controls.Add(scrollPanel);
+                SetupDeleteButton(); // Adiciona o botão de deletar
 
-                int cardWidth = 100;
-                int cardHeight = 180; // increased height for additional text
-                int margin = 10;
-                int availableWidth = Collection.ClientSize.Width;
-                int cardsPerRow = availableWidth / (cardWidth + margin);
-
-                int x = margin, y = backButton.Bottom + margin;
+                int x = 10, y = 10; // Posição inicial para os PictureBoxes dentro do scrollPanel
 
                 while (reader.Read())
                 {
+                    int cardId = reader.GetInt32(0);
                     string cardName = reader["Nome_Carta"].ToString();
                     string cardType = reader["Tipo"].ToString();
                     string rarity = reader["Raridade"].ToString();
-                    // Mapear o valor de raridade para o texto correspondente
                     string rarityText = rarityMap.ContainsKey(Convert.ToInt32(rarity)) ? rarityMap[Convert.ToInt32(rarity)] : "Desconhecido";
 
-
                     PictureBox pic = new PictureBox();
-                    pic.Image = LoadImageFromResources(cardName); // Assume you have this method implemented
+                    pic.Image = LoadImageFromResources(cardName);
                     pic.SizeMode = PictureBoxSizeMode.StretchImage;
                     pic.Size = new Size(100, 100);
                     pic.Location = new Point(x, y);
+                    pic.Click += PictureBox_Click;
+                    pic.Tag = cardId;
 
-                    Label nameLabel = new Label();
-                    nameLabel.Text = cardName;
-                    nameLabel.AutoSize = true;
-                    nameLabel.Location = new Point(x, y + pic.Height + 5);
+                    Label nameLabel = new Label { Text = cardName, AutoSize = true, Location = new Point(x, y + pic.Height + 5) };
+                    Label typeLabel = new Label { Text = "Tipo: " + cardType, AutoSize = true, Location = new Point(x, y + pic.Height + 20) };
+                    Label rarityLabel = new Label { Text = "Raridade: " + rarityText, AutoSize = true, Location = new Point(x, y + pic.Height + 35) };
 
-                    Label typeLabel = new Label();
-                    typeLabel.Text = "Tipo: " + cardType;
-                    typeLabel.AutoSize = true;
-                    typeLabel.Location = new Point(x, y + pic.Height + 20);
+                    scrollPanel.Controls.Add(pic);
+                    scrollPanel.Controls.Add(nameLabel);
+                    scrollPanel.Controls.Add(typeLabel);
+                    scrollPanel.Controls.Add(rarityLabel);
 
-                    Label rarityLabel = new Label();
-                    rarityLabel.Text = "Raridade: " + rarityText;
-                    rarityLabel.AutoSize = true;
-                    rarityLabel.Location = new Point(x, y + pic.Height + 35);
-
-                    Collection.Controls.Add(pic);
-                    Collection.Controls.Add(nameLabel);
-                    Collection.Controls.Add(typeLabel);
-                    Collection.Controls.Add(rarityLabel);
-
-                    x += pic.Width + margin;
-
-                    if ((x + cardWidth) > availableWidth) 
+                    x += pic.Width + 10;
+                    if (x + pic.Width > scrollPanel.ClientSize.Width)
                     {
-                        x = margin;
-                        y += cardHeight + margin;
+                        x = 10;
+                        y += pic.Height + 60;
                     }
                 }
             }
@@ -384,7 +445,6 @@ namespace AppPokemon
                     cn.Close();
             }
         }
-        
 
         // Você precisa implementar este método ou ajustar conforme sua estrutura de diretórios e recursos
         private Image LoadImageFromResources(string cardName)

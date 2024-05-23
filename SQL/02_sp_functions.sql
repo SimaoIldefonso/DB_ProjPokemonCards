@@ -209,3 +209,20 @@ END;
 GO
 
 /*-------------------------------------*/
+CREATE OR ALTER PROCEDURE PokemonApp.DescartarCarta (@ID_CartaUnica INT)
+AS
+BEGIN
+    DECLARE @Nome_Carta VARCHAR(100);
+
+    -- Obter o Nome_Carta da carta a ser descartada
+    SELECT @Nome_Carta = Nome_Carta
+    FROM PokemonApp.Carta
+    WHERE ID_CartaUnica = @ID_CartaUnica;
+
+    -- Remover a carta única da coleção do utilizador
+    DELETE FROM PokemonApp.Carta
+    WHERE ID_CartaUnica = @ID_CartaUnica;
+
+    -- A trigger UpdateCardQuantityOnDelete já lidará com o aumento da quantidade no banco de cartas
+END;
+GO
