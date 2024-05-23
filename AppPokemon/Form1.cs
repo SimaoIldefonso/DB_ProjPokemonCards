@@ -250,9 +250,9 @@ namespace AppPokemon
             try
             {
                 if (cn.State != ConnectionState.Open)
-                    cn.Open();  // Assegure que a conexão está aberta
+                    cn.Open();
 
-                using (SqlCommand cmd = new SqlCommand("PokemonApp.DeleteUserAndAssociations", cn))
+                using (SqlCommand cmd = new SqlCommand("PokemonApp.DeleteUserAndAllAssociations", cn))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@UserID", currentUserID);
@@ -270,6 +270,7 @@ namespace AppPokemon
                         MessageBox.Show("No records found to delete.");
                     }
                 }
+                AppTabs.SelectedTab = LoginTab;
             }
             catch (Exception ex)
             {
@@ -280,8 +281,8 @@ namespace AppPokemon
                 if (cn.State == ConnectionState.Open)
                     cn.Close();
             }
-        }
 
+        }
 
 
 
@@ -418,7 +419,8 @@ namespace AppPokemon
 
         private void Tradesbtn_Click(object sender, EventArgs e)
         {
-            label6.Text = currentUserID.ToString(); 
+            label6.Text = currentUserID.ToString();
+
             LoadUserPokemons();
             LoadPendingTrades();
             AppTabs.SelectedTab = Trade;
