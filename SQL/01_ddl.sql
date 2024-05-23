@@ -39,7 +39,7 @@ CREATE TABLE PokemonApp.Troca (
     ID_CartaUnica1 INT NOT NULL,
     ID_CartaUnica2 INT NOT NULL,
     Estado_Troca INT CHECK (Estado_Troca IN (0, 1, 2)), /* 0- PENDENTE 1-RECUSADA 2-ACEITE*/
-    Tempo TIMESTAMP NOT NULL ,
+    Tempo DATETIME NOT NULL DEFAULT GETDATE(),
 
     FOREIGN KEY (ID_Utilizador1) REFERENCES PokemonApp.Utilizadores(ID_Utilizador), 
     FOREIGN KEY (ID_Utilizador2) REFERENCES PokemonApp.Utilizadores(ID_Utilizador),
@@ -53,3 +53,9 @@ CREATE INDEX IDX_BancoCartas_Nome_Tipo_Raridade ON PokemonApp.BancoCartas (Nome_
 CREATE INDEX IDX_Carta_Nome_Carta ON PokemonApp.Carta (Nome_Carta);
 CREATE INDEX IDX_Troca_Utilizadores ON PokemonApp.Troca (ID_Utilizador1, ID_Utilizador2);
 GO
+/*
+ALTER TABLE PokemonApp.Troca
+DROP COLUMN Tempo;
+
+ALTER TABLE PokemonApp.Troca
+ADD Tempo DATETIME NOT NULL DEFAULT GETDATE();*/

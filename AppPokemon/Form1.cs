@@ -16,9 +16,20 @@ namespace AppPokemon
 {
     public partial class App : Form
     {
-        private SqlConnection cn; // Variável de instância para conexão SQL
-        private string currentUsername; // Variável de instância para armazenar o nome de usuário
-        private int currentUserID; // Variável de instância para armazenar o ID do usuário
+        private SqlConnection cn; 
+        private string currentUsername; 
+        private int currentUserID; 
+        private Dictionary<int, string> rarityMap = new Dictionary<int, string>
+        {
+            {0, "Comum"},
+            {1, "Raro"},
+            {2, "Épico"},
+            {3, "Lendário"}
+        };
+        private Dictionary<string, int> userPokemonMap = new Dictionary<string, int>();
+        private Dictionary<string, int> friendPokemonMap = new Dictionary<string, int>();
+
+
 
         public App()
         {
@@ -79,7 +90,7 @@ namespace AppPokemon
             // Posição e tamanho da label CheckTradesBoxinfo
             int labelInfoTopMargin = (int)(screenHeight * 0.15);
             int labelInfoRightMargin = (int)(screenWidth * 0.20);
-
+            SetupTradeListView();
             CheckTradesBoxinfo.Location = new Point(screenWidth - labelInfoRightMargin - CheckTradesBoxinfo.Width, labelInfoTopMargin);
         }
 
@@ -255,95 +266,94 @@ namespace AppPokemon
             DisplayUserCollection();
             
         }
-private void DisplayUserCollection()
-{
-    // Consulta agora inclui um JOIN para pegar informações de tipo e raridade
-    string query = @"
-        SELECT c.Nome_Carta, bc.Tipo, bc.Raridade 
-        FROM PokemonApp.Carta c
-        JOIN PokemonApp.BancoCartas bc ON c.Nome_Carta = bc.Nome_Carta
-        WHERE c.ID_Utilizador = @ID_Utilizador";
-
-    SqlCommand cmd = new SqlCommand(query, cn);
-    cmd.Parameters.AddWithValue("@ID_Utilizador", currentUserID);
-
-    Button backButton = new Button();
-    backButton.Text = "Back to Home";
-    backButton.Size = new Size(100, 30);
-    backButton.Location = new Point(10, 10);
-    backButton.Click += (sender, e) => { AppTabs.SelectedTab = Home; };
-
-    try
-    {
-        cn.Open();
-        SqlDataReader reader = cmd.ExecuteReader();
-        Collection.Controls.Clear();
-        Collection.Controls.Add(backButton);
-
-        int cardWidth = 100;
-        int cardHeight = 180; // increased height for additional text
-        int margin = 10;
-        int availableWidth = Collection.ClientSize.Width;
-        int cardsPerRow = availableWidth / (cardWidth + margin);
-
-        int x = margin, y = backButton.Bottom + margin;
-
-        while (reader.Read())
+        private void DisplayUserCollection()
         {
-            string cardName = reader["Nome_Carta"].ToString();
-            string cardType = reader["Tipo"].ToString();
-            string rarity = reader["Raridade"].ToString();
-            string rarityText = rarity;
+            // Consulta agora inclui um JOIN para pegar informações de tipo e raridade
+            string query = @"
+                SELECT c.Nome_Carta, bc.Tipo, bc.Raridade 
+                FROM PokemonApp.Carta c
+                JOIN PokemonApp.BancoCartas bc ON c.Nome_Carta = bc.Nome_Carta
+                WHERE c.ID_Utilizador = @ID_Utilizador";
 
-            PictureBox pic = new PictureBox();
-            pic.Image = LoadImageFromResources(cardName); // Assume you have this method implemented
-            pic.SizeMode = PictureBoxSizeMode.StretchImage;
-            pic.Size = new Size(100, 100);
-            pic.Location = new Point(x, y);
+            SqlCommand cmd = new SqlCommand(query, cn);
+            cmd.Parameters.AddWithValue("@ID_Utilizador", currentUserID);
 
-            Label nameLabel = new Label();
-            nameLabel.Text = cardName;
-            nameLabel.AutoSize = true;
-            nameLabel.Location = new Point(x, y + pic.Height + 5);
+            Button backButton = new Button();
+            backButton.Text = "Back to Home";
+            backButton.Size = new Size(100, 30);
+            backButton.Location = new Point(10, 10);
+            backButton.Click += (sender, e) => { AppTabs.SelectedTab = Home; };
 
-            Label typeLabel = new Label();
-            typeLabel.Text = "Tipo: " + cardType;
-            typeLabel.AutoSize = true;
-            typeLabel.Location = new Point(x, y + pic.Height + 20);
-
-            Label rarityLabel = new Label();
-            rarityLabel.Text = "Raridade: " + rarityText;
-            rarityLabel.AutoSize = true;
-            rarityLabel.Location = new Point(x, y + pic.Height + 35);
-
-            Collection.Controls.Add(pic);
-            Collection.Controls.Add(nameLabel);
-            Collection.Controls.Add(typeLabel);
-            Collection.Controls.Add(rarityLabel);
-
-            x += pic.Width + margin;
-
-            if ((x + cardWidth) > availableWidth) 
+            try
             {
-                x = margin;
-                y += cardHeight + margin;
+                cn.Open();
+                SqlDataReader reader = cmd.ExecuteReader();
+                Collection.Controls.Clear();
+                Collection.Controls.Add(backButton);
+
+                int cardWidth = 100;
+                int cardHeight = 180; // increased height for additional text
+                int margin = 10;
+                int availableWidth = Collection.ClientSize.Width;
+                int cardsPerRow = availableWidth / (cardWidth + margin);
+
+                int x = margin, y = backButton.Bottom + margin;
+
+                while (reader.Read())
+                {
+                    string cardName = reader["Nome_Carta"].ToString();
+                    string cardType = reader["Tipo"].ToString();
+                    string rarity = reader["Raridade"].ToString();
+                    // Mapear o valor de raridade para o texto correspondente
+                    string rarityText = rarityMap.ContainsKey(Convert.ToInt32(rarity)) ? rarityMap[Convert.ToInt32(rarity)] : "Desconhecido";
+
+
+                    PictureBox pic = new PictureBox();
+                    pic.Image = LoadImageFromResources(cardName); // Assume you have this method implemented
+                    pic.SizeMode = PictureBoxSizeMode.StretchImage;
+                    pic.Size = new Size(100, 100);
+                    pic.Location = new Point(x, y);
+
+                    Label nameLabel = new Label();
+                    nameLabel.Text = cardName;
+                    nameLabel.AutoSize = true;
+                    nameLabel.Location = new Point(x, y + pic.Height + 5);
+
+                    Label typeLabel = new Label();
+                    typeLabel.Text = "Tipo: " + cardType;
+                    typeLabel.AutoSize = true;
+                    typeLabel.Location = new Point(x, y + pic.Height + 20);
+
+                    Label rarityLabel = new Label();
+                    rarityLabel.Text = "Raridade: " + rarityText;
+                    rarityLabel.AutoSize = true;
+                    rarityLabel.Location = new Point(x, y + pic.Height + 35);
+
+                    Collection.Controls.Add(pic);
+                    Collection.Controls.Add(nameLabel);
+                    Collection.Controls.Add(typeLabel);
+                    Collection.Controls.Add(rarityLabel);
+
+                    x += pic.Width + margin;
+
+                    if ((x + cardWidth) > availableWidth) 
+                    {
+                        x = margin;
+                        y += cardHeight + margin;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("An error occurred while loading your collection: " + ex.Message);
+            }
+            finally
+            {
+                if (cn.State == ConnectionState.Open)
+                    cn.Close();
             }
         }
-    }
-    catch (Exception ex)
-    {
-        MessageBox.Show("An error occurred while loading your collection: " + ex.Message);
-    }
-    finally
-    {
-        if (cn.State == ConnectionState.Open)
-            cn.Close();
-    }
-}
-
-
-
-
+        
 
         // Você precisa implementar este método ou ajustar conforme sua estrutura de diretórios e recursos
         private Image LoadImageFromResources(string cardName)
@@ -388,6 +398,9 @@ private void DisplayUserCollection()
 
         private void Tradesbtn_Click(object sender, EventArgs e)
         {
+            label6.Text = currentUserID.ToString(); 
+            LoadUserPokemons();
+            LoadPendingTrades();
             AppTabs.SelectedTab = Trade;
         }
 
@@ -413,39 +426,28 @@ private void DisplayUserCollection()
 
         private void RefreshBtnTrades_Click(object sender, EventArgs e)
         {
-            // Cabeçalho da tabela
-            string header = String.Format("{0,-10}\t{1,-20}\t{2,-15}", "FriendID", "Friend's Pokemon", "Your Pokemon");
-            // Linhas de trocas simuladas
-            List<string> trades = new List<string>
-            {
-                String.Format("{0,-10}\t{1,-20}\t{2,-15}", "12345", "Charizard", "Pikachu"),
-                String.Format("{0,-10}\t{1,-20}\t{2,-15}", "67890", "Squirtle", "Bulbasaur")
-            };
-
-            // Configurar o texto formatado
-            string formattedText = header + Environment.NewLine;
-            trades.ForEach(trade => formattedText += trade + Environment.NewLine);
-
-            // Adicionar o texto à label CheckTradesBoxinfo com uma fonte monoespaçada
-            CheckTradesBoxinfo.Font = new Font("Courier New", 15, FontStyle.Regular);
-            CheckTradesBoxinfo.Text = formattedText;
+            LoadPendingTrades();
         }
-    
+
         private void LogoutBTN_Click(object sender, EventArgs e)
         {
             currentUsername = null;
             currentUserID = 0;
 
-            if (cn != null && cn.State == ConnectionState.Open)
+            if (cn != null)
             {
-                cn.Close();
+                if (cn.State == ConnectionState.Open)
+                {
+                    cn.Close();
+                }
+                cn.Dispose();  // Opcional: dispor a conexão
             }
 
             cn = getSGBDConnection();
-            cn.Open();
 
             AppTabs.SelectedTab = LoginTab;
         }
+
 
         private void OpenPackBtn_Click(object sender, EventArgs e)
         {
@@ -487,5 +489,247 @@ private void DisplayUserCollection()
                     cn.Close();
             }
         }
+        /* ------------- Parte das Trocas ---------------*/
+        private void LoadUserPokemons()
+        {
+            using (var cmd = new SqlCommand("PokemonApp.GetPokemonsByUser", cn))
+            {
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@UserID", currentUserID);
+
+                cn.Open();
+                using (var reader = cmd.ExecuteReader())
+                {
+                    comboBox1.Items.Clear();
+                    userPokemonMap.Clear();
+                    while (reader.Read())
+                    {
+                        string name = reader["Nome_Carta"].ToString();
+                        int id = reader.GetInt32(0);
+                        comboBox1.Items.Add(name);
+                        userPokemonMap[name] = id;
+                    }
+                }
+                cn.Close();
+            }
+        }
+        private bool CheckUserExists(int userID)
+        {
+            using (var connection = getSGBDConnection())  // Usando a conexão definida no seu código.
+            {
+                using (var cmd = new SqlCommand("PokemonApp.CheckUserExists", connection))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@UserID", userID);
+
+                    connection.Open();
+                    int userCount = (int)cmd.ExecuteScalar();  // Executa a query e retorna a primeira coluna da primeira linha no conjunto de resultados retornado pela query. Outras colunas ou linhas são ignoradas.
+                    connection.Close();
+
+                    return userCount > 0;  // Retorna true se o usuário existe.
+                }
+            }
+        }
+
+
+        private void CheckFriendBTN_Click(object sender, EventArgs e)
+        {
+            int friendID;
+            if (int.TryParse(textBox1.Text, out friendID))
+            {
+                if (CheckUserExists(friendID))
+                {
+                    LoadFriendPokemons(friendID);
+                }
+                else
+                {
+                    MessageBox.Show("Friend ID does not exist.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+            else
+            {
+                MessageBox.Show("Invalid ID format.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void LoadFriendPokemons(int friendID)
+        {
+            using (var cmd = new SqlCommand("PokemonApp.GetPokemonsByUser", cn))
+            {
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@UserID", friendID);
+
+                cn.Open();
+                using (var reader = cmd.ExecuteReader())
+                {
+                    comboBox2.Items.Clear();
+                    friendPokemonMap.Clear();
+                    while (reader.Read())
+                    {
+                        string name = reader["Nome_Carta"].ToString();
+                        int id = reader.GetInt32(0);
+                        comboBox2.Items.Add(name);
+                        friendPokemonMap[name] = id;
+                    }
+                }
+                cn.Close();
+            }
+        }
+
+        private void SendTradeBTN_Click(object sender, EventArgs e)
+        {
+            string selectedPokemonName = comboBox1.SelectedItem.ToString();
+            string selectedFriendPokemonName = comboBox2.SelectedItem.ToString();
+
+            if (!userPokemonMap.TryGetValue(selectedPokemonName, out int selectedCardID1) ||
+                !friendPokemonMap.TryGetValue(selectedFriendPokemonName, out int selectedCardID2))
+            {
+                MessageBox.Show("Failed to find selected Pokémon IDs.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            int friendID = int.Parse(textBox1.Text);
+            CreateTrade(currentUserID, friendID, selectedCardID1, selectedCardID2);
+        }
+        private void CreateTrade(int user1ID, int user2ID, int card1ID, int card2ID)
+        {
+            using (var cmd = new SqlCommand("PokemonApp.CreateTrade", cn))
+            {
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@UserID1", user1ID);
+                cmd.Parameters.AddWithValue("@UserID2", user2ID);
+                cmd.Parameters.AddWithValue("@CardUniqueID1", card1ID);
+                cmd.Parameters.AddWithValue("@CardUniqueID2", card2ID);
+
+                cn.Open();
+                var result = cmd.ExecuteScalar();
+                cn.Close();
+
+                if (result != null)
+                {
+                    MessageBox.Show($"Trade request sent successfully! Trade ID: {result}", "Trade Created", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else
+                {
+                    MessageBox.Show("Failed to create trade request.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
+
+        private void LoadPendingTrades()
+        {
+            using (var cmd = new SqlCommand("PokemonApp.GetPendingTradesForUser", cn))
+            {
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@UserID", currentUserID);
+
+                cn.Open();
+                using (var reader = cmd.ExecuteReader())
+                {
+                    listBoxTrades.Items.Clear();
+                    while (reader.Read())
+                    {
+                        var tradeInfo = $"Trade ID: {reader["ID_Troca"]}, Offered By: {reader["OfferedBy"]}, " +
+                                        $"Offered Card: {reader["OfferedCard"]}, Requested Card: {reader["RequestedCard"]}, " +
+                                        $"Status: {((int)reader["Estado_Troca"] == 0 ? "Pending" : "Resolved")}";
+                        listBoxTrades.Items.Add(tradeInfo);
+                    }
+                }
+                cn.Close();
+            }
+        }
+
+        private void SetupTradeListView()
+        {
+            // Configuração inicial do ListBox
+            listBoxTrades.Location = new Point((int)(this.Width * 0.5), listBoxTrades.Location.Y);  // Ajuste para 10% da borda direita
+            listBoxTrades.Width = (int)(this.Width * 0.48);
+            // ajusta para 30% da altura da tela
+            listBoxTrades.Height = (int)(this.Height * 0.3);
+        }
+
+        private void MakeChoiseBtnTrade_Click(object sender, EventArgs e)
+        {
+            if (listBoxTrades.SelectedItem != null)
+            {
+                string selectedTrade = listBoxTrades.SelectedItem.ToString();
+                int tradeId = int.Parse(selectedTrade.Split(',')[0].Split(':')[1].Trim());  // Extraindo o ID da troca da string selecionada
+
+                var result = MessageBox.Show("Do you want to accept the trade?", "Confirm Trade", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
+                if (result == DialogResult.Yes)
+                {
+                    // Primeiro mostra a mensagem de confirmação
+                    MessageBox.Show("Trade will be processed.", "Trade Confirmation", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    // Depois processa a troca
+                    AcceptTrade(tradeId);
+                }
+                else if (result == DialogResult.No)
+                {
+                    MessageBox.Show("Trade will be rejected.", "Trade Rejection", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    RejectTrade(tradeId);
+                }
+            }
+            else
+            {
+                MessageBox.Show("Please select a trade first.", "No Trade Selected", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+        }
+
+        private void AcceptTrade(int tradeId)
+        {
+            using (var connection = getSGBDConnection())
+            using (var cmd = new SqlCommand("PokemonApp.AcceptTrade", connection))
+            {
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@TradeID", tradeId);
+
+                try
+                {
+                    connection.Open();
+                    cmd.ExecuteNonQuery();
+                    // Mensagem de sucesso após a execução bem-sucedida da troca
+                    MessageBox.Show("Trade accepted successfully.", "Trade Completed", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    LoadPendingTrades(); // Atualiza a lista de trocas após aceitar
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error accepting trade: " + ex.Message, "Database Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                finally
+                {
+                    connection.Close();
+                }
+            }
+        }
+
+        private void RejectTrade(int tradeId)
+        {
+            using (var connection = getSGBDConnection())
+            using (var cmd = new SqlCommand("PokemonApp.RejectTrade", connection))
+            {
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@TradeID", tradeId);
+
+                try
+                {
+                    connection.Open();
+                    cmd.ExecuteNonQuery();
+                    // Mensagem de sucesso após a execução bem-sucedida da rejeição da troca
+                    MessageBox.Show("Trade rejected successfully.", "Trade Rejected", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    LoadPendingTrades(); // Atualiza a lista de trocas após rejeitar
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error rejecting trade: " + ex.Message, "Database Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                finally
+                {
+                    connection.Close();
+                }
+            }
+        }
+
+
+
     }
 }

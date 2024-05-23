@@ -84,6 +84,7 @@
             this.IDUsertxt = new System.Windows.Forms.Label();
             this.deleteAccbtn = new System.Windows.Forms.Button();
             this.HomebtnAccount = new System.Windows.Forms.Button();
+            this.listBoxTrades = new System.Windows.Forms.ListBox();
             this.AppTabs.SuspendLayout();
             this.LoginTab.SuspendLayout();
             this.RegisterTab.SuspendLayout();
@@ -99,7 +100,7 @@
             this.UserNameInput.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.UserNameInput.Location = new System.Drawing.Point(684, 215);
             this.UserNameInput.Name = "UserNameInput";
-            this.UserNameInput.Size = new System.Drawing.Size(115, 27);
+            this.UserNameInput.Size = new System.Drawing.Size(115, 23);
             this.UserNameInput.TabIndex = 1;
             // 
             // UsernameTxt
@@ -108,7 +109,7 @@
             this.UsernameTxt.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.UsernameTxt.Location = new System.Drawing.Point(571, 217);
             this.UsernameTxt.Name = "UsernameTxt";
-            this.UsernameTxt.Size = new System.Drawing.Size(102, 25);
+            this.UsernameTxt.Size = new System.Drawing.Size(83, 20);
             this.UsernameTxt.TabIndex = 2;
             this.UsernameTxt.Text = "Username";
             // 
@@ -118,7 +119,7 @@
             this.PasswordTxt.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.PasswordTxt.Location = new System.Drawing.Point(576, 256);
             this.PasswordTxt.Name = "PasswordTxt";
-            this.PasswordTxt.Size = new System.Drawing.Size(98, 25);
+            this.PasswordTxt.Size = new System.Drawing.Size(78, 20);
             this.PasswordTxt.TabIndex = 3;
             this.PasswordTxt.Text = "Password";
             // 
@@ -128,7 +129,7 @@
             this.PasswordInput.Location = new System.Drawing.Point(684, 254);
             this.PasswordInput.Name = "PasswordInput";
             this.PasswordInput.PasswordChar = '*';
-            this.PasswordInput.Size = new System.Drawing.Size(115, 27);
+            this.PasswordInput.Size = new System.Drawing.Size(115, 23);
             this.PasswordInput.TabIndex = 4;
             // 
             // RegisterBtn
@@ -250,7 +251,7 @@
             this.ConfirmPasswordtxt.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ConfirmPasswordtxt.Location = new System.Drawing.Point(517, 293);
             this.ConfirmPasswordtxt.Name = "ConfirmPasswordtxt";
-            this.ConfirmPasswordtxt.Size = new System.Drawing.Size(171, 25);
+            this.ConfirmPasswordtxt.Size = new System.Drawing.Size(137, 20);
             this.ConfirmPasswordtxt.TabIndex = 4;
             this.ConfirmPasswordtxt.Text = "Confirm Password";
             // 
@@ -268,7 +269,7 @@
             this.PasswordTxt1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.PasswordTxt1.Location = new System.Drawing.Point(576, 256);
             this.PasswordTxt1.Name = "PasswordTxt1";
-            this.PasswordTxt1.Size = new System.Drawing.Size(98, 25);
+            this.PasswordTxt1.Size = new System.Drawing.Size(78, 20);
             this.PasswordTxt1.TabIndex = 2;
             this.PasswordTxt1.Text = "Password";
             // 
@@ -285,7 +286,7 @@
             this.UsernameTxt1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.UsernameTxt1.Location = new System.Drawing.Point(571, 217);
             this.UsernameTxt1.Name = "UsernameTxt1";
-            this.UsernameTxt1.Size = new System.Drawing.Size(102, 25);
+            this.UsernameTxt1.Size = new System.Drawing.Size(83, 20);
             this.UsernameTxt1.TabIndex = 0;
             this.UsernameTxt1.Text = "Username";
             // 
@@ -310,7 +311,7 @@
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 30F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.Location = new System.Drawing.Point(788, 261);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(497, 58);
+            this.label1.Size = new System.Drawing.Size(395, 46);
             this.label1.TabIndex = 6;
             this.label1.Text = "PokemonTradingApp";
             // 
@@ -388,6 +389,7 @@
             // 
             // Trade
             // 
+            this.Trade.Controls.Add(this.listBoxTrades);
             this.Trade.Controls.Add(this.MakeChoiseBtnTrade);
             this.Trade.Controls.Add(this.CheckTradesBoxinfo);
             this.Trade.Controls.Add(this.RefreshBtnTrades);
@@ -420,12 +422,13 @@
             this.MakeChoiseBtnTrade.TabIndex = 25;
             this.MakeChoiseBtnTrade.Text = "Make Choise";
             this.MakeChoiseBtnTrade.UseVisualStyleBackColor = true;
+            this.MakeChoiseBtnTrade.Click += new System.EventHandler(this.MakeChoiseBtnTrade_Click);
             // 
             // CheckTradesBoxinfo
             // 
             this.CheckTradesBoxinfo.AutoSize = true;
             this.CheckTradesBoxinfo.BackColor = System.Drawing.SystemColors.ActiveBorder;
-            this.CheckTradesBoxinfo.Location = new System.Drawing.Point(955, 180);
+            this.CheckTradesBoxinfo.Location = new System.Drawing.Point(865, 361);
             this.CheckTradesBoxinfo.Name = "CheckTradesBoxinfo";
             this.CheckTradesBoxinfo.Size = new System.Drawing.Size(26, 16);
             this.CheckTradesBoxinfo.TabIndex = 24;
@@ -451,6 +454,7 @@
             this.SendTradeBTN.TabIndex = 21;
             this.SendTradeBTN.Text = "Send Trade Request";
             this.SendTradeBTN.UseVisualStyleBackColor = true;
+            this.SendTradeBTN.Click += new System.EventHandler(this.SendTradeBTN_Click);
             // 
             // comboBox2
             // 
@@ -459,7 +463,7 @@
             this.comboBox2.FormattingEnabled = true;
             this.comboBox2.Location = new System.Drawing.Point(425, 222);
             this.comboBox2.Name = "comboBox2";
-            this.comboBox2.Size = new System.Drawing.Size(163, 37);
+            this.comboBox2.Size = new System.Drawing.Size(163, 30);
             this.comboBox2.TabIndex = 20;
             // 
             // comboBox1
@@ -469,7 +473,7 @@
             this.comboBox1.FormattingEnabled = true;
             this.comboBox1.Location = new System.Drawing.Point(425, 180);
             this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(163, 37);
+            this.comboBox1.Size = new System.Drawing.Size(163, 30);
             this.comboBox1.TabIndex = 19;
             // 
             // FriendPokeLabel
@@ -481,7 +485,7 @@
             this.FriendPokeLabel.Location = new System.Drawing.Point(98, 225);
             this.FriendPokeLabel.Name = "FriendPokeLabel";
             this.FriendPokeLabel.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.FriendPokeLabel.Size = new System.Drawing.Size(282, 29);
+            this.FriendPokeLabel.Size = new System.Drawing.Size(221, 24);
             this.FriendPokeLabel.TabIndex = 18;
             this.FriendPokeLabel.Text = "Select Friend\'s Pokemon";
             // 
@@ -494,7 +498,7 @@
             this.label7.Location = new System.Drawing.Point(98, 183);
             this.label7.Name = "label7";
             this.label7.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.label7.Size = new System.Drawing.Size(242, 29);
+            this.label7.Size = new System.Drawing.Size(190, 24);
             this.label7.TabIndex = 17;
             this.label7.Text = "Select your Pokemon";
             // 
@@ -508,6 +512,7 @@
             this.CheckFriendBTN.TabIndex = 16;
             this.CheckFriendBTN.Text = "Check";
             this.CheckFriendBTN.UseVisualStyleBackColor = true;
+            this.CheckFriendBTN.Click += new System.EventHandler(this.CheckFriendBTN_Click);
             // 
             // label6
             // 
@@ -517,7 +522,7 @@
             this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label6.Location = new System.Drawing.Point(291, 98);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(79, 29);
+            this.label6.Size = new System.Drawing.Size(60, 24);
             this.label6.TabIndex = 15;
             this.label6.Text = "label6";
             // 
@@ -530,7 +535,7 @@
             this.label4.Location = new System.Drawing.Point(98, 133);
             this.label4.Name = "label4";
             this.label4.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.label4.Size = new System.Drawing.Size(118, 29);
+            this.label4.Size = new System.Drawing.Size(92, 24);
             this.label4.TabIndex = 14;
             this.label4.Text = "Friend ID:";
             // 
@@ -543,7 +548,7 @@
             this.label5.Location = new System.Drawing.Point(126, 98);
             this.label5.Name = "label5";
             this.label5.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.label5.Size = new System.Drawing.Size(90, 29);
+            this.label5.Size = new System.Drawing.Size(68, 24);
             this.label5.TabIndex = 13;
             this.label5.Text = "Self ID:";
             this.label5.Click += new System.EventHandler(this.label5_Click);
@@ -554,7 +559,7 @@
             this.textBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.textBox1.Location = new System.Drawing.Point(253, 130);
             this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(168, 34);
+            this.textBox1.Size = new System.Drawing.Size(168, 28);
             this.textBox1.TabIndex = 11;
             // 
             // CheckTradesLabelBackground
@@ -706,6 +711,18 @@
             this.HomebtnAccount.UseVisualStyleBackColor = true;
             this.HomebtnAccount.Click += new System.EventHandler(this.HomebtnAccount_Click);
             // 
+            // listBoxTrades
+            // 
+            this.listBoxTrades.BackColor = System.Drawing.SystemColors.ActiveBorder;
+            this.listBoxTrades.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.listBoxTrades.FormattingEnabled = true;
+            this.listBoxTrades.ItemHeight = 18;
+            this.listBoxTrades.Location = new System.Drawing.Point(1173, 370);
+            this.listBoxTrades.Margin = new System.Windows.Forms.Padding(0);
+            this.listBoxTrades.Name = "listBoxTrades";
+            this.listBoxTrades.Size = new System.Drawing.Size(96, 76);
+            this.listBoxTrades.TabIndex = 26;
+            // 
             // App
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -792,6 +809,7 @@
         private System.Windows.Forms.Button MakeChoiseBtnTrade;
         private System.Windows.Forms.Label CheckTradesBoxinfo;
         private System.Windows.Forms.Button LogoutBTN;
+        private System.Windows.Forms.ListBox listBoxTrades;
     }
 }
 

@@ -32,7 +32,7 @@
               "RelativeDocumentMoniker": "Form1.cs",
               "ToolTip": "D:\\UNI3\\BD\\ProjetoCartasPokemon\\AppPokemon\\Form1.cs",
               "RelativeToolTip": "Form1.cs",
-              "ViewState": "AQIAAB4BAAAAAAAAAAAowCcBAAAmAAAA",
+              "ViewState": "AQIAAMQCAAAAAAAAAAAowNACAAAkAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-05-08T18:42:01.627Z",
               "EditorCaption": ""
@@ -43,9 +43,11 @@
               "Title": "Form1.cs [Design]",
               "DocumentMoniker": "D:\\UNI3\\BD\\ProjetoCartasPokemon\\AppPokemon\\Form1.cs",
               "RelativeDocumentMoniker": "Form1.cs",
-              "ToolTip": "C:\\Users\\box\\Documents\\BD\\BD_PokemonCards\\AppPokemon\\Form1.cs [Design]",
+              "ToolTip": "D:\\UNI3\\BD\\ProjetoCartasPokemon\\AppPokemon\\Form1.cs [Design]",
+              "RelativeToolTip": "Form1.cs [Design]",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-05T16:19:47.996Z"
+              "WhenOpened": "2024-05-05T16:19:47.996Z",
+              "EditorCaption": " [Design]"
             },
             {
               "$type": "Document",
@@ -55,9 +57,10 @@
               "RelativeDocumentMoniker": "Form1.Designer.cs",
               "ToolTip": "D:\\UNI3\\BD\\ProjetoCartasPokemon\\AppPokemon\\Form1.Designer.cs",
               "RelativeToolTip": "Form1.Designer.cs",
-              "ViewState": "AQIAAHICAAAAAAAAAAAtwG8CAAAAAAAA",
+              "ViewState": "AQIAAK4BAAAAAAAAAAAtwLwBAABeAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-08T18:45:04.278Z"
+              "WhenOpened": "2024-05-08T18:45:04.278Z",
+              "EditorCaption": ""
             }
           ]
         }
