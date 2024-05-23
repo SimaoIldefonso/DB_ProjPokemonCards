@@ -65,7 +65,7 @@ BEGIN
 END;
 GO
 /*---------------------*/
-CREATE PROCEDURE PokemonApp.DescartarCarta (@ID_CartaUnica INT)
+CREATE OR ALTER PROCEDURE PokemonApp.DescartarCarta (@ID_CartaUnica INT)
 AS
 BEGIN
     DECLARE @Nome_Carta VARCHAR(100);
@@ -74,6 +74,10 @@ BEGIN
     SELECT @Nome_Carta = Nome_Carta
     FROM PokemonApp.Carta
     WHERE ID_CartaUnica = @ID_CartaUnica;
+
+    -- Deletar quaisquer trocas associadas a essa carta
+    DELETE FROM PokemonApp.Troca
+    WHERE ID_CartaUnica1 = @ID_CartaUnica OR ID_CartaUnica2 = @ID_CartaUnica;
 
     -- Remover a carta única da coleção do utilizador
     DELETE FROM PokemonApp.Carta
@@ -85,6 +89,29 @@ BEGIN
     WHERE Nome_Carta = @Nome_Carta;
 END;
 GO
+
+/*-------------------------------------*/
+CREATE OR ALTER PROCEDURE PokemonApp.DescartarMultiplasCartas (@IDs_CartaUnica VARCHAR(MAX))
+AS
+BEGIN
+    DECLARE @ID_CartaUnica INT;
+    DECLARE card_cursor CURSOR FOR 
+        SELECT value FROM STRING_SPLIT(@IDs_CartaUnica, ',');
+
+    OPEN card_cursor;
+    FETCH NEXT FROM card_cursor INTO @ID_CartaUnica;
+
+    WHILE @@FETCH_STATUS = 0
+    BEGIN
+        EXEC PokemonApp.DescartarCarta @ID_CartaUnica;
+        FETCH NEXT FROM card_cursor INTO @ID_CartaUnica;
+    END;
+
+    CLOSE card_cursor;
+    DEALLOCATE card_cursor;
+END;
+GO
+
 /*-------------------------------------*/
 CREATE PROCEDURE PokemonApp.CheckUserExists
     @UserID INT
@@ -209,20 +236,3 @@ END;
 GO
 
 /*-------------------------------------*/
-CREATE OR ALTER PROCEDURE PokemonApp.DescartarCarta (@ID_CartaUnica INT)
-AS
-BEGIN
-    DECLARE @Nome_Carta VARCHAR(100);
-
-    -- Obter o Nome_Carta da carta a ser descartada
-    SELECT @Nome_Carta = Nome_Carta
-    FROM PokemonApp.Carta
-    WHERE ID_CartaUnica = @ID_CartaUnica;
-
-    -- Remover a carta única da coleção do utilizador
-    DELETE FROM PokemonApp.Carta
-    WHERE ID_CartaUnica = @ID_CartaUnica;
-
-    -- A trigger UpdateCardQuantityOnDelete já lidará com o aumento da quantidade no banco de cartas
-END;
-GO

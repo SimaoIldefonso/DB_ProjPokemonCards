@@ -57,7 +57,7 @@ namespace AppPokemon
         private SqlConnection getSGBDConnection()
         {// LAPTOP-S4H22GJP\SQLEXPRESS -Simão
             // LAPTOP-SCB9ONGM\\SQLEXPRESS - Mike
-            return new SqlConnection("data source=LAPTOP-SCB9ONGM\\SQLEXPRESS;integrated security=true;initial catalog=PokemonDB");
+            return new SqlConnection("data source=LAPTOP-S4H22GJP\\SQLEXPRESS;integrated security=true;initial catalog=PokemonDB");
         }
 
         
@@ -190,54 +190,54 @@ namespace AppPokemon
 
         private void DeleteBtn_Click(object sender, EventArgs e)
         {
-            if (selectedPokemon == null)
+            if (selectedPokemon != null)
             {
-                MessageBox.Show("No Pokemon selected.");
-                return;
+                DeleteSelectedPokemon((int)selectedPokemon.Tag);
             }
-
-            // Aqui chamamos a stored procedure para deletar a carta
-            DeleteSelectedPokemon();
+            else
+            {
+                MessageBox.Show("Please select a Pokemon to delete.");
+            }
         }
 
-        private void DeleteSelectedPokemon()
+        private void DeleteSelectedPokemon(int pokemonId)
         {
-            if (selectedPokemon != null && selectedPokemon.Tag is int cardId)
+            try
             {
-                try
+                // Usar o bloco using aqui garante que a conexão seja fechada após o uso
+                if (cn.State != ConnectionState.Open)
+                    cn.Open();
+
+                using (SqlCommand cmd = new SqlCommand("PokemonApp.DescartarCarta", cn))
                 {
-                    if (cn.State != ConnectionState.Open)
-                        cn.Open();
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@ID_CartaUnica", pokemonId);
 
-                    using (SqlCommand cmd = new SqlCommand("PokemonApp.DescartarCarta", cn))
+                    int result = cmd.ExecuteNonQuery();
+                    if (result > 0)
                     {
-                        cmd.CommandType = CommandType.StoredProcedure;
-                        cmd.Parameters.AddWithValue("@ID_CartaUnica", cardId);
-
-                        int result = cmd.ExecuteNonQuery();
-                        if (result > 0)
-                        {
-                            MessageBox.Show("Pokemon deleted successfully.");
-                            selectedPokemon.Parent.Controls.Remove(selectedPokemon);
-                            selectedPokemon = null;
-                        }
-                        else
-                        {
-                            MessageBox.Show("Failed to delete Pokemon.");
-                        }
+                        MessageBox.Show("Pokemon deleted successfully.");
+                    }
+                    else
+                    {
+                        MessageBox.Show("Failed to delete Pokemon.");
                     }
                 }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("An error occurred: " + ex.Message);
-                }
-                finally
-                {
-                    if (cn.State == ConnectionState.Open)
-                        cn.Close();
-                }
             }
+            catch (Exception ex)
+            {
+                MessageBox.Show("An error occurred: " + ex.Message);
+            }
+            finally
+            {
+                if (cn.State == ConnectionState.Open)
+                    cn.Close(); // Garantir que a conexão é fechada antes de chamar DisplayUserCollection
+            }
+
+            DisplayUserCollection();  // Chamar fora do finally para evitar abrir a conexão enquanto ainda está em um bloco de fechamento
         }
+
+
 
         private void LoginBtn_Click_1(object sender, EventArgs e)
         {
