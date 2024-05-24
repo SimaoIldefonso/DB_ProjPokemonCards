@@ -52,12 +52,13 @@ namespace AppPokemon
             ConfigureCheckTradesComponents();
 
             CheckTradesBoxinfo.Text = "";
+            quantidadeLabel.Text = "";
         }
 
         private SqlConnection getSGBDConnection()
         {// LAPTOP-S4H22GJP\SQLEXPRESS -Simão
             // LAPTOP-SCB9ONGM\\SQLEXPRESS - Mike
-            return new SqlConnection("data source=LAPTOP-S4H22GJP\\SQLEXPRESS;integrated security=true;initial catalog=PokemonDB");
+            return new SqlConnection("data source=LAPTOP-SCB9ONGM\\SQLEXPRESS;integrated security=true;initial catalog=PokemonDB");
         }
 
         
@@ -294,9 +295,44 @@ namespace AppPokemon
         {
             UsernameLabel.Text = currentUsername; // Atualiza a label com o nome de usuário atual
             IDUserLabel.Text = currentUserID.ToString(); // Atualiza a label com o ID do usuário atual
+            UpdateCardCounts();
             AppTabs.SelectedTab = Account; // Muda para a aba Account
         }
 
+        private void UpdateCardCounts()
+        {
+            try
+            {
+                if (cn.State != ConnectionState.Open)
+                    cn.Open();
+
+                string message = "Your card counts by rarity:\n";
+
+                for (int rarity = 0; rarity <= 3; rarity++)
+                {
+                    using (SqlCommand cmd = new SqlCommand("SELECT dbo.CountCardsByRarity(@UserID, @Rarity)", cn))
+                    {
+                        cmd.Parameters.AddWithValue("@UserID", currentUserID);
+                        cmd.Parameters.AddWithValue("@Rarity", rarity);
+
+                        int count = (int)cmd.ExecuteScalar();
+                        string rarityName = rarityMap.ContainsKey(rarity) ? rarityMap[rarity] : "Unknown";
+                        message += $"{rarityName}: {count}\n";
+                    }
+                }
+
+                quantidadeLabel.Text = message;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("An error occurred: " + ex.Message, "Error Updating Card Counts");
+            }
+            finally
+            {
+                if (cn.State == ConnectionState.Open)
+                    cn.Close();
+            }
+        }
 
         private void RegisterBtn_Click(object sender, EventArgs e)
         {
