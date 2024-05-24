@@ -1,3 +1,55 @@
+CREATE or ALTER PROCEDURE PokemonApp.RegisterUser
+    @Username NVARCHAR(100),
+    @Password NVARCHAR(100),
+    @Message NVARCHAR(255) OUTPUT
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    -- Checando se o usuário já existe
+    IF EXISTS (SELECT 1 FROM PokemonApp.Utilizadores WHERE Nome = @Username)
+    BEGIN
+        SET @Message = 'Username already exists. Please choose a different username.';
+        RETURN;
+    END
+
+    -- Inserindo o usuário com a senha em texto puro que será hashada pelo trigger
+    INSERT INTO PokemonApp.Utilizadores (Nome, Senha)
+    VALUES (@Username, @Password);
+
+    SET @Message = 'Register Successful.';
+END;
+GO
+
+/*---------------------*/
+CREATE or ALTER PROCEDURE PokemonApp.LoginUser
+    @Username NVARCHAR(100),
+    @Password NVARCHAR(100),
+    @UserID INT OUTPUT,
+    @Message NVARCHAR(255) OUTPUT
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    DECLARE @HashedPassword NVARCHAR(256);
+
+    -- Hash da senha fornecida para comparação
+    SET @HashedPassword = PokemonApp.HashPassword(@Password);
+
+    -- Verificando credenciais
+    SELECT @UserID = ID_Utilizador FROM PokemonApp.Utilizadores
+    WHERE Nome = @Username AND Senha = @HashedPassword;
+
+    IF @UserID IS NOT NULL
+        SET @Message = 'Login Successful.';
+    ELSE
+        SET @Message = 'Login Failed. Please check your username and password.';
+END;
+GO
+
+
+
+/*---------------------*/
 --DROP PROCEDURE IF EXISTS PokemonApp.DeleteUserAndAllAssociations;
 CREATE OR ALTER PROCEDURE PokemonApp.DeleteUserAndAllAssociations
     @UserID INT
@@ -27,7 +79,7 @@ END;
 GO
 
 /*---------------------*/
-CREATE PROCEDURE PokemonApp.AbrirPack (@ID_Utilizador INT)
+CREATE or alter PROCEDURE PokemonApp.AbrirPack (@ID_Utilizador INT)
 AS
 BEGIN
     DECLARE @i INT = 0;
@@ -64,6 +116,7 @@ BEGIN
     END;
 END;
 GO
+
 /*---------------------*/
 CREATE OR ALTER PROCEDURE PokemonApp.DescartarCarta (@ID_CartaUnica INT)
 AS
@@ -87,28 +140,6 @@ BEGIN
     UPDATE PokemonApp.BancoCartas
     SET Quantidade = Quantidade + 1
     WHERE Nome_Carta = @Nome_Carta;
-END;
-GO
-
-/*-------------------------------------*/
-CREATE OR ALTER PROCEDURE PokemonApp.DescartarMultiplasCartas (@IDs_CartaUnica VARCHAR(MAX))
-AS
-BEGIN
-    DECLARE @ID_CartaUnica INT;
-    DECLARE card_cursor CURSOR FOR 
-        SELECT value FROM STRING_SPLIT(@IDs_CartaUnica, ',');
-
-    OPEN card_cursor;
-    FETCH NEXT FROM card_cursor INTO @ID_CartaUnica;
-
-    WHILE @@FETCH_STATUS = 0
-    BEGIN
-        EXEC PokemonApp.DescartarCarta @ID_CartaUnica;
-        FETCH NEXT FROM card_cursor INTO @ID_CartaUnica;
-    END;
-
-    CLOSE card_cursor;
-    DEALLOCATE card_cursor;
 END;
 GO
 
@@ -236,3 +267,13 @@ END;
 GO
 
 /*-------------------------------------*/
+CREATE or alter PROCEDURE PokemonApp.GetUserCollection
+    @UserID INT
+AS
+BEGIN
+    SELECT c.ID_CartaUnica, c.Nome_Carta, bc.Tipo, bc.Raridade
+    FROM PokemonApp.Carta c
+    JOIN PokemonApp.BancoCartas bc ON c.Nome_Carta = bc.Nome_Carta
+    WHERE c.ID_Utilizador = @UserID;
+END
+GO

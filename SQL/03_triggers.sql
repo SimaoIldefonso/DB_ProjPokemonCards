@@ -16,3 +16,21 @@ BEGIN
     WHERE ID_Utilizador IN (SELECT ID_Utilizador FROM deleted);
 END;
 GO
+/*--------------------------*/
+CREATE TRIGGER EncryptUsersPassword
+ON PokemonApp.Utilizadores
+AFTER INSERT, UPDATE
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    -- Aplicar hash à senha somente se for inserida ou alterada
+    UPDATE u
+    SET Senha = PokemonApp.HashPassword(i.Senha)
+    FROM PokemonApp.Utilizadores u
+    JOIN inserted i ON u.ID_Utilizador = i.ID_Utilizador
+    WHERE u.Senha <> PokemonApp.HashPassword(i.Senha) -- Evitar hash múltiplo
+END
+GO
+
+

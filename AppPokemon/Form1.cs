@@ -28,7 +28,7 @@ namespace AppPokemon
         };
         private Dictionary<string, int> userPokemonMap = new Dictionary<string, int>();
         private Dictionary<string, int> friendPokemonMap = new Dictionary<string, int>();
-
+        private Panel cardsPanel; // Mantenha o painel como uma variável de instância
 
 
         public App()
@@ -46,19 +46,17 @@ namespace AppPokemon
             AppTabs.SizeMode = TabSizeMode.Fixed;
 
 
-            DeletePokeBTN.Location = new Point(Collection.Width - DeletePokeBTN.Width - 20, Collection.Height - DeletePokeBTN.Height - 20);
-
             // Configurar o tamanho e a posição dos componentes
             ConfigureCheckTradesComponents();
 
             CheckTradesBoxinfo.Text = "";
-            quantidadeLabel.Text = "";
+            InitializeOpenPackPanel();
         }
 
         private SqlConnection getSGBDConnection()
         {// LAPTOP-S4H22GJP\SQLEXPRESS -Simão
             // LAPTOP-SCB9ONGM\\SQLEXPRESS - Mike
-            return new SqlConnection("data source=LAPTOP-SCB9ONGM\\SQLEXPRESS;integrated security=true;initial catalog=PokemonDB");
+            return new SqlConnection("data source=LAPTOP-S4H22GJP\\SQLEXPRESS;integrated security=true;initial catalog=PokemonDB");
         }
 
         
@@ -108,14 +106,25 @@ namespace AppPokemon
                 return builder.ToString();
             }
         }
-
+        private void InitializeOpenPackPanel()
+        {
+            if (cardsPanel == null)
+            {
+                cardsPanel = new Panel
+                {
+                    Location = new Point(10, OpenPackBtn.Bottom + 10),
+                    Size = new Size(this.ClientSize.Width - 20, 200),
+                    AutoScroll = true
+                };
+                this.Controls.Add(cardsPanel); // Adicione o painel apenas uma vez
+            }
+        }
         private void RegisterBtn1_Click(object sender, EventArgs e)
         {
             string username = UserNameInput1.Text;
             string password = PasswordInput1.Text;
             string confirmPassword = ConfPasswordInput.Text;
 
-            // Verificação do tamanho do username e password
             if (username.Length < 3 || password.Length < 3)
             {
                 MessageBox.Show("Username and password must be at least 3 characters long.");
@@ -128,41 +137,25 @@ namespace AppPokemon
                 return;
             }
 
-            string hashedPassword = HashPassword(password);
-
             try
             {
                 cn.Open();
-
-                // Verifica se o nome de usuário já existe na base de dados
-                string checkUserQuery = "SELECT COUNT(*) FROM PokemonApp.Utilizadores WHERE Nome = @Nome";
-                using (SqlCommand cmdCheckUser = new SqlCommand(checkUserQuery, cn))
+                using (SqlCommand cmd = new SqlCommand("PokemonApp.RegisterUser", cn))
                 {
-                    cmdCheckUser.Parameters.AddWithValue("@Nome", username);
-                    int userExists = (int)cmdCheckUser.ExecuteScalar();
-                    if (userExists > 0)
-                    {
-                        MessageBox.Show("Username already exists. Please choose a different username.");
-                        return;
-                    }
-                }
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@Username", username);
+                    cmd.Parameters.AddWithValue("@Password", password);  // Send the plaintext password
 
-                // Insere novo usuário na base de dados
-                string query = "INSERT INTO PokemonApp.Utilizadores (Nome, Senha) VALUES (@Nome, @Senha)";
-                using (SqlCommand cmd = new SqlCommand(query, cn))
-                {
-                    cmd.Parameters.AddWithValue("@Nome", username);
-                    cmd.Parameters.AddWithValue("@Senha", hashedPassword);
+                    SqlParameter messageParam = new SqlParameter("@Message", SqlDbType.NVarChar, 255)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    cmd.Parameters.Add(messageParam);
 
-                    int result = cmd.ExecuteNonQuery();
-                    if (result > 0)
-                    {
-                        MessageBox.Show("Register Successful");
-                    }
-                    else
-                    {
-                        MessageBox.Show("Error in registration. Please try again.");
-                    }
+                    cmd.ExecuteNonQuery();
+
+                    string resultMessage = messageParam.Value.ToString();
+                    MessageBox.Show(resultMessage);
                 }
             }
             catch (Exception ex)
@@ -171,10 +164,13 @@ namespace AppPokemon
             }
             finally
             {
-                if (cn.State == ConnectionState.Open)
-                    cn.Close();
+                if (cn.State == ConnectionState.Open) cn.Close();
             }
         }
+
+
+
+
 
         private PictureBox selectedPokemon = null;
 
@@ -238,44 +234,46 @@ namespace AppPokemon
             DisplayUserCollection();  // Chamar fora do finally para evitar abrir a conexão enquanto ainda está em um bloco de fechamento
         }
 
-
-
         private void LoginBtn_Click_1(object sender, EventArgs e)
         {
-            string username = UserNameInput.Text; // Nome de usuário fornecido
-            string password = PasswordInput.Text; // Senha fornecida
+            string username = UserNameInput.Text;
+            string password = PasswordInput.Text;
 
-            // Verificação do tamanho do username e password
             if (username.Length < 3 || password.Length < 3)
             {
                 MessageBox.Show("Username and password must be at least 3 characters long.");
                 return;
             }
 
-            string hashedPassword = HashPassword(password); // Cifra a senha fornecida
-
             try
             {
-                cn.Open();
-
-                string query = "SELECT ID_Utilizador FROM PokemonApp.Utilizadores WHERE Nome = @Nome AND Senha = @Senha";
-                using (SqlCommand cmd = new SqlCommand(query, cn))
+                using (SqlCommand cmd = new SqlCommand("PokemonApp.LoginUser", cn))
                 {
-                    cmd.Parameters.AddWithValue("@Nome", username);
-                    cmd.Parameters.AddWithValue("@Senha", hashedPassword);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@Username", username);
+                    cmd.Parameters.AddWithValue("@Password", password);
 
-                    object result = cmd.ExecuteScalar();
-                    if (result != null)
+                    SqlParameter userIdParam = new SqlParameter("@UserID", SqlDbType.Int)
                     {
-                        currentUserID = (int)result; // Atualiza o ID do usuário na variável de instância
-                        currentUsername = username; // Atualiza o nome de usuário na variável de instância
-                        MessageBox.Show("Login Successful");
-                        AppTabs.SelectedTab = Home; // Altera para a aba Home
-                    }
-                    else
+                        Direction = ParameterDirection.Output
+                    };
+                    SqlParameter messageParam = new SqlParameter("@Message", SqlDbType.NVarChar, 255)
                     {
-                        MessageBox.Show("Login Failed. Please check your username and password.");
+                        Direction = ParameterDirection.Output
+                    };
+                    cmd.Parameters.Add(userIdParam);
+                    cmd.Parameters.Add(messageParam);
+
+                    cn.Open();
+                    cmd.ExecuteNonQuery();
+
+                    if (userIdParam.Value != DBNull.Value)
+                    {
+                        currentUserID = (int)userIdParam.Value;
+                        currentUsername = username;
+                        AppTabs.SelectedTab = Home; // Muda para a aba Home se o login for bem-sucedido
                     }
+                    MessageBox.Show(messageParam.Value.ToString());
                 }
             }
             catch (Exception ex)
@@ -284,10 +282,11 @@ namespace AppPokemon
             }
             finally
             {
-                if (cn.State == ConnectionState.Open)
-                    cn.Close();
+                if (cn.State == ConnectionState.Open) cn.Close();
             }
         }
+
+
 
 
 
@@ -295,10 +294,9 @@ namespace AppPokemon
         {
             UsernameLabel.Text = currentUsername; // Atualiza a label com o nome de usuário atual
             IDUserLabel.Text = currentUserID.ToString(); // Atualiza a label com o ID do usuário atual
-            UpdateCardCounts();
+            UpdateCardCounts(); 
             AppTabs.SelectedTab = Account; // Muda para a aba Account
         }
-
         private void UpdateCardCounts()
         {
             try
@@ -333,6 +331,9 @@ namespace AppPokemon
                     cn.Close();
             }
         }
+
+
+
 
         private void RegisterBtn_Click(object sender, EventArgs e)
         {
@@ -406,14 +407,9 @@ namespace AppPokemon
 
         private void DisplayUserCollection()
         {
-            string query = @"
-SELECT c.ID_CartaUnica, c.Nome_Carta, bc.Tipo, bc.Raridade 
-FROM PokemonApp.Carta c
-JOIN PokemonApp.BancoCartas bc ON c.Nome_Carta = bc.Nome_Carta
-WHERE c.ID_Utilizador = @ID_Utilizador";
-
-            SqlCommand cmd = new SqlCommand(query, cn);
-            cmd.Parameters.AddWithValue("@ID_Utilizador", currentUserID);
+            SqlCommand cmd = new SqlCommand("PokemonApp.GetUserCollection", cn);
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@UserID", currentUserID);
 
             Button backButton = new Button();
             backButton.Text = "Back to Home";
@@ -482,6 +478,7 @@ WHERE c.ID_Utilizador = @ID_Utilizador";
             }
         }
 
+
         // Você precisa implementar este método ou ajustar conforme sua estrutura de diretórios e recursos
         private Image LoadImageFromResources(string cardName)
         {
@@ -536,11 +533,6 @@ WHERE c.ID_Utilizador = @ID_Utilizador";
             AppTabs.SelectedTab = Home;
         }
 
-        private void DeletePokeBTN_Click(object sender, EventArgs e)
-        {
-            // Query para dar delete, dependendo do selected pokemon (ver o metodo para selecionar o id deste)
-        }
-
         private void label3_Click(object sender, EventArgs e)
         {
 
@@ -567,7 +559,7 @@ WHERE c.ID_Utilizador = @ID_Utilizador";
                 {
                     cn.Close();
                 }
-                cn.Dispose();  // Opcional: dispor a conexão
+                cn.Dispose(); 
             }
 
             cn = getSGBDConnection();
@@ -579,7 +571,6 @@ WHERE c.ID_Utilizador = @ID_Utilizador";
 
             AppTabs.SelectedTab = LoginTab;
         }
-
 
         private void OpenPackBtn_Click(object sender, EventArgs e)
         {
@@ -621,6 +612,7 @@ WHERE c.ID_Utilizador = @ID_Utilizador";
                     cn.Close();
             }
         }
+
         /* ------------- Parte das Trocas ---------------*/
         private void LoadUserPokemons()
         {
