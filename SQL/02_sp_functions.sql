@@ -267,13 +267,37 @@ END;
 GO
 
 /*-------------------------------------*/
-CREATE or alter PROCEDURE PokemonApp.GetUserCollection
-    @UserID INT
+CREATE OR ALTER PROCEDURE PokemonApp.GetUserCollection
+    @UserID INT,
+    @SearchTerm NVARCHAR(100) = NULL
 AS
 BEGIN
-    SELECT c.ID_CartaUnica, c.Nome_Carta, bc.Tipo, bc.Raridade
-    FROM PokemonApp.Carta c
-    JOIN PokemonApp.BancoCartas bc ON c.Nome_Carta = bc.Nome_Carta
-    WHERE c.ID_Utilizador = @UserID;
+    IF @SearchTerm IS NULL
+    BEGIN
+        SELECT 
+            c.ID_CartaUnica, 
+            c.Nome_Carta, 
+            bc.Tipo, 
+            bc.Raridade
+        FROM 
+            PokemonApp.Carta AS c
+            JOIN PokemonApp.BancoCartas AS bc ON c.Nome_Carta = bc.Nome_Carta
+        WHERE 
+            c.ID_Utilizador = @UserID;
+    END
+    ELSE
+    BEGIN
+        SELECT 
+            c.ID_CartaUnica, 
+            c.Nome_Carta, 
+            bc.Tipo, 
+            bc.Raridade
+        FROM 
+            PokemonApp.Carta AS c
+            JOIN PokemonApp.BancoCartas AS bc ON c.Nome_Carta = bc.Nome_Carta
+        WHERE 
+            c.ID_Utilizador = @UserID AND 
+            c.Nome_Carta LIKE '%' + @SearchTerm + '%';
+    END
 END
 GO

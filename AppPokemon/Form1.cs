@@ -56,7 +56,7 @@ namespace AppPokemon
         private SqlConnection getSGBDConnection()
         {// LAPTOP-S4H22GJP\SQLEXPRESS -Simão
             // LAPTOP-SCB9ONGM\\SQLEXPRESS - Mike
-            return new SqlConnection("data source=LAPTOP-S4H22GJP\\SQLEXPRESS;integrated security=true;initial catalog=PokemonDB");
+            return new SqlConnection("data source=LAPTOP-SCB9ONGM\\SQLEXPRESS;integrated security=true;initial catalog=PokemonDB");
         }
 
         
@@ -404,78 +404,135 @@ namespace AppPokemon
             deleteBtn.Click += DeleteBtn_Click;  // Evento Click que chamará o método de deleção
             Collection.Controls.Add(deleteBtn);
         }
-
-        private void DisplayUserCollection()
+        private void HomeButton_Click(object sender, EventArgs e)
         {
-            SqlCommand cmd = new SqlCommand("PokemonApp.GetUserCollection", cn);
-            cmd.CommandType = CommandType.StoredProcedure;
-            cmd.Parameters.AddWithValue("@UserID", currentUserID);
-
-            Button backButton = new Button();
-            backButton.Text = "Back to Home";
-            backButton.Size = new Size(100, 30);
-            backButton.Location = new Point(10, 10);
-            backButton.Click += (sender, e) => { AppTabs.SelectedTab = Home; };
-
-            try
+            // Handle the home button click event
+            AppTabs.SelectedTab = Home; // Assuming "Home" is the name of the tab/page you want to navigate to
+        }
+        private void SearchBox_TextChanged(object sender, EventArgs e)
+        {
+            TextBox searchBox = sender as TextBox;
+            if (searchBox.Text != "Search Pokémon..." && !string.IsNullOrWhiteSpace(searchBox.Text))
             {
-                cn.Open();
-                SqlDataReader reader = cmd.ExecuteReader();
+                DisplayUserCollection(searchBox.Text);
+            }
+            else
+            {
+                DisplayUserCollection();  // Chamada sem parâmetros para mostrar todos os Pokémons
+            }
+        }
 
-                Panel scrollPanel = new Panel();
-                scrollPanel.Location = new Point(10, backButton.Bottom + 20);
-                scrollPanel.Size = new Size(Collection.ClientSize.Width - 20, Collection.ClientSize.Height - backButton.Height - 50);
-                scrollPanel.AutoScroll = true;
+        private void DisplayUserCollection(string searchText = "")
+        {
+            // Definindo a Search Box caso não exista
+            TextBox searchBox = Collection.Controls["searchBox"] as TextBox;
+            if (searchBox == null)
+            {
+                searchBox = new TextBox();
+                searchBox.Name = "searchBox";
+                searchBox.Size = new Size(200, 20);
+                searchBox.Location = new Point(10, 10);  // Ajuste conforme necessário
+                searchBox.Font = new Font("Microsoft Sans Serif", 10);
+                searchBox.ForeColor = Color.Gray;
+                searchBox.Text = "Search Pokémon...";
 
-                Collection.Controls.Clear();
-                Collection.Controls.Add(backButton);
-                Collection.Controls.Add(scrollPanel);
-                SetupDeleteButton(); // Adiciona o botão de deletar
-
-                int x = 10, y = 10; // Posição inicial para os PictureBoxes dentro do scrollPanel
-
-                while (reader.Read())
+                searchBox.GotFocus += (sender, args) =>
                 {
-                    int cardId = reader.GetInt32(0);
-                    string cardName = reader["Nome_Carta"].ToString();
-                    string cardType = reader["Tipo"].ToString();
-                    string rarity = reader["Raridade"].ToString();
-                    string rarityText = rarityMap.ContainsKey(Convert.ToInt32(rarity)) ? rarityMap[Convert.ToInt32(rarity)] : "Desconhecido";
-
-                    PictureBox pic = new PictureBox();
-                    pic.Image = LoadImageFromResources(cardName);
-                    pic.SizeMode = PictureBoxSizeMode.StretchImage;
-                    pic.Size = new Size(100, 100);
-                    pic.Location = new Point(x, y);
-                    pic.Click += PictureBox_Click;
-                    pic.Tag = cardId;
-
-                    Label nameLabel = new Label { Text = cardName, AutoSize = true, Location = new Point(x, y + pic.Height + 5) };
-                    Label typeLabel = new Label { Text = "Tipo: " + cardType, AutoSize = true, Location = new Point(x, y + pic.Height + 20) };
-                    Label rarityLabel = new Label { Text = "Raridade: " + rarityText, AutoSize = true, Location = new Point(x, y + pic.Height + 35) };
-
-                    scrollPanel.Controls.Add(pic);
-                    scrollPanel.Controls.Add(nameLabel);
-                    scrollPanel.Controls.Add(typeLabel);
-                    scrollPanel.Controls.Add(rarityLabel);
-
-                    x += pic.Width + 10;
-                    if (x + pic.Width > scrollPanel.ClientSize.Width)
+                    if (searchBox.Text == "Search Pokémon...")
                     {
-                        x = 10;
-                        y += pic.Height + 60;
+                        searchBox.Text = "";
+                        searchBox.ForeColor = Color.Black;
+                    }
+                };
+                searchBox.LostFocus += (sender, args) =>
+                {
+                    if (string.IsNullOrWhiteSpace(searchBox.Text))
+                    {
+                        searchBox.Text = "Search Pokémon...";
+                        searchBox.ForeColor = Color.Gray;
+                    }
+                };
+                searchBox.TextChanged += (sender, args) =>
+                {
+                    if (searchBox.Text != "Search Pokémon..." && searchBox.Text != "")
+                        DisplayUserCollection(searchBox.Text);
+                    else
+                        DisplayUserCollection("");  // Limpa o filtro se o texto for o placeholder ou estiver vazio
+                };
+
+                Collection.Controls.Add(searchBox);
+            }
+
+            SetupDeleteButton();
+
+
+            // Configurando o comando SQL para usar a stored procedure correta
+            using (SqlCommand cmd = new SqlCommand("PokemonApp.GetUserCollection", cn))
+            {
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@UserID", currentUserID);
+                cmd.Parameters.AddWithValue("@SearchTerm", string.IsNullOrEmpty(searchText) ? DBNull.Value : (object)searchText);
+
+                // Garante que a conexão esteja aberta
+                if (cn.State != ConnectionState.Open)
+                    cn.Open();
+
+                using (SqlDataReader reader = cmd.ExecuteReader())
+                {
+                    Panel scrollPanel = Collection.Controls["scrollPanel"] as Panel;
+                    if (scrollPanel == null)
+                    {
+                        scrollPanel = new Panel();
+                        scrollPanel.Name = "scrollPanel";
+                        scrollPanel.Location = new Point(10, searchBox.Bottom + 10);
+                        scrollPanel.Size = new Size(Collection.ClientSize.Width - 20, Collection.ClientSize.Height - searchBox.Height - 20);
+                        scrollPanel.AutoScroll = true;
+                        Collection.Controls.Add(scrollPanel);
+                    }
+                    else
+                    {
+                        scrollPanel.Controls.Clear(); // Limpa os controles existentes antes de adicionar novos
+                    }
+
+                    int x = 10, y = 10; // Posição inicial para os PictureBoxes dentro do scrollPanel
+                    while (reader.Read())
+                    {
+                        int cardId = reader.GetInt32(0);
+                        string cardName = reader.GetString(1);
+                        string cardType = reader.GetString(2);
+                        int rarityValue = reader.GetInt32(3);
+                        string rarityText = rarityMap.ContainsKey(rarityValue) ? rarityMap[rarityValue] : "Desconhecido";
+
+                        PictureBox pic = new PictureBox();
+                        pic.Image = LoadImageFromResources(cardName);  // Assume que você tem uma função para carregar imagens baseada no nome
+                        pic.SizeMode = PictureBoxSizeMode.StretchImage;
+                        pic.Size = new Size(100, 100);
+                        pic.Location = new Point(x, y);
+                        pic.Click += PictureBox_Click;  // Assume que você tem um manipulador de eventos para clique
+                        pic.Tag = cardId;
+
+                        Label nameLabel = new Label { Text = cardName, AutoSize = true, Location = new Point(x, y + pic.Height + 5) };
+                        Label typeLabel = new Label { Text = "Tipo: " + cardType, AutoSize = true, Location = new Point(x, y + pic.Height + 20) };
+                        Label rarityLabel = new Label { Text = "Raridade: " + rarityText, AutoSize = true, Location = new Point(x, y + pic.Height + 35) };
+
+                        scrollPanel.Controls.Add(pic);
+                        scrollPanel.Controls.Add(nameLabel);
+                        scrollPanel.Controls.Add(typeLabel);
+                        scrollPanel.Controls.Add(rarityLabel);
+
+                        x += pic.Width + 10;
+                        if (x + pic.Width > scrollPanel.ClientSize.Width)
+                        {
+                            x = 10;  // Reseta a posição x para a margem esquerda
+                            y += pic.Height + 50;  // Move para baixo antes de começar uma nova linha
+                        }
                     }
                 }
             }
-            catch (Exception ex)
-            {
-                MessageBox.Show("An error occurred while loading your collection: " + ex.Message);
-            }
-            finally
-            {
-                if (cn.State == ConnectionState.Open)
-                    cn.Close();
-            }
+
+            // Fechar a conexão após completar a operação
+            if (cn.State == ConnectionState.Open)
+                cn.Close();
         }
 
 
