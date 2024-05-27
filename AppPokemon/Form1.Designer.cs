@@ -476,7 +476,7 @@
             this.comboBox2.Location = new System.Drawing.Point(425, 222);
             this.comboBox2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.comboBox2.Name = "comboBox2";
-            this.comboBox2.Size = new System.Drawing.Size(163, 37);
+            this.comboBox2.Size = new System.Drawing.Size(222, 37);
             this.comboBox2.TabIndex = 20;
             // 
             // comboBox1
@@ -487,7 +487,7 @@
             this.comboBox1.Location = new System.Drawing.Point(425, 180);
             this.comboBox1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(163, 37);
+            this.comboBox1.Size = new System.Drawing.Size(222, 37);
             this.comboBox1.TabIndex = 19;
             // 
             // FriendPokeLabel
@@ -596,7 +596,7 @@
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 16.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.Location = new System.Drawing.Point(77, 52);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(541, 362);
+            this.label2.Size = new System.Drawing.Size(599, 362);
             this.label2.TabIndex = 9;
             this.label2.Text = "New Trade";
             this.label2.TextAlign = System.Drawing.ContentAlignment.TopCenter;

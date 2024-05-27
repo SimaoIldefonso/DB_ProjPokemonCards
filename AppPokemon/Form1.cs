@@ -689,7 +689,8 @@ namespace AppPokemon
                     {
                         string name = reader["Nome_Carta"].ToString();
                         int id = reader.GetInt32(0);
-                        comboBox1.Items.Add(name);
+                        string displayText = $"{name} ID: {id}"; 
+                        comboBox1.Items.Add(displayText); 
                         userPokemonMap[name] = id;
                     }
                 }
@@ -751,21 +752,32 @@ namespace AppPokemon
                     {
                         string name = reader["Nome_Carta"].ToString();
                         int id = reader.GetInt32(0);
-                        comboBox2.Items.Add(name);
-                        friendPokemonMap[name] = id;
+                        string displayText = $"{name} ID: {id}"; // Combining the name and ID
+                        comboBox2.Items.Add(displayText); // Adding the combined string to the comboBox
+                        friendPokemonMap[displayText] = id; // Using the displayText as key for map
                     }
                 }
                 cn.Close();
             }
         }
-
         private void SendTradeBTN_Click(object sender, EventArgs e)
         {
-            string selectedPokemonName = comboBox1.SelectedItem.ToString();
-            string selectedFriendPokemonName = comboBox2.SelectedItem.ToString();
+            // This assumes that the selected item's string is of the format "Name ID: X"
+            string selectedPokemonNameWithId = comboBox1.SelectedItem?.ToString();
+            string selectedFriendPokemonNameWithId = comboBox2.SelectedItem?.ToString();
 
-            if (!userPokemonMap.TryGetValue(selectedPokemonName, out int selectedCardID1) ||
-                !friendPokemonMap.TryGetValue(selectedFriendPokemonName, out int selectedCardID2))
+            if (selectedPokemonNameWithId == null || selectedFriendPokemonNameWithId == null)
+            {
+                MessageBox.Show("Please select a Pokémon from both lists.", "Selection Missing", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            // Extract the ID from the selected item string
+            int selectedCardID1 = ExtractIdFromName(selectedPokemonNameWithId);
+            int selectedCardID2 = ExtractIdFromName(selectedFriendPokemonNameWithId);
+
+            // Additional check if IDs were extracted correctly
+            if (selectedCardID1 == -1 || selectedCardID2 == -1)
             {
                 MessageBox.Show("Failed to find selected Pokémon IDs.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
@@ -774,6 +786,22 @@ namespace AppPokemon
             int friendID = int.Parse(textBox1.Text);
             CreateTrade(currentUserID, friendID, selectedCardID1, selectedCardID2);
         }
+
+        private int ExtractIdFromName(string nameWithId)
+        {
+            // Assuming the format is "Name ID: X"
+            int idStart = nameWithId.LastIndexOf("ID: ") + 4; // Get index position after "ID: "
+            if (idStart > 3) // Means "ID: " was found
+            {
+                string idSubstring = nameWithId.Substring(idStart);
+                if (int.TryParse(idSubstring, out int id))
+                {
+                    return id;
+                }
+            }
+            return -1; // Return -1 if parsing fails or "ID: " was not found
+        }
+
         private void CreateTrade(int user1ID, int user2ID, int card1ID, int card2ID)
         {
             using (var cmd = new SqlCommand("PokemonApp.CreateTrade", cn))
