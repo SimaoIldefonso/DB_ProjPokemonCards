@@ -514,17 +514,19 @@ namespace AppPokemon
                         Label nameLabel = new Label { Text = cardName, AutoSize = true, Location = new Point(x, y + pic.Height + 5) };
                         Label typeLabel = new Label { Text = "Tipo: " + cardType, AutoSize = true, Location = new Point(x, y + pic.Height + 20) };
                         Label rarityLabel = new Label { Text = "Raridade: " + rarityText, AutoSize = true, Location = new Point(x, y + pic.Height + 35) };
+                        Label cardIdLabel = new Label { Text = "ID " + cardId, AutoSize = true, Location = new Point(x, y + pic.Height + 50) };
 
                         scrollPanel.Controls.Add(pic);
                         scrollPanel.Controls.Add(nameLabel);
                         scrollPanel.Controls.Add(typeLabel);
                         scrollPanel.Controls.Add(rarityLabel);
+                        scrollPanel.Controls.Add(cardIdLabel);
 
                         x += pic.Width + 10;
                         if (x + pic.Width > scrollPanel.ClientSize.Width)
                         {
                             x = 10;  // Reseta a posição x para a margem esquerda
-                            y += pic.Height + 50;  // Move para baixo antes de começar uma nova linha
+                            y += pic.Height + 65;  // Move para baixo antes de começar uma nova linha
                         }
                     }
                 }

@@ -32,14 +32,3 @@ VALUES
 ('Roggenrola', 'Stone', 0, 200);
 GO
 
--- Inserir Detalhes das Cartas
-INSERT INTO PokemonApp.Carta (ID_CartaUnica, Nome_Carta, ID_Utilizador)
-VALUES
-(1, 'Pikachu', 1),  -- Ash tem um Pikachu
-(2, 'Charizard', 1),   -- Ash tem um Charizard
-(3, 'Charmander', 1),   -- Ash tem um Charmander
-(4, 'Charmeleon', 2),   -- Misty tem um Charmeleon
-(5, 'Pichu', 2),  -- Misty tem um Pichu
-(6, 'Entei', 3),   -- Brock tem um Entei
-(7, 'Roggenrola', 3);  -- Brock tem um Roggenrola
-GO
