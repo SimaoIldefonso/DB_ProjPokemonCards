@@ -584,6 +584,7 @@ namespace AppPokemon
             comboBox2.Items.Clear();
             LoadUserPokemons();
             LoadPendingTrades();
+            DisplayTradeHistory();
             AppTabs.SelectedTab = Trade;
         }
 
@@ -785,6 +786,40 @@ namespace AppPokemon
 
             int friendID = int.Parse(textBox1.Text);
             CreateTrade(currentUserID, friendID, selectedCardID1, selectedCardID2);
+        }
+
+        private void DisplayTradeHistory()
+        {
+            using (var cmd = new SqlCommand("PokemonApp.GetUserTradeHistory", cn))
+            {
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@UserID", currentUserID);
+
+                DataTable dt = new DataTable();
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
+
+                da.Fill(dt);
+
+                if (dt.Rows.Count == 0)
+                {
+                    MessageBox.Show("No trades have been conducted by this user.", "Trade History", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else
+                {
+                    DataGridView dgv = new DataGridView
+                    {
+                        DataSource = dt,
+                        Dock = DockStyle.Fill,
+                        AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill,
+                        ReadOnly = true,
+                        AllowUserToAddRows = false,
+                        AllowUserToDeleteRows = false
+                    };
+
+                    HistoryPanel.Controls.Clear();
+                    HistoryPanel.Controls.Add(dgv);
+                }
+            }
         }
 
         private int ExtractIdFromName(string nameWithId)

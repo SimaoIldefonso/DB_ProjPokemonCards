@@ -84,6 +84,8 @@
             this.IDUsertxt = new System.Windows.Forms.Label();
             this.deleteAccbtn = new System.Windows.Forms.Button();
             this.HomebtnAccount = new System.Windows.Forms.Button();
+            this.HistoryPanel = new System.Windows.Forms.Panel();
+            this.DisplayTrocasHistBTN = new System.Windows.Forms.Button();
             this.AppTabs.SuspendLayout();
             this.LoginTab.SuspendLayout();
             this.RegisterTab.SuspendLayout();
@@ -92,6 +94,7 @@
             this.Trade.SuspendLayout();
             this.OpenPacksTab.SuspendLayout();
             this.Account.SuspendLayout();
+            this.HistoryPanel.SuspendLayout();
             this.SuspendLayout();
             // 
             // UserNameInput
@@ -385,6 +388,7 @@
             // 
             // Trade
             // 
+            this.Trade.Controls.Add(this.HistoryPanel);
             this.Trade.Controls.Add(this.listBoxTrades);
             this.Trade.Controls.Add(this.MakeChoiseBtnTrade);
             this.Trade.Controls.Add(this.CheckTradesBoxinfo);
@@ -747,6 +751,24 @@
             this.HomebtnAccount.UseVisualStyleBackColor = true;
             this.HomebtnAccount.Click += new System.EventHandler(this.HomebtnAccount_Click);
             // 
+            // HistoryPanel
+            // 
+            this.HistoryPanel.BackColor = System.Drawing.Color.DarkGray;
+            this.HistoryPanel.Controls.Add(this.DisplayTrocasHistBTN);
+            this.HistoryPanel.Location = new System.Drawing.Point(83, 445);
+            this.HistoryPanel.Name = "HistoryPanel";
+            this.HistoryPanel.Size = new System.Drawing.Size(593, 279);
+            this.HistoryPanel.TabIndex = 27;
+            // 
+            // DisplayTrocasHistBTN
+            // 
+            this.DisplayTrocasHistBTN.Location = new System.Drawing.Point(250, 213);
+            this.DisplayTrocasHistBTN.Name = "DisplayTrocasHistBTN";
+            this.DisplayTrocasHistBTN.Size = new System.Drawing.Size(113, 49);
+            this.DisplayTrocasHistBTN.TabIndex = 0;
+            this.DisplayTrocasHistBTN.Text = "Atualizar Historico";
+            this.DisplayTrocasHistBTN.UseVisualStyleBackColor = true;
+            // 
             // App
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -772,6 +794,7 @@
             this.OpenPacksTab.ResumeLayout(false);
             this.Account.ResumeLayout(false);
             this.Account.PerformLayout();
+            this.HistoryPanel.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -834,6 +857,8 @@
         private System.Windows.Forms.Button LogoutBTN;
         private System.Windows.Forms.ListBox listBoxTrades;
         private System.Windows.Forms.Label quantidadeLabel;
+        private System.Windows.Forms.Panel HistoryPanel;
+        private System.Windows.Forms.Button DisplayTrocasHistBTN;
     }
 }
 
