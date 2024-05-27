@@ -34,7 +34,36 @@ namespace AppPokemon
         public App()
         {
             InitializeComponent();
+            InitializeCustomListBox();
             cn = getSGBDConnection(); // Inicializar a conexão
+        }
+
+        private void InitializeCustomListBox()
+        {
+            listBoxTrades.DrawMode = DrawMode.OwnerDrawVariable;
+            listBoxTrades.MeasureItem += ListBoxTrades_MeasureItem;
+            listBoxTrades.DrawItem += ListBoxTrades_DrawItem;
+        }
+
+        private void ListBoxTrades_MeasureItem(object sender, MeasureItemEventArgs e)
+        {
+            if (e.Index >= 0)
+            {
+                string text = listBoxTrades.Items[e.Index].ToString();
+                SizeF size = e.Graphics.MeasureString(text, listBoxTrades.Font, listBoxTrades.Width);
+                e.ItemHeight = (int)size.Height;
+            }
+        }
+
+        private void ListBoxTrades_DrawItem(object sender, DrawItemEventArgs e)
+        {
+            e.DrawBackground();
+            if (e.Index >= 0)
+            {
+                string text = listBoxTrades.Items[e.Index].ToString();
+                e.Graphics.DrawString(text, listBoxTrades.Font, new SolidBrush(e.ForeColor), e.Bounds);
+            }
+            e.DrawFocusRectangle();
         }
 
         private void App_Load(object sender, EventArgs e)
@@ -559,6 +588,7 @@ namespace AppPokemon
             LoadPendingTrades();
             DisplayTradeHistory();
             AppTabs.SelectedTab = Trade;
+            DisplayTrocasHistBTN.BringToFront();
         }
 
         private void HomebtnAccount_Click(object sender, EventArgs e)
@@ -879,7 +909,7 @@ namespace AppPokemon
             listBoxTrades.Location = new Point((int)(this.Width * 0.41), listBoxTrades.Location.Y);  // Ajuste para 10% da borda direita
             listBoxTrades.Width = (int)(this.Width * 0.29);
             // ajusta para 30% da altura da tela
-            listBoxTrades.Height = (int)(this.Height * 0.15);
+            listBoxTrades.Height = (int)(this.Height * 0.45);
         }
 
         private void MakeChoiseBtnTrade_Click(object sender, EventArgs e)
@@ -961,6 +991,11 @@ namespace AppPokemon
                     connection.Close();
                 }
             }
+        }
+
+        private void DisplayTrocasHistBTN_Click(object sender, EventArgs e)
+        {
+            DisplayTradeHistory();
         }
     }
 }
