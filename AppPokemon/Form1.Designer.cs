@@ -55,6 +55,8 @@
             this.Collection = new System.Windows.Forms.TabPage();
             this.button2 = new System.Windows.Forms.Button();
             this.Trade = new System.Windows.Forms.TabPage();
+            this.HistoryPanel = new System.Windows.Forms.Panel();
+            this.DisplayTrocasHistBTN = new System.Windows.Forms.Button();
             this.listBoxTrades = new System.Windows.Forms.ListBox();
             this.MakeChoiseBtnTrade = new System.Windows.Forms.Button();
             this.CheckTradesBoxinfo = new System.Windows.Forms.Label();
@@ -84,17 +86,17 @@
             this.IDUsertxt = new System.Windows.Forms.Label();
             this.deleteAccbtn = new System.Windows.Forms.Button();
             this.HomebtnAccount = new System.Windows.Forms.Button();
-            this.HistoryPanel = new System.Windows.Forms.Panel();
-            this.DisplayTrocasHistBTN = new System.Windows.Forms.Button();
+            this.cardsListBox = new System.Windows.Forms.ListBox();
+            this.label3 = new System.Windows.Forms.Label();
             this.AppTabs.SuspendLayout();
             this.LoginTab.SuspendLayout();
             this.RegisterTab.SuspendLayout();
             this.Home.SuspendLayout();
             this.Collection.SuspendLayout();
             this.Trade.SuspendLayout();
+            this.HistoryPanel.SuspendLayout();
             this.OpenPacksTab.SuspendLayout();
             this.Account.SuspendLayout();
-            this.HistoryPanel.SuspendLayout();
             this.SuspendLayout();
             // 
             // UserNameInput
@@ -388,7 +390,6 @@
             // 
             // Trade
             // 
-            this.Trade.Controls.Add(this.HistoryPanel);
             this.Trade.Controls.Add(this.listBoxTrades);
             this.Trade.Controls.Add(this.MakeChoiseBtnTrade);
             this.Trade.Controls.Add(this.CheckTradesBoxinfo);
@@ -406,6 +407,7 @@
             this.Trade.Controls.Add(this.CheckTradesLabelBackground);
             this.Trade.Controls.Add(this.label2);
             this.Trade.Controls.Add(this.homebtnTrade);
+            this.Trade.Controls.Add(this.HistoryPanel);
             this.Trade.Location = new System.Drawing.Point(4, 25);
             this.Trade.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.Trade.Name = "Trade";
@@ -415,24 +417,42 @@
             this.Trade.Text = "TradeTab";
             this.Trade.UseVisualStyleBackColor = true;
             // 
+            // HistoryPanel
+            // 
+            this.HistoryPanel.BackColor = System.Drawing.Color.DarkGray;
+            this.HistoryPanel.Controls.Add(this.DisplayTrocasHistBTN);
+            this.HistoryPanel.Location = new System.Drawing.Point(76, 400);
+            this.HistoryPanel.Name = "HistoryPanel";
+            this.HistoryPanel.Size = new System.Drawing.Size(703, 382);
+            this.HistoryPanel.TabIndex = 27;
+            // 
+            // DisplayTrocasHistBTN
+            // 
+            this.DisplayTrocasHistBTN.Location = new System.Drawing.Point(273, 324);
+            this.DisplayTrocasHistBTN.Name = "DisplayTrocasHistBTN";
+            this.DisplayTrocasHistBTN.Size = new System.Drawing.Size(168, 49);
+            this.DisplayTrocasHistBTN.TabIndex = 0;
+            this.DisplayTrocasHistBTN.Text = "Atualizar Historico";
+            this.DisplayTrocasHistBTN.UseVisualStyleBackColor = true;
+            // 
             // listBoxTrades
             // 
             this.listBoxTrades.BackColor = System.Drawing.SystemColors.ActiveBorder;
-            this.listBoxTrades.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.listBoxTrades.Font = new System.Drawing.Font("Verdana", 11F);
             this.listBoxTrades.FormattingEnabled = true;
-            this.listBoxTrades.ItemHeight = 25;
-            this.listBoxTrades.Location = new System.Drawing.Point(1179, 180);
+            this.listBoxTrades.ItemHeight = 22;
+            this.listBoxTrades.Location = new System.Drawing.Point(1144, 155);
             this.listBoxTrades.Margin = new System.Windows.Forms.Padding(0);
             this.listBoxTrades.Name = "listBoxTrades";
-            this.listBoxTrades.Size = new System.Drawing.Size(96, 29);
+            this.listBoxTrades.Size = new System.Drawing.Size(80, 26);
             this.listBoxTrades.TabIndex = 26;
             // 
             // MakeChoiseBtnTrade
             // 
-            this.MakeChoiseBtnTrade.Location = new System.Drawing.Point(967, 535);
+            this.MakeChoiseBtnTrade.Location = new System.Drawing.Point(885, 724);
             this.MakeChoiseBtnTrade.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.MakeChoiseBtnTrade.Name = "MakeChoiseBtnTrade";
-            this.MakeChoiseBtnTrade.Size = new System.Drawing.Size(157, 44);
+            this.MakeChoiseBtnTrade.Size = new System.Drawing.Size(251, 49);
             this.MakeChoiseBtnTrade.TabIndex = 25;
             this.MakeChoiseBtnTrade.Text = "Make Choise";
             this.MakeChoiseBtnTrade.UseVisualStyleBackColor = true;
@@ -450,10 +470,10 @@
             // 
             // RefreshBtnTrades
             // 
-            this.RefreshBtnTrades.Location = new System.Drawing.Point(1336, 543);
+            this.RefreshBtnTrades.Location = new System.Drawing.Point(1182, 724);
             this.RefreshBtnTrades.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.RefreshBtnTrades.Name = "RefreshBtnTrades";
-            this.RefreshBtnTrades.Size = new System.Drawing.Size(85, 37);
+            this.RefreshBtnTrades.Size = new System.Drawing.Size(251, 49);
             this.RefreshBtnTrades.TabIndex = 23;
             this.RefreshBtnTrades.Text = "Refresh";
             this.RefreshBtnTrades.UseVisualStyleBackColor = true;
@@ -463,10 +483,10 @@
             // 
             this.SendTradeBTN.Cursor = System.Windows.Forms.Cursors.Hand;
             this.SendTradeBTN.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.SendTradeBTN.Location = new System.Drawing.Point(243, 361);
+            this.SendTradeBTN.Location = new System.Drawing.Point(229, 309);
             this.SendTradeBTN.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.SendTradeBTN.Name = "SendTradeBTN";
-            this.SendTradeBTN.Size = new System.Drawing.Size(203, 34);
+            this.SendTradeBTN.Size = new System.Drawing.Size(417, 51);
             this.SendTradeBTN.TabIndex = 21;
             this.SendTradeBTN.Text = "Send Trade Request";
             this.SendTradeBTN.UseVisualStyleBackColor = true;
@@ -477,7 +497,7 @@
             this.comboBox2.Cursor = System.Windows.Forms.Cursors.Default;
             this.comboBox2.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.comboBox2.FormattingEnabled = true;
-            this.comboBox2.Location = new System.Drawing.Point(425, 222);
+            this.comboBox2.Location = new System.Drawing.Point(522, 222);
             this.comboBox2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.comboBox2.Name = "comboBox2";
             this.comboBox2.Size = new System.Drawing.Size(222, 37);
@@ -488,7 +508,7 @@
             this.comboBox1.Cursor = System.Windows.Forms.Cursors.Default;
             this.comboBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(425, 180);
+            this.comboBox1.Location = new System.Drawing.Point(522, 180);
             this.comboBox1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.comboBox1.Name = "comboBox1";
             this.comboBox1.Size = new System.Drawing.Size(222, 37);
@@ -503,9 +523,9 @@
             this.FriendPokeLabel.Location = new System.Drawing.Point(99, 225);
             this.FriendPokeLabel.Name = "FriendPokeLabel";
             this.FriendPokeLabel.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.FriendPokeLabel.Size = new System.Drawing.Size(282, 29);
+            this.FriendPokeLabel.Size = new System.Drawing.Size(288, 29);
             this.FriendPokeLabel.TabIndex = 18;
-            this.FriendPokeLabel.Text = "Select Friend\'s Pokemon";
+            this.FriendPokeLabel.Text = "Select Friend\'s Pokemon:";
             // 
             // label7
             // 
@@ -516,18 +536,18 @@
             this.label7.Location = new System.Drawing.Point(99, 183);
             this.label7.Name = "label7";
             this.label7.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.label7.Size = new System.Drawing.Size(242, 29);
+            this.label7.Size = new System.Drawing.Size(248, 29);
             this.label7.TabIndex = 17;
-            this.label7.Text = "Select your Pokemon";
+            this.label7.Text = "Select your Pokemon:";
             // 
             // CheckFriendBTN
             // 
             this.CheckFriendBTN.Cursor = System.Windows.Forms.Cursors.Hand;
             this.CheckFriendBTN.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.CheckFriendBTN.Location = new System.Drawing.Point(473, 130);
+            this.CheckFriendBTN.Location = new System.Drawing.Point(522, 129);
             this.CheckFriendBTN.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.CheckFriendBTN.Name = "CheckFriendBTN";
-            this.CheckFriendBTN.Size = new System.Drawing.Size(116, 34);
+            this.CheckFriendBTN.Size = new System.Drawing.Size(222, 40);
             this.CheckFriendBTN.TabIndex = 16;
             this.CheckFriendBTN.Text = "Check";
             this.CheckFriendBTN.UseVisualStyleBackColor = true;
@@ -539,7 +559,7 @@
             this.label6.BackColor = System.Drawing.SystemColors.ActiveBorder;
             this.label6.Cursor = System.Windows.Forms.Cursors.Default;
             this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label6.Location = new System.Drawing.Point(291, 98);
+            this.label6.Location = new System.Drawing.Point(337, 98);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(79, 29);
             this.label6.TabIndex = 15;
@@ -576,10 +596,10 @@
             // 
             this.textBox1.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.textBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox1.Location = new System.Drawing.Point(253, 130);
+            this.textBox1.Location = new System.Drawing.Point(266, 131);
             this.textBox1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(168, 34);
+            this.textBox1.Size = new System.Drawing.Size(222, 34);
             this.textBox1.TabIndex = 11;
             // 
             // CheckTradesLabelBackground
@@ -588,7 +608,7 @@
             this.CheckTradesLabelBackground.Font = new System.Drawing.Font("Microsoft Sans Serif", 16.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.CheckTradesLabelBackground.Location = new System.Drawing.Point(821, 52);
             this.CheckTradesLabelBackground.Name = "CheckTradesLabelBackground";
-            this.CheckTradesLabelBackground.Size = new System.Drawing.Size(725, 576);
+            this.CheckTradesLabelBackground.Size = new System.Drawing.Size(661, 730);
             this.CheckTradesLabelBackground.TabIndex = 10;
             this.CheckTradesLabelBackground.Text = "Check Trades";
             this.CheckTradesLabelBackground.TextAlign = System.Drawing.ContentAlignment.TopCenter;
@@ -600,7 +620,7 @@
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 16.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.Location = new System.Drawing.Point(77, 52);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(599, 362);
+            this.label2.Size = new System.Drawing.Size(702, 333);
             this.label2.TabIndex = 9;
             this.label2.Text = "New Trade";
             this.label2.TextAlign = System.Drawing.ContentAlignment.TopCenter;
@@ -618,6 +638,8 @@
             // 
             // OpenPacksTab
             // 
+            this.OpenPacksTab.Controls.Add(this.label3);
+            this.OpenPacksTab.Controls.Add(this.cardsListBox);
             this.OpenPacksTab.Controls.Add(this.homebtnOpen);
             this.OpenPacksTab.Controls.Add(this.OpenPackBtn);
             this.OpenPacksTab.Location = new System.Drawing.Point(4, 25);
@@ -751,23 +773,23 @@
             this.HomebtnAccount.UseVisualStyleBackColor = true;
             this.HomebtnAccount.Click += new System.EventHandler(this.HomebtnAccount_Click);
             // 
-            // HistoryPanel
+            // cardsListBox
             // 
-            this.HistoryPanel.BackColor = System.Drawing.Color.DarkGray;
-            this.HistoryPanel.Controls.Add(this.DisplayTrocasHistBTN);
-            this.HistoryPanel.Location = new System.Drawing.Point(83, 445);
-            this.HistoryPanel.Name = "HistoryPanel";
-            this.HistoryPanel.Size = new System.Drawing.Size(593, 279);
-            this.HistoryPanel.TabIndex = 27;
+            this.cardsListBox.FormattingEnabled = true;
+            this.cardsListBox.ItemHeight = 16;
+            this.cardsListBox.Location = new System.Drawing.Point(839, 162);
+            this.cardsListBox.Name = "cardsListBox";
+            this.cardsListBox.Size = new System.Drawing.Size(319, 292);
+            this.cardsListBox.TabIndex = 9;
             // 
-            // DisplayTrocasHistBTN
+            // label3
             // 
-            this.DisplayTrocasHistBTN.Location = new System.Drawing.Point(250, 213);
-            this.DisplayTrocasHistBTN.Name = "DisplayTrocasHistBTN";
-            this.DisplayTrocasHistBTN.Size = new System.Drawing.Size(113, 49);
-            this.DisplayTrocasHistBTN.TabIndex = 0;
-            this.DisplayTrocasHistBTN.Text = "Atualizar Historico";
-            this.DisplayTrocasHistBTN.UseVisualStyleBackColor = true;
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(842, 113);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(152, 16);
+            this.label3.TabIndex = 10;
+            this.label3.Text = "Your Last Pack Opened:";
             // 
             // App
             // 
@@ -791,10 +813,11 @@
             this.Collection.ResumeLayout(false);
             this.Trade.ResumeLayout(false);
             this.Trade.PerformLayout();
+            this.HistoryPanel.ResumeLayout(false);
             this.OpenPacksTab.ResumeLayout(false);
+            this.OpenPacksTab.PerformLayout();
             this.Account.ResumeLayout(false);
             this.Account.PerformLayout();
-            this.HistoryPanel.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -859,6 +882,8 @@
         private System.Windows.Forms.Label quantidadeLabel;
         private System.Windows.Forms.Panel HistoryPanel;
         private System.Windows.Forms.Button DisplayTrocasHistBTN;
+        private System.Windows.Forms.ListBox cardsListBox;
+        private System.Windows.Forms.Label label3;
     }
 }
 

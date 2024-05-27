@@ -63,34 +63,7 @@ namespace AppPokemon
 
         private void ConfigureCheckTradesComponents()
         {
-            // Dimensões da tela
-            int screenWidth = Screen.PrimaryScreen.Bounds.Width;
-            int screenHeight = Screen.PrimaryScreen.Bounds.Height;
-
-            // Cálculos das dimensões e posições
-            int labelWidth = (int)(screenWidth * 0.45);  // 45% da largura da tela
-            int labelHeight = (int)(screenHeight * 0.80);  // 80% da altura da tela
-
-            int labelX = screenWidth - (int)(screenWidth * 0.10) - labelWidth;  // 10% da borda direita
-            int labelY = (int)(screenHeight * 0.10);  // 10% do topo
-
-            // Ajustar a posição e o tamanho da label CheckTradesLabelBackground
-            CheckTradesLabelBackground.Location = new Point(labelX, labelY);
-            CheckTradesLabelBackground.Size = new Size(labelWidth, labelHeight);
-
-            // Posição e tamanho dos botões
-            int buttonBottomMargin = (int)(screenHeight * 0.10);
-            int refreshButtonRightMargin = (int)(screenWidth * 0.15);
-            int makeChoiceButtonRightMargin = (int)(screenWidth * 0.25);
-
-            RefreshBtnTrades.Location = new Point(screenWidth - refreshButtonRightMargin - RefreshBtnTrades.Width, screenHeight - buttonBottomMargin - RefreshBtnTrades.Height);
-            MakeChoiseBtnTrade.Location = new Point(screenWidth - makeChoiceButtonRightMargin - MakeChoiseBtnTrade.Width, screenHeight - buttonBottomMargin - MakeChoiseBtnTrade.Height);
-
-            // Posição e tamanho da label CheckTradesBoxinfo
-            int labelInfoTopMargin = (int)(screenHeight * 0.15);
-            int labelInfoRightMargin = (int)(screenWidth * 0.20);
             SetupTradeListView();
-            CheckTradesBoxinfo.Location = new Point(screenWidth - labelInfoRightMargin - CheckTradesBoxinfo.Width, labelInfoTopMargin);
         }
 
         private string HashPassword(string password)
@@ -628,6 +601,7 @@ namespace AppPokemon
             UserNameInput1.Text = "";
             PasswordInput1.Text = "";
             ConfPasswordInput.Text = "";
+            cardsListBox.Items.Clear();
 
             AppTabs.SelectedTab = LoginTab;
         }
@@ -642,22 +616,36 @@ namespace AppPokemon
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@ID_Utilizador", currentUserID);
 
-                    cmd.ExecuteNonQuery(); // Executar o stored procedure que modifica os dados
+                    cmd.ExecuteNonQuery(); // Execute the stored procedure that modifies the data
 
-                    // Recuperar as últimas 5 cartas adicionadas à coleção do usuário para exibição
+                    // Retrieve the last 5 cards added to the user's collection for display
                     string query = "SELECT TOP 5 Nome_Carta FROM PokemonApp.Carta WHERE ID_Utilizador = @ID_Utilizador ORDER BY ID_CartaUnica DESC";
                     using (SqlCommand cmdGetCards = new SqlCommand(query, cn))
                     {
                         cmdGetCards.Parameters.AddWithValue("@ID_Utilizador", currentUserID);
                         using (SqlDataReader reader = cmdGetCards.ExecuteReader())
                         {
+                            List<string> newCards = new List<string>();
                             string resultMessage = "You have opened a pack! Here are your new cards:\n";
                             while (reader.Read())
                             {
                                 string cardName = reader["Nome_Carta"].ToString();
+                                newCards.Add(cardName);
                                 resultMessage += $"{cardName}\n";
                             }
-                            MessageBox.Show(resultMessage);
+
+                            MessageBox.Show(resultMessage); // Display message with new cards
+
+                            // Update the existing ListBox with new cards
+                            ListBox listBox = OpenPacksTab.Controls["cardsListBox"] as ListBox; // Make sure the name matches
+                            if (listBox != null)
+                            {
+                                listBox.Items.Clear(); // Clear previous items
+                                foreach (string card in newCards)
+                                {
+                                    listBox.Items.Add(card); // Add new cards to the ListBox
+                                }
+                            }
                         }
                     }
                 }
@@ -888,10 +876,10 @@ namespace AppPokemon
         private void SetupTradeListView()
         {
             // Configuração inicial do ListBox
-            listBoxTrades.Location = new Point((int)(this.Width * 0.4), listBoxTrades.Location.Y);  // Ajuste para 10% da borda direita
-            listBoxTrades.Width = (int)(this.Width * 0.58);
+            listBoxTrades.Location = new Point((int)(this.Width * 0.41), listBoxTrades.Location.Y);  // Ajuste para 10% da borda direita
+            listBoxTrades.Width = (int)(this.Width * 0.29);
             // ajusta para 30% da altura da tela
-            listBoxTrades.Height = (int)(this.Height * 0.3);
+            listBoxTrades.Height = (int)(this.Height * 0.15);
         }
 
         private void MakeChoiseBtnTrade_Click(object sender, EventArgs e)
