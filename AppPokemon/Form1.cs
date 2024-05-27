@@ -86,7 +86,7 @@ namespace AppPokemon
         private SqlConnection getSGBDConnection()
         {// LAPTOP-S4H22GJP\SQLEXPRESS -Simão
             // LAPTOP-SCB9ONGM\\SQLEXPRESS - Mike
-            return new SqlConnection("data source=LAPTOP-S4H22GJP\\SQLEXPRESS;integrated security=true;initial catalog=PokemonDB");
+            return new SqlConnection("data source=LAPTOP-SCB9ONGM\\SQLEXPRESS;integrated security=true;initial catalog=PokemonDB");
         }
 
         
@@ -464,8 +464,7 @@ namespace AppPokemon
                 };
 
                 Collection.Controls.Add(searchBox);
-            }
-
+            } 
             SetupDeleteButton();
 
 
@@ -805,10 +804,12 @@ namespace AppPokemon
 
             int friendID = int.Parse(textBox1.Text);
             CreateTrade(currentUserID, friendID, selectedCardID1, selectedCardID2);
+            DisplayTradeHistory();
         }
 
         private void DisplayTradeHistory()
         {
+            HistoryPanel.SendToBack();
             using (var cmd = new SqlCommand("PokemonApp.GetUserTradeHistory", cn))
             {
                 cmd.CommandType = CommandType.StoredProcedure;
@@ -997,6 +998,7 @@ namespace AppPokemon
         private void DisplayTrocasHistBTN_Click(object sender, EventArgs e)
         {
             DisplayTradeHistory();
+            DisplayTrocasHistBTN.BringToFront();
         }
     }
 }
