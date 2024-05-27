@@ -301,3 +301,35 @@ BEGIN
     END
 END
 GO
+
+/*-------------------------------------*/
+CREATE OR ALTER PROCEDURE PokemonApp.GetUserTradeHistory
+    @UserID INT
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    SELECT 
+        t.ID_Troca,
+        u1.Nome AS 'Initiator',
+        u2.Nome AS 'Recipient',
+        c1.Nome_Carta AS 'CardOffered',
+        c2.Nome_Carta AS 'CardRequested',
+        CASE t.Estado_Troca 
+            WHEN 0 THEN 'Pending'
+            WHEN 1 THEN 'Rejected'
+            WHEN 2 THEN 'Accepted'
+        END AS 'Status',
+        t.Tempo AS 'TradeDate'
+    FROM 
+        PokemonApp.Troca AS t
+        INNER JOIN PokemonApp.Utilizadores AS u1 ON t.ID_Utilizador1 = u1.ID_Utilizador
+        INNER JOIN PokemonApp.Utilizadores AS u2 ON t.ID_Utilizador2 = u2.ID_Utilizador
+        INNER JOIN PokemonApp.Carta AS c1 ON t.ID_CartaUnica1 = c1.ID_CartaUnica
+        INNER JOIN PokemonApp.Carta AS c2 ON t.ID_CartaUnica2 = c2.ID_CartaUnica
+    WHERE 
+        t.ID_Utilizador1 = @UserID OR t.ID_Utilizador2 = @UserID
+    ORDER BY 
+        t.Tempo DESC;
+END;
+GO
