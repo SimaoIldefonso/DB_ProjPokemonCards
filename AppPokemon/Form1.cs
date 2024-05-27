@@ -80,12 +80,13 @@ namespace AppPokemon
 
             CheckTradesBoxinfo.Text = "";
             InitializeOpenPackPanel();
+            HistoryPanel.SendToBack();
         }
 
         private SqlConnection getSGBDConnection()
         {// LAPTOP-S4H22GJP\SQLEXPRESS -Simão
             // LAPTOP-SCB9ONGM\\SQLEXPRESS - Mike
-            return new SqlConnection("data source=LAPTOP-SCB9ONGM\\SQLEXPRESS;integrated security=true;initial catalog=PokemonDB");
+            return new SqlConnection("data source=LAPTOP-S4H22GJP\\SQLEXPRESS;integrated security=true;initial catalog=PokemonDB");
         }
 
         
@@ -586,7 +587,7 @@ namespace AppPokemon
             comboBox2.Items.Clear();
             LoadUserPokemons();
             LoadPendingTrades();
-            DisplayTradeHistory();
+            //DisplayTradeHistory();
             AppTabs.SelectedTab = Trade;
             DisplayTrocasHistBTN.BringToFront();
         }
