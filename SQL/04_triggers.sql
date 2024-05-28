@@ -6,12 +6,10 @@ AS
 BEGIN
     SET NOCOUNT ON;
 
-    -- Deletar trocas relacionadas ao usuário deletado
     DELETE FROM PokemonApp.Troca
     WHERE ID_Utilizador1 IN (SELECT ID_Utilizador FROM deleted)
        OR ID_Utilizador2 IN (SELECT ID_Utilizador FROM deleted);
 
-    -- Deletar cartas relacionadas ao usuário deletado
     DELETE FROM PokemonApp.Carta
     WHERE ID_Utilizador IN (SELECT ID_Utilizador FROM deleted);
 END;
@@ -24,12 +22,11 @@ AS
 BEGIN
     SET NOCOUNT ON;
 
-    -- Aplicar hash à senha somente se for inserida ou alterada
     UPDATE u
     SET Senha = PokemonApp.HashPassword(i.Senha)
     FROM PokemonApp.Utilizadores u
     JOIN inserted i ON u.ID_Utilizador = i.ID_Utilizador
-    WHERE u.Senha <> PokemonApp.HashPassword(i.Senha) -- Evitar hash múltiplo
+    WHERE u.Senha <> PokemonApp.HashPassword(i.Senha)
 END
 GO
 
