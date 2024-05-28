@@ -84,9 +84,8 @@ namespace AppPokemon
         }
 
         private SqlConnection getSGBDConnection()
-        {// LAPTOP-S4H22GJP\SQLEXPRESS -Simão
-            // LAPTOP-SCB9ONGM\\SQLEXPRESS - Mike
-            return new SqlConnection("data source=LAPTOP-SCB9ONGM\\SQLEXPRESS;integrated security=true;initial catalog=PokemonDB");
+        {
+            return new SqlConnection("data source=tcp:mednat.ieeta.pt\\SQLSERVER,8101;Initial Catalog=p7g5;;uid=p7g5;password=BatatinhasFofinhas?5;");
         }
 
         
@@ -96,19 +95,6 @@ namespace AppPokemon
             SetupTradeListView();
         }
 
-        private string HashPassword(string password)
-        {
-            using (SHA256 sha256Hash = SHA256.Create())
-            {
-                byte[] bytes = sha256Hash.ComputeHash(Encoding.UTF8.GetBytes(password));
-                StringBuilder builder = new StringBuilder();
-                for (int i = 0; i < bytes.Length; i++)
-                {
-                    builder.Append(bytes[i].ToString("x2"));
-                }
-                return builder.ToString();
-            }
-        }
         private void InitializeOpenPackPanel()
         {
             if (cardsPanel == null)
