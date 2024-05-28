@@ -36,8 +36,10 @@
             this.RegisterBtn = new System.Windows.Forms.Button();
             this.AppTabs = new System.Windows.Forms.TabControl();
             this.LoginTab = new System.Windows.Forms.TabPage();
+            this.label8 = new System.Windows.Forms.Label();
             this.LoginBtn = new System.Windows.Forms.Button();
             this.RegisterTab = new System.Windows.Forms.TabPage();
+            this.label9 = new System.Windows.Forms.Label();
             this.RegisterBtn1 = new System.Windows.Forms.Button();
             this.LoginBtn1 = new System.Windows.Forms.Button();
             this.ConfPasswordInput = new System.Windows.Forms.TextBox();
@@ -88,15 +90,12 @@
             this.IDUsertxt = new System.Windows.Forms.Label();
             this.deleteAccbtn = new System.Windows.Forms.Button();
             this.HomebtnAccount = new System.Windows.Forms.Button();
-            this.label8 = new System.Windows.Forms.Label();
-            this.label9 = new System.Windows.Forms.Label();
             this.AppTabs.SuspendLayout();
             this.LoginTab.SuspendLayout();
             this.RegisterTab.SuspendLayout();
             this.Home.SuspendLayout();
             this.Collection.SuspendLayout();
             this.Trade.SuspendLayout();
-            this.HistoryPanel.SuspendLayout();
             this.OpenPacksTab.SuspendLayout();
             this.Account.SuspendLayout();
             this.SuspendLayout();
@@ -187,6 +186,16 @@
             this.LoginTab.TabIndex = 0;
             this.LoginTab.Text = "Login";
             // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Font = new System.Drawing.Font("Microsoft YaHei", 25.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label8.Location = new System.Drawing.Point(619, 128);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(147, 57);
+            this.label8.TabIndex = 7;
+            this.label8.Text = "Login";
+            // 
             // LoginBtn
             // 
             this.LoginBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -218,6 +227,16 @@
             this.RegisterTab.Size = new System.Drawing.Size(1508, 793);
             this.RegisterTab.TabIndex = 1;
             this.RegisterTab.Text = "Register";
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Font = new System.Drawing.Font("Microsoft YaHei", 25.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label9.Location = new System.Drawing.Point(579, 138);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(204, 57);
+            this.label9.TabIndex = 8;
+            this.label9.Text = "Register";
             // 
             // RegisterBtn1
             // 
@@ -394,6 +413,7 @@
             // 
             // Trade
             // 
+            this.Trade.Controls.Add(this.DisplayTrocasHistBTN);
             this.Trade.Controls.Add(this.listBoxTrades);
             this.Trade.Controls.Add(this.MakeChoiseBtnTrade);
             this.Trade.Controls.Add(this.CheckTradesBoxinfo);
@@ -625,7 +645,6 @@
             // HistoryPanel
             // 
             this.HistoryPanel.BackColor = System.Drawing.Color.DarkGray;
-            this.HistoryPanel.Controls.Add(this.DisplayTrocasHistBTN);
             this.HistoryPanel.Location = new System.Drawing.Point(76, 400);
             this.HistoryPanel.Name = "HistoryPanel";
             this.HistoryPanel.Size = new System.Drawing.Size(703, 382);
@@ -633,7 +652,7 @@
             // 
             // DisplayTrocasHistBTN
             // 
-            this.DisplayTrocasHistBTN.Location = new System.Drawing.Point(273, 324);
+            this.DisplayTrocasHistBTN.Location = new System.Drawing.Point(342, 788);
             this.DisplayTrocasHistBTN.Name = "DisplayTrocasHistBTN";
             this.DisplayTrocasHistBTN.Size = new System.Drawing.Size(168, 49);
             this.DisplayTrocasHistBTN.TabIndex = 100;
@@ -796,26 +815,6 @@
             this.HomebtnAccount.UseVisualStyleBackColor = true;
             this.HomebtnAccount.Click += new System.EventHandler(this.HomebtnAccount_Click);
             // 
-            // label8
-            // 
-            this.label8.AutoSize = true;
-            this.label8.Font = new System.Drawing.Font("Microsoft YaHei", 25.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label8.Location = new System.Drawing.Point(619, 128);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(149, 58);
-            this.label8.TabIndex = 7;
-            this.label8.Text = "Login";
-            // 
-            // label9
-            // 
-            this.label9.AutoSize = true;
-            this.label9.Font = new System.Drawing.Font("Microsoft YaHei", 25.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label9.Location = new System.Drawing.Point(579, 138);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(209, 58);
-            this.label9.TabIndex = 8;
-            this.label9.Text = "Register";
-            // 
             // App
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -838,7 +837,6 @@
             this.Collection.ResumeLayout(false);
             this.Trade.ResumeLayout(false);
             this.Trade.PerformLayout();
-            this.HistoryPanel.ResumeLayout(false);
             this.OpenPacksTab.ResumeLayout(false);
             this.OpenPacksTab.PerformLayout();
             this.Account.ResumeLayout(false);
