@@ -88,7 +88,6 @@ namespace AppPokemon
             return new SqlConnection("data source=tcp:mednat.ieeta.pt\\SQLSERVER,8101;Initial Catalog=p7g5;;uid=p7g5;password=BatatinhasFofinhas?5;");
         }
 
-        
 
         private void ConfigureCheckTradesComponents()
         {

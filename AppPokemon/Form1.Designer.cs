@@ -57,6 +57,7 @@
             this.Collection = new System.Windows.Forms.TabPage();
             this.button2 = new System.Windows.Forms.Button();
             this.Trade = new System.Windows.Forms.TabPage();
+            this.DisplayTrocasHistBTN = new System.Windows.Forms.Button();
             this.listBoxTrades = new System.Windows.Forms.ListBox();
             this.MakeChoiseBtnTrade = new System.Windows.Forms.Button();
             this.CheckTradesBoxinfo = new System.Windows.Forms.Label();
@@ -75,7 +76,6 @@
             this.label2 = new System.Windows.Forms.Label();
             this.homebtnTrade = new System.Windows.Forms.Button();
             this.HistoryPanel = new System.Windows.Forms.Panel();
-            this.DisplayTrocasHistBTN = new System.Windows.Forms.Button();
             this.OpenPacksTab = new System.Windows.Forms.TabPage();
             this.label3 = new System.Windows.Forms.Label();
             this.cardsListBox = new System.Windows.Forms.ListBox();
@@ -441,6 +441,16 @@
             this.Trade.Text = "TradeTab";
             this.Trade.UseVisualStyleBackColor = true;
             // 
+            // DisplayTrocasHistBTN
+            // 
+            this.DisplayTrocasHistBTN.Location = new System.Drawing.Point(342, 788);
+            this.DisplayTrocasHistBTN.Name = "DisplayTrocasHistBTN";
+            this.DisplayTrocasHistBTN.Size = new System.Drawing.Size(168, 49);
+            this.DisplayTrocasHistBTN.TabIndex = 100;
+            this.DisplayTrocasHistBTN.Text = "Update History";
+            this.DisplayTrocasHistBTN.UseVisualStyleBackColor = true;
+            this.DisplayTrocasHistBTN.Click += new System.EventHandler(this.DisplayTrocasHistBTN_Click);
+            // 
             // listBoxTrades
             // 
             this.listBoxTrades.BackColor = System.Drawing.SystemColors.ActiveBorder;
@@ -649,16 +659,6 @@
             this.HistoryPanel.Name = "HistoryPanel";
             this.HistoryPanel.Size = new System.Drawing.Size(703, 382);
             this.HistoryPanel.TabIndex = 27;
-            // 
-            // DisplayTrocasHistBTN
-            // 
-            this.DisplayTrocasHistBTN.Location = new System.Drawing.Point(342, 788);
-            this.DisplayTrocasHistBTN.Name = "DisplayTrocasHistBTN";
-            this.DisplayTrocasHistBTN.Size = new System.Drawing.Size(168, 49);
-            this.DisplayTrocasHistBTN.TabIndex = 100;
-            this.DisplayTrocasHistBTN.Text = "Atualizar Historico";
-            this.DisplayTrocasHistBTN.UseVisualStyleBackColor = true;
-            this.DisplayTrocasHistBTN.Click += new System.EventHandler(this.DisplayTrocasHistBTN_Click);
             // 
             // OpenPacksTab
             // 

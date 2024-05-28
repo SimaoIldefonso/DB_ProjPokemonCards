@@ -6,14 +6,14 @@ AS
 BEGIN
     SET NOCOUNT ON;
 
-    -- Checando se o usuário já existe
+    -- User Existe
     IF EXISTS (SELECT 1 FROM PokemonApp.Utilizadores WHERE Nome = @Username)
     BEGIN
         SET @Message = 'Username already exists. Please choose a different username.';
         RETURN;
     END
 
-    -- Inserindo o usuário com a senha em texto puro que será hashada pelo trigger
+    -- Isert Raw User Pass
     INSERT INTO PokemonApp.Utilizadores (Nome, Senha)
     VALUES (@Username, @Password);
 

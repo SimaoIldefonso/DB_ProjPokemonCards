@@ -1,5 +1,7 @@
-USE PokemonDB;
-GO
+/*USE PokemonDB;
+GO*/
+Use p7g5;
+go
 
 -- Inserir Utilizadores
 INSERT INTO PokemonApp.Utilizadores (Nome, Senha)
@@ -8,9 +10,9 @@ VALUES
 ('Misty_Waterflower', 'starmie456'),
 ('Brock_Harrison', 'onix789');
 GO
-
+/*
 USE PokemonDB;
-GO
+GO*/
 
 -- Inserir Cartas no BancoCartas
 INSERT INTO PokemonApp.BancoCartas (Nome_Carta, Tipo, Raridade, Quantidade)

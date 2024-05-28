@@ -1,9 +1,9 @@
-CREATE DATABASE PokemonDB;
+/*CREATE DATABASE PokemonDB;
 GO
 
 USE PokemonDB;
 GO
-
+*/
 CREATE SCHEMA PokemonApp;
 GO
 
