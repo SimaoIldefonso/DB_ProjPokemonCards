@@ -1,16 +1,16 @@
 # BD: Trabalho Prático APF-T
 
 **Grupo**: P7G5
-- Michael Cerqueira, MEC: 108732
-- Simão Ildefonso, MEC: 107997
+- Simão Ildefonso, NMEC: 107997
+- Michael Cerqueira, NMEC: 108732
 
 
 ---
-## Introdução / Introduction 
+## Introdução
  
 O nosso projeto é uma aplicação de Pokémon que permite aos utilizadores colecionarem Pokémon e fazerem trocas entre si. Esta app é bastante boa para quem gosta de fazer coleções e vê competição nas mesmas (neste caso obter os pokemons com os ids mais baixos pois são os mais raros/os primeiros a serem colecionados).
 
-## ​Análise de Requisitos / Requirements
+## ​Análise de Requisitos
 
 ### Requisitos Funcionais
 
@@ -35,7 +35,7 @@ A aplicação deve ser rápida e responsiva, mesmo com um grande número de cart
 
 A aplicação deve ser capaz de lidar com um aumento no número de utilizadores e cartas sem comprometer o desempenho.
 
-## DER - Diagrama Entidade Relacionamento/Entity Relationship Diagram
+## DER - Diagrama Entidade Relacionamento
 
 ### Versão final
 
@@ -45,9 +45,9 @@ A aplicação deve ser capaz de lidar com um aumento no número de utilizadores 
 
 Depois da entrega intermedia, alteramos a estrutura da nossa base de dados. Agora não temos uma collection e decidimos adicionar um banco de cartas que possui todas as cartas disponíveis para o utilizador obter.
 
-## ER - Esquema Relacional/Relational Schema
+## ER - Esquema Relacional
 
-### Versão final/Final Version
+### Versão final
 
 ![ER Diagram!](./diagrams/ER.png "ER")
 
@@ -101,9 +101,9 @@ Passos de Normalização
     Terceira Forma Normal (3NF):
         Remoção de Dependências Transitivas: Cada atributo não chave deve depender apenas das chaves primárias e não de outros atributos não chave. Por exemplo, a separação de BancoCartas e Carta assegura que alterações nas características de uma carta não afetem diretamente os usuários ou as trocas.
 
-Justificativas para as Escolhas de Normalização
+Justificação para as Escolhas de Normalização
 
-    Redução de Duplicidade: Ao dividir os dados em tabelas mais especializadas e ao manter relações estritas entre elas, reduzimos a duplicação de dados. Isso não apenas economiza espaço de armazenamento mas também simplifica manutenções e atualizações.
+    Redução de Dados Duplicados: Ao dividir os dados em tabelas mais especializadas e ao manter relações estritas entre elas, reduzimos a duplicação de dados. Isto não economiza apenas espaço de armazenamento mas também simplifica manutenções e atualizações.
 
     Integridade dos Dados: A normalização ajuda a manter a consistência dos dados ao longo do tempo. Ao garantir que as modificações sejam feitas em um local centralizado, evitamos inconsistências que poderiam surgir ao atualizar múltiplas cópias dos mesmos dados em locais diferentes.
 
