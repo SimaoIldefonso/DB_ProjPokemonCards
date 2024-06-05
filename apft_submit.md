@@ -53,7 +53,7 @@ Depois da entrega intermedia, alteramos a estrutura da nossa base de dados. Agor
 
 ### APFE
 
-Atualmente, o as cartas estão associadas a um ID do utilizador. O banco de cartas também guarda as características de cada carta, como raridade e tipo. Apenas quando o utilizador abre um pack é que a carta se torna única, ganhando um ID unico. No caso de se abrir um pack, a quantidade da carta que o utilizador ganhou é subtraida em uma unidade no banco de cartas, o contrário também acontece quando o utilizador descarta uma carta.
+Atualmente, as cartas estão associadas a um ID do utilizador. O banco de cartas também guarda as características de cada carta, como raridade e tipo. Apenas quando o utilizador abre um pack é que a carta se torna única, ganhando um ID unico. No caso de se abrir um pack, a quantidade da carta que o utilizador ganhou é subtraida em uma unidade no banco de cartas, o contrário também acontece quando o utilizador descarta uma carta.
 Também adicionamos o tempo nas trocas, para o utilizador ter acesso a quando realizou a mesma.
 
 ## ​SQL DDL - Data Definition Language
@@ -63,22 +63,20 @@ Também adicionamos o tempo nas trocas, para o utilizador ter acesso a quando re
 ## SQL DML - Data Manipulation Language
 
 Uma secção por formulário.
-A section for each form.
+
 
 ### Formulario exemplo
 
 ![Collection Screenshot!](./screenshots/Collection.png "AnImage")
-Neste caso, implementamos um Stored Procedure que serve para mostrar no formulário todas as cartas do atual utilizador.
-
-
-
+Neste caso, implementamos um Stored Procedure que serve para mostrar todas as cartas do utilizador atual, no formulário .
 
 ```sql
 -- Show data on the form
 SELECT ID_CartaUnica, Nome_Carta FROM PokemonApp.Carta WHERE ID_Utilizador = @UserID;
 ```
-
+Antes de o utilizador clicar no botão:
 ![PreTrade Screenshot!](./screenshots/PreTrade.png "AnImage")
+Depois de clicar no botão:
 ![PreTrade Screenshot!](./screenshots/Trade.png "AnImage")
 
 Neste caso, também utilizamos um Stored Procedure para quando o utilizador criar uma troca com outro utilizador, esta ser guardada na base de dados. 
