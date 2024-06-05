@@ -86,6 +86,7 @@ namespace AppPokemon
         private SqlConnection getSGBDConnection()
         {
             return new SqlConnection("data source=tcp:mednat.ieeta.pt\\SQLSERVER,8101;Initial Catalog=p7g5;;uid=p7g5;password=BatatinhasFofinhas?5;");
+            //return new SqlConnection("data source=LAPTOP-S4H22GJP\\SQLEXPRESS;integrated security=true;initial catalog=PokemonDB");
         }
 
 
@@ -166,10 +167,10 @@ namespace AppPokemon
         {
             if (selectedPokemon != null)
             {
-                selectedPokemon.BorderStyle = BorderStyle.None; // Remove a borda do anteriormente selecionado
+                selectedPokemon.BorderStyle = BorderStyle.None; 
             }
             PictureBox pic = sender as PictureBox;
-            pic.BorderStyle = BorderStyle.Fixed3D; // Adiciona borda ao clicado
+            pic.BorderStyle = BorderStyle.Fixed3D;
             selectedPokemon = pic;
         }
 
@@ -189,7 +190,6 @@ namespace AppPokemon
         {
             try
             {
-                // Usar o bloco using aqui garante que a conexão seja fechada após o uso
                 if (cn.State != ConnectionState.Open)
                     cn.Open();
 
@@ -348,14 +348,17 @@ namespace AppPokemon
                     int result = cmd.ExecuteNonQuery(); // Executa o stored procedure
                     if (result >= 0)
                     {
+                        MessageBox.Show("Error.");
+                        // currentUsername = null;
+                        // currentUserID = 0;
+                        // AppTabs.SelectedTab = LoginTab;
+                    }
+                    else
+                    {
                         MessageBox.Show("Account and all associated records deleted successfully.");
                         currentUsername = null;
                         currentUserID = 0;
                         AppTabs.SelectedTab = LoginTab;
-                    }
-                    else
-                    {
-                        MessageBox.Show("No records found to delete.");
                     }
                 }
                 UserNameInput.Text = "";

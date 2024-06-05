@@ -1,4 +1,4 @@
--- Função para contar cartas por raridade
+-- FunÃ§Ã£o para contar cartas por raridade
 CREATE OR ALTER FUNCTION CountCardsByRarity(@UserID INT, @Rarity INT)
 RETURNS INT
 AS

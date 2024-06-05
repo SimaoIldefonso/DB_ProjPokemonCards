@@ -32,3 +32,13 @@ C:\Users\box\Documents\BD\BD_PokemonCards\AppPokemon\obj\Debug\AppPokemon.csproj
 C:\Users\box\Documents\BD\BD_PokemonCards\AppPokemon\obj\Debug\AppPokemon.csproj.Up2Date
 C:\Users\box\Documents\BD\BD_PokemonCards\AppPokemon\obj\Debug\AppPokemon.exe
 C:\Users\box\Documents\BD\BD_PokemonCards\AppPokemon\obj\Debug\AppPokemon.pdb
+D:\UNI3\BD\ProjetoCartasPokemon\source\bin\Debug\AppPokemon.exe.config
+D:\UNI3\BD\ProjetoCartasPokemon\source\bin\Debug\AppPokemon.exe
+D:\UNI3\BD\ProjetoCartasPokemon\source\bin\Debug\AppPokemon.pdb
+D:\UNI3\BD\ProjetoCartasPokemon\source\obj\Debug\AppPokemon.csproj.AssemblyReference.cache
+D:\UNI3\BD\ProjetoCartasPokemon\source\obj\Debug\AppPokemon.App.resources
+D:\UNI3\BD\ProjetoCartasPokemon\source\obj\Debug\AppPokemon.Properties.Resources.resources
+D:\UNI3\BD\ProjetoCartasPokemon\source\obj\Debug\AppPokemon.csproj.GenerateResource.cache
+D:\UNI3\BD\ProjetoCartasPokemon\source\obj\Debug\AppPokemon.csproj.CoreCompileInputs.cache
+D:\UNI3\BD\ProjetoCartasPokemon\source\obj\Debug\AppPokemon.exe
+D:\UNI3\BD\ProjetoCartasPokemon\source\obj\Debug\AppPokemon.pdb
