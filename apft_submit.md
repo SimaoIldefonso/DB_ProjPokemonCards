@@ -67,7 +67,7 @@ Uma secção por formulário.
 
 ### Formulario exemplo
 
-![Collection Screenshot!](./screenshots/Collection.png "AnImage")
+![Collection Screenshot!](./screenshots/Collection.png "Collection")
 Neste caso, implementamos um Stored Procedure que serve para mostrar todas as cartas do utilizador atual, no formulário .
 
 ```sql
@@ -75,9 +75,9 @@ Neste caso, implementamos um Stored Procedure que serve para mostrar todas as ca
 SELECT ID_CartaUnica, Nome_Carta FROM PokemonApp.Carta WHERE ID_Utilizador = @UserID;
 ```
 Antes de o utilizador clicar no botão:
-![PreTrade Screenshot!](./screenshots/PreTrade.png "AnImage")
+![PreTrade Screenshot!](./screenshots/PreTrade.png "PreTrade")
 Depois de clicar no botão:
-![PreTrade Screenshot!](./screenshots/Trade.png "AnImage")
+![Trade Screenshot!](./screenshots/Trade.png "Trade")
 
 Neste caso, também utilizamos um Stored Procedure para quando o utilizador criar uma troca com outro utilizador, esta ser guardada na base de dados. 
 ```sql
