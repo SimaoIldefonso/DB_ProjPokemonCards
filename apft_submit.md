@@ -89,12 +89,26 @@ INSERT INTO PokemonApp.Troca (ID_Utilizador1, ID_Utilizador2, ID_CartaUnica1, ID
 
 ## Normalização
 
-ask gpt
-Descreva os passos utilizados para minimizar a duplicação de dados / redução de espaço.
-Justifique as opções tomadas.
-Describe the steps used to minimize data duplication / space reduction.
-Justify the choices made.
+No nosso projeto, a normalização é fundamental para garantir a integridade e eficiência dos dados.
+Passos de Normalização
 
+    Primeira Forma Normal (1NF):
+        Eliminação de Grupos Repetitivos: Certificamos que todas as tabelas (Utilizador, Carta, BancoCartas, Troca) contêm apenas valores atômicos, ou seja, cada campo contém apenas valores únicos e indivisíveis. Isso impede qualquer forma de múltiplos valores em uma única coluna, simplificando o acesso e a manipulação dos dados.
+
+    Segunda Forma Normal (2NF):
+        Remoção de Dependências Parciais: Asseguramos que cada atributo da tabela é dependente da chave inteira, não apenas de uma parte dela. Isso é crucial, especialmente em tabelas onde a chave primária é composta, como na tabela Troca, onde a chave é composta por ID_Troca e todas as informações são diretamente dependentes desta chave.
+
+    Terceira Forma Normal (3NF):
+        Remoção de Dependências Transitivas: Cada atributo não chave deve depender apenas das chaves primárias e não de outros atributos não chave. Por exemplo, a separação de BancoCartas e Carta assegura que alterações nas características de uma carta não afetem diretamente os usuários ou as trocas.
+
+Justificativas para as Escolhas de Normalização
+
+    Redução de Duplicidade: Ao dividir os dados em tabelas mais especializadas e ao manter relações estritas entre elas, reduzimos a duplicação de dados. Isso não apenas economiza espaço de armazenamento mas também simplifica manutenções e atualizações.
+
+    Integridade dos Dados: A normalização ajuda a manter a consistência dos dados ao longo do tempo. Ao garantir que as modificações sejam feitas em um local centralizado, evitamos inconsistências que poderiam surgir ao atualizar múltiplas cópias dos mesmos dados em locais diferentes.
+
+    Desempenho de Consultas: Com a normalização e a criação de índices específicos, as consultas são mais eficientes, pois o sistema precisa processar menos dados duplicados e as buscas são aceleradas pelos índices.
+    
 ## Índices
 
 ```sql
